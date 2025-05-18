@@ -12,17 +12,12 @@ public class Restaurant extends User {
     
     private Location location;
     private Menu menu;
+    private int orderCounter;
 
     public Restaurant(String name, String username, String password, Location location) throws BadUserCreationException {
         super(name, username, password);
         this.location = location;
         this.menu = new Menu();
-    }
-
-    public Restaurant(String name, String username, String password, Location location, Menu menu) throws BadUserCreationException {
-        super(name, username, password);
-        this.location = location;
-        this.menu = menu;
     }
 
     public ArrayList<Order> orderHistory(MyFoodora system){
@@ -82,6 +77,18 @@ public class Restaurant extends User {
     @Override
     public String toString() {
         return "Restaurant "+ name +" "+ location.toString();
+    }
+
+    public int getOrderCounter() {
+        return orderCounter;
+    }
+
+    public void setOrderCounter(int orderCounter) {
+        this.orderCounter = orderCounter;
+    }
+
+    public void incrementOrderCounter() {
+        this.orderCounter++;
     }
 
 }
