@@ -1,6 +1,5 @@
 package food;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,7 +9,7 @@ public class Menu {
 	private Set<MainDish> mainDishes;
 	private Set<Dessert> desserts;
 	private Set<Meal> meals;
-	private double genericDiscout;
+	private double generalDiscount;
 	private double mealOfTheWeekDiscount;
 	
 	public Menu(Set<Starter> starters, Set<MainDish> mainDishes, Set<Dessert> desserts, Set<Meal> meals,
@@ -19,7 +18,7 @@ public class Menu {
 		this.mainDishes = mainDishes;
 		this.desserts = desserts;
 		this.meals = meals;
-		this.genericDiscout = genericDiscout;
+		this.generalDiscount = genericDiscout;
 		this.mealOfTheWeekDiscount = mealOfTheWeekDiscount;
 	}
 	
@@ -28,8 +27,17 @@ public class Menu {
 		this.mainDishes = new HashSet<MainDish>();
 		this.desserts = new HashSet<Dessert>();
 		this.meals = new HashSet<Meal>();
-		this.genericDiscout = genericDiscout;
+		this.generalDiscount = genericDiscout;
 		this.mealOfTheWeekDiscount = mealOfTheWeekDiscount;
+	}
+	
+	public Menu() {
+		this.starters = new HashSet<Starter>();
+		this.mainDishes = new HashSet<MainDish>();
+		this.desserts = new HashSet<Dessert>();
+		this.meals = new HashSet<Meal>();
+		this.generalDiscount = 0;
+		this.mealOfTheWeekDiscount = 0;
 	}
 
 	public Set<Starter> getStarters() {
@@ -64,15 +72,15 @@ public class Menu {
 		this.meals = meals;
 	}
 
-	public double getGenericDiscout() {
-		return genericDiscout;
+	public double getGeneralDiscount() {
+		return generalDiscount;
 	}
 
-	public double getMealOfTheWeekDiscount() {
+	public double getSpecialDiscount() {
 		return mealOfTheWeekDiscount;
 	}
 
-	public void setMealOfTheWeekDiscount(double mealOfTheWeekDiscount) {
+	public void setSpecialDiscount(double mealOfTheWeekDiscount) {
 		this.mealOfTheWeekDiscount = mealOfTheWeekDiscount;
 		
 		for (Meal meal : meals) {
@@ -82,13 +90,51 @@ public class Menu {
 		}
 	}
 	
-	public void setGenericDiscout(double genericDiscout) {
-		this.genericDiscout = genericDiscout;
+	public void setGeneralDiscount(double generalDiscount) {
+		this.generalDiscount = generalDiscount;
 		
 		for (Meal meal : meals) {
 			if (meal.pricingMealStrategy instanceof GeneralDiscountMeal) {
-				meal.setPricingStrategy(new GeneralDiscountMeal(this.genericDiscout));
+				meal.setPricingStrategy(new GeneralDiscountMeal(this.generalDiscount));
 			}
 		}
+	}
+	
+	public void addDish(Dish dish) {
+		if (dish instanceof Starter) {
+			Starter starter = (Starter) dish;
+			this.starters.add(starter);
+		}
+		else if (dish instanceof MainDish) {
+			MainDish mainDish = (MainDish) dish;
+			this.mainDishes.add(mainDish);
+		}
+		else if (dish instanceof Dessert) {
+			Dessert desser = (Dessert) dish;
+			this.desserts.add(desser);
+		}
+	}
+	
+	public void removeDish(Dish dish) {
+		if (dish instanceof Starter) {
+			Starter starter = (Starter) dish;
+			this.starters.remove(starter);
+		}
+		else if (dish instanceof MainDish) {
+			MainDish mainDish = (MainDish) dish;
+			this.mainDishes.remove(mainDish);
+		}
+		else if (dish instanceof Dessert) {
+			Dessert desser = (Dessert) dish;
+			this.desserts.remove(desser);
+		}
+	}
+	
+	public void addMeal(Meal meal) {
+		this.meals.add(meal);
+	}
+	
+	public void removeMeal(Meal meal) {
+		this.meals.remove(meal);
 	}
 }
