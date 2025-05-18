@@ -30,6 +30,17 @@ public class Restaurant extends User {
         return orders;
     }
 
+    public double getPrice(Order order) {
+        double price = 0;
+        for (Dish dish : order.getDishes()) {
+            price += dish.getPrice();
+        }
+        for (Meal meal : order.getMeals()) {
+            price += meal.getPrice();
+        }
+        return price;
+    }
+
     public void addDish(Dish dish) {
         menu.addDish(dish);
     }
@@ -54,13 +65,21 @@ public class Restaurant extends User {
         menu.setSpecialDiscount(discount);
     }
 
+    public double getGeneralDiscount() {
+        return menu.getGeneralDiscount();
+    }
+
+    public double getSpecialDiscount() {
+        return menu.getSpecialDiscount();
+    }
+
     public static List<String> getAvailableoperations() {
         return availableOperations;
     }
 
     public Location getLocation() {
         return location;
-    }
+    } 
 
     public void setLocation(Location location) {
         this.location = location;
