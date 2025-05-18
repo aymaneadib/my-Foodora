@@ -32,6 +32,6 @@ public class Manager extends Person {
 
     @Override
     public String toString() {
-        return "Manager " + surname + " " +"( "+ id +" )";
+        return "Manager " + surname + " ( "+ id +" )";
     }
 }

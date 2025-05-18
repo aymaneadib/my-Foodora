@@ -3,8 +3,9 @@ package users;
 import food.*;
 import system.MyFoodora;
 import order.Order;
+import fidelity.*;
 
-import java.util.*;;
+import java.util.*;
 
 public class Restaurant extends User {
     
@@ -30,15 +31,9 @@ public class Restaurant extends User {
         return orders;
     }
 
-    public double getPrice(Order order) {
-        double price = 0;
-        for (Dish dish : order.getDishes()) {
-            price += dish.getPrice();
-        }
-        for (Meal meal : order.getMeals()) {
-            price += meal.getPrice();
-        }
-        return price;
+    public double getPrice(Order order, Customer customer) {
+        FidelityCard card = customer.getFidelityCard();
+        return card.getFinalPrice(order);
     }
 
     public void addDish(Dish dish) {

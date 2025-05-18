@@ -27,7 +27,7 @@ public class Customer extends Person {
         }
         this.adress = adress;
         this.phoneNumber = phoneNumber;
-        this.fidelityCard = null;
+        this.fidelityCard = new BasicCard(this);
         this.notificationsConsent = false;
         this.email = email;
     }
@@ -42,7 +42,7 @@ public class Customer extends Person {
         }
         this.adress = adress;
         this.phoneNumber = phoneNumber;
-        this.fidelityCard = null;
+        this.fidelityCard = new BasicCard(this);
         this.notificationsConsent = consent;
         this.email = email;
     }
