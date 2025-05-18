@@ -4,18 +4,19 @@ public class Courier extends Person{
     
     private Location position;
     private String phoneNumber;
-    private int deliveryCount;
+    private int deliveryCounter;
     private boolean onDuty;
 
-    public Courier(String name, String surname, String username, String password, Location position, String phoneNumber) throws BadUserCreationException {
+    public Courier(String name, String surname, String username, String password, String phoneNumber, Location position) throws BadUserCreationException {
         super(name, surname,username, password);
         if (phonesUsed.contains(phoneNumber)) {
             throw new BadUserCreationException("Phone number already used by another account: " + phoneNumber);
         }
         this.position = position;
         this.phoneNumber = phoneNumber;
-        this.deliveryCount = 0;
+        this.deliveryCounter = 0;
         this.onDuty = false;
+        phonesUsed.add(phoneNumber);
     }
 
     public Location getPosition() {
@@ -37,12 +38,12 @@ public class Courier extends Person{
         this.phoneNumber = phoneNumber;
     }
 
-    public int getDeliveryCount() {
-        return deliveryCount;
+    public int getDeliveryCounter() {
+        return deliveryCounter;
     }
 
-    public void setDeliveryCount(int deliveryCount) {
-        this.deliveryCount = deliveryCount;
+    public void setDeliveryCounter(int deliveryCounter) {
+        this.deliveryCounter = deliveryCounter;
     }
 
     public boolean isOnDuty() {
@@ -55,10 +56,10 @@ public class Courier extends Person{
 
     @Override
     public String toString() {
-        return name + " " + surname + " ( " + username + " - Courrier with " + deliveryCount + " deliveries )"; 
+        return name + " " + surname + " ( " + username + " - Courrier with " + deliveryCounter + " deliveries )"; 
     }
 
     public void incrementDeliveryCount() {
-        this.deliveryCount++;
+        this.deliveryCounter++;
     }
 }

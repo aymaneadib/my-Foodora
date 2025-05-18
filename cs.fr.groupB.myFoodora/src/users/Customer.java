@@ -17,7 +17,7 @@ public class Customer extends Person {
     private boolean notificationsConsent;
     private String email;
 
-    public Customer(String name, String surname, String username, String password, Location adress, String phoneNumber, String email) throws BadUserCreationException {
+    public Customer(String name, String surname, String username, String password, String phoneNumber, String email, Location adress) throws BadUserCreationException {
         super(name, surname, username, password);
         if (emailsUsed.contains(email)) {
             throw new BadUserCreationException("Email already used by another account: " + email);
@@ -32,7 +32,7 @@ public class Customer extends Person {
         this.email = email;
     }
 
-    public Customer(String name, String surname, String username, String password, Location adress, Boolean consent, String phoneNumber, String email) throws BadUserCreationException {
+    public Customer(String name, String surname, String username, String password, String phoneNumber, String email, Location adress, Boolean consent) throws BadUserCreationException {
         super(name, surname, username, password);
         if (emailsUsed.contains(email)) {
             throw new BadUserCreationException("Email already used by another account: " + email);
@@ -43,21 +43,6 @@ public class Customer extends Person {
         this.adress = adress;
         this.phoneNumber = phoneNumber;
         this.fidelityCard = null;
-        this.notificationsConsent = consent;
-        this.email = email;
-    }    
-
-    public Customer(String name, String surname, String username, String password, Location adress,FidelityCard card, Boolean consent, String phoneNumber, String email) throws BadUserCreationException {
-        super(name, surname, username, password);
-        if (emailsUsed.contains(email)) {
-            throw new BadUserCreationException("Email already used by another account: " + email);
-        }
-        if (phonesUsed.contains(phoneNumber)) {
-            throw new BadUserCreationException("Phone number already used by another account: " + phoneNumber);
-        }
-        this.adress = adress;
-        this.phoneNumber = phoneNumber;
-        this.fidelityCard = card;
         this.notificationsConsent = consent;
         this.email = email;
     }
