@@ -22,6 +22,7 @@ public class Customer extends Person {
     private FidelityCard fidelityCard;
     private boolean notificationsConsent;
     private String email;
+    private boolean hasPlacedAnOrder;
 
     /**
      * Constructor for Customer.
@@ -49,6 +50,7 @@ public class Customer extends Person {
         this.fidelityCard = new BasicCard(this);
         this.notificationsConsent = false;
         this.email = email;
+        this.hasPlacedAnOrder = false;
     }
 
     /**
@@ -78,6 +80,7 @@ public class Customer extends Person {
         this.fidelityCard = new BasicCard(this);
         this.notificationsConsent = consent;
         this.email = email;
+        this.hasPlacedAnOrder = false;
     }
 
     /**
@@ -96,6 +99,15 @@ public class Customer extends Person {
      */
     public void setAdress(Location adress) {
         this.adress = adress;
+    }
+
+    /**
+     * Returns the set of used emails.
+     * 
+     * @return
+     */
+    public static Set<String> getAvailableoperations() {
+        return availableOperations;
     }
 
     /**
