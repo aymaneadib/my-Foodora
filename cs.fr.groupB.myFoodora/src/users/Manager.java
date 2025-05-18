@@ -3,6 +3,7 @@ package users;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import order.Order;
 import system.*;
@@ -227,6 +228,19 @@ public class Manager extends Person {
      */
     public void setDeliveryStrategy(MyFoodora system, DeliveryStrategy deliveryStrategy) {
         system.setDeliveryStrategy(deliveryStrategy);
+    }
+
+    /**
+     * Gets the profit data for the system based on the last month's orders and target profit.
+     *
+     * @param system        the MyFoodora system
+     * @param profitData    the current profit data
+     * @param lastMonthOrders the set of orders from the last month
+     * @param targetProfit  the target profit to be achieved
+     * @return the updated profit data
+     */
+    public ProfitData getProfitData(MyFoodora system,ProfitData profitData, Set<Order> lastMonthOrders, double targetProfit) {
+        return system.getProfitStrategy().getProfitData(profitData, lastMonthOrders, targetProfit);
     }
 
     /**
