@@ -4,7 +4,7 @@ import java.util.*;
 
 public abstract class User {
 
-    static int idCounter = 0;
+    protected static int idCounter = 0;
     protected static Set<String> usernamesUsed = new HashSet<>();
 
     protected String name;
@@ -25,6 +25,14 @@ public abstract class User {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || this.getClass() != obj.getClass()) return false;
+        User user = (User) obj;
+        return id == user.id;
     }
 
     public void setName(String name) {
