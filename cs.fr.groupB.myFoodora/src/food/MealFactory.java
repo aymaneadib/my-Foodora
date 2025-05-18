@@ -9,13 +9,13 @@ public class MealFactory {
 		BadArgumentTypeException, UnrecognizedDishException, BadMealFormulaException{
 
 		// Verifying parameters number
-		if (args.length != 4 | args.length != 5) {
+		if (args.length != 4 || args.length != 5) {
 			throw new BadNumberOfArgumentsException("Constructor must have 4 or 5 arguments.");
 		}
 		
 		// Verifying parameters types
-		if (!(args[0] instanceof String) | !(args[1] instanceof Set) | !(args[2] instanceof Boolean)
-				| !(args[3] instanceof Boolean)) {
+		if (!(args[0] instanceof String) || !(args[1] instanceof Set) || !(args[2] instanceof Boolean)
+				|| !(args[3] instanceof Boolean)) {
 			throw new BadArgumentTypeException("Unrecognized type of argument.");
 		}
 		
