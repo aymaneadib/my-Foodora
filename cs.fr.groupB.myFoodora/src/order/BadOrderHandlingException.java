@@ -1,5 +1,11 @@
 package order;
 
+/**
+ * Exception class for handling errors related to order processing.
+ * This exception is thrown when there are issues with processing an order.
+ * 
+ * @author Aymane Adib
+ */
 public class BadOrderHandlingException extends Exception {
     public BadOrderHandlingException(String message) {
         super(message);
