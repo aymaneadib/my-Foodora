@@ -7,9 +7,15 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+/**
+ * The Order class represents an order in the MyFoodora system.
+ * It contains information about the customer, restaurant, courier, time, date, dishes, meals, and price.
+ * 
+ * @author Aymane Adib
+ */
 public class Order {
 
-    private static int orderCounter = 0;
+    private static int orderCounter = 0; // Counter for unique order IDs
 
     private int id;
     private Customer customer;
@@ -21,6 +27,15 @@ public class Order {
     private ArrayList<Meal> meals;
     private double price;
 
+    /**
+     * Constructor for the Order class.
+     *
+     * @param customer   the customer who placed the order
+     * @param restaurant the restaurant from which the order is placed
+     * @param courier    the courier assigned to deliver the order
+     * @param time       the time of the order
+     * @param date       the date of the order
+     */
     public Order(Customer customer, Restaurant restaurant, Courier courier, LocalTime time, LocalDate date) {
         this.customer = customer;
         this.restaurant = restaurant;
@@ -33,12 +48,34 @@ public class Order {
         this.id = ++orderCounter;
     }
 
+    /**
+     * Constructor for the Order class with default time and date.
+     *
+     * @param customer   the customer who placed the order
+     * @param restaurant the restaurant from which the order is placed
+     * @param courier    the courier assigned to deliver the order
+     */
+    public Order(Customer customer, Restaurant restaurant, Courier courier) {
+        this(customer, restaurant, courier, LocalTime.now(), LocalDate.now());
+    }
+
+        /**
+     * Adds a dish to the order.
+     * 
+     * @param dish
+     */
     public void addDish(Dish dish){
         
         dishes.add(dish);
         price += dish.getPrice();
     }
 
+    /**
+     * Removes a dish from the order.
+     * 
+     * @param dish
+     * @throws BadOrderHandlingException if the dish is not found in the order
+     */
     public void removeDish(Dish dish) throws BadOrderHandlingException {
         if (dishes.remove(dish)) {
             price -= dish.getPrice();
@@ -47,11 +84,22 @@ public class Order {
         }
     }
 
+    /**
+     * Adds a meal to the order.
+     * 
+     * @param meal
+     */
     public void addMeal(Meal meal) {
         meals.add(meal);
         price += meal.getPrice();
     }
 
+    /**
+     * Removes a meal from the order.
+     * 
+     * @param meal
+     * @throws BadOrderHandlingException if the meal is not found in the order
+     */
     public void removeMeal(Meal meal) throws BadOrderHandlingException {
         if (meals.remove(meal)) {
             price -= meal.getPrice();
@@ -61,78 +109,158 @@ public class Order {
         }
     }
 
-    public Order(Customer customer, Restaurant restaurant, Courier courier) {
-        this(customer, restaurant, courier, LocalTime.now(), LocalDate.now());
-    }
-
+    /**
+     * Returns the ID of the order.
+     *
+     * @return the ID of the order
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Returns the customer who placed the order.
+     *
+     * @return the customer who placed the order
+     */
     public Customer getCustomer() {
         return customer;
     }
 
+    /**
+     * Sets the customer who placed the order.
+     *
+     * @param customer the customer who placed the order
+     */
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
+    /**
+     * Returns the restaurant from which the order is placed.
+     *
+     * @return the restaurant from which the order is placed
+     */
     public Restaurant getRestaurant() {
         return restaurant;
     }
 
+    /**
+     * Sets the restaurant from which the order is placed.
+     *
+     * @param restaurant the restaurant from which the order is placed
+     */
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
 
+    /**
+     * Returns the courier assigned to deliver the order.
+     *
+     * @return the courier assigned to deliver the order
+     */
     public Courier getCourier() {
         return courier;
     }
 
+    /**
+     * Sets the courier assigned to deliver the order.
+     *
+     * @param courier the courier assigned to deliver the order
+     */
     public void setCourier(Courier courier) {
         this.courier = courier;
     }
 
+    /**
+     * Returns the time of the order.
+     *
+     * @return the time of the order
+     */
     public LocalTime getTime() {
         return time;
     }
 
+    /**
+     * Sets the time of the order.
+     *
+     * @param time the time of the order
+     */
     public void setTime(LocalTime time) {
         this.time = time;
     }
 
+    /**
+     * Returns the date of the order.
+     *
+     * @return the date of the order
+     */
     public LocalDate getDate() {
         return date;
     }
 
+    /**
+     * Sets the date of the order.
+     *
+     * @param date the date of the order
+     */
     public void setDate(LocalDate date) {
         this.date = date;
     }
 
+    /**
+     * Returns the list of dishes in the order.
+     *
+     * @return the list of dishes in the order
+     */
     public ArrayList<Dish> getDishes() {
         return dishes;
     }
 
+    /**
+     * Sets the list of dishes in the order.
+     *
+     * @param dishes the list of dishes in the order
+     */
     public void setDishes(ArrayList<Dish> dishes) {
         this.dishes = dishes;
     }
 
+    /**
+     * Returns the list of meals in the order.
+     *
+     * @return the list of meals in the order
+     */
     public ArrayList<Meal> getMeals() {
         return meals;
     }
 
+    /**
+     * Sets the list of meals in the order.
+     *
+     * @param meals the list of meals in the order
+     */
     public void setMeals(ArrayList<Meal> meals) {
         this.meals = meals;
     }
 
+    /**
+     * Returns the price of the order.
+     *
+     * @return the price of the order
+     */
     public double getPrice() {
         return price;
     }
 
+    /**
+     * String representation of the Order object.
+     * 
+     * @return a string representation of the Order object
+     */
     @Override
     public String toString() {
         return "Order nº "+ id + " from " + restaurant.getName() + " to " + customer.getName();
     }
-
 
 }
