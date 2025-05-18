@@ -43,7 +43,7 @@ public class Manager extends Person {
      * @param user   the user to be added
      * @param system the MyFoodora system
      */
-    public void removeUser(User user, MyFoodora system) throws UserNotFoundException {
+    public void removeUser(User user, MyFoodora system) {
         system.removeUser(user);
     }
 

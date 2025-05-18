@@ -9,26 +9,42 @@ import users.CourierComparator;
 import users.Customer;
 import users.Restaurant;
 
+/**
+ * Delivery strategy that selects the courier with the least number of deliveries
+ * who is currently on duty, promoting a fair distribution of workload among couriers.
+ * 
+ * @author Alisson Bonatto
+ */
 public class FairOccupationDelivery implements DeliveryStrategy {
 
-	@Override
-	public Courier selectCourier(Set<Courier> couriers, Restaurant restaurant, Customer customer) {
-		// Creating a comparator and sorting couriers by number of deliveries
-		CourierComparator comparator = new CourierComparator();
-		ArrayList<Courier> arrayCouriers = new ArrayList<Courier>(couriers);
-		Collections.sort(arrayCouriers, comparator);
-		
-		// Selecting least occupied courier that is on duty
-		Courier selectedCourier = null;
-		
-		for(Courier courier : couriers) {
-			if(courier.isOnDuty()) {
-				selectedCourier = courier;
-				break;
-			}
-		}
-		
-		return selectedCourier;
-	}
+    /**
+     * Selects the least occupied courier who is on duty from the provided set of couriers.
+     * Couriers are sorted by their number of deliveries in ascending order,
+     * and the first courier on duty in this order is selected.
+     * 
+     * @param couriers the couriers
+     * @param restaurant the restaurant from which the order will be picked up (not used in this strategy)
+     * @param customer the customer who will receive the order (not used in this strategy)
+     * @return the selected Courier with the least deliveries who is on duty, or null if none available
+     */
+    @Override
+    public Courier selectCourier(Set<Courier> couriers, Restaurant restaurant, Customer customer) {
+        // Creating a comparator and sorting couriers by number of deliveries
+        CourierComparator comparator = new CourierComparator();
+        ArrayList<Courier> arrayCouriers = new ArrayList<Courier>(couriers);
+        Collections.sort(arrayCouriers, comparator);
+
+        // Selecting least occupied courier that is on duty
+        Courier selectedCourier = null;
+
+        for(Courier courier : arrayCouriers) {
+            if(courier.isOnDuty()) {
+                selectedCourier = courier;
+                break;
+            }
+        }
+
+        return selectedCourier;
+    }
 
 }

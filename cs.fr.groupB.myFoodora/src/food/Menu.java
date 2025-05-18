@@ -40,46 +40,84 @@ public class Menu {
 		this.mealOfTheWeekDiscount = 0;
 	}
 
+	/** 
+	 * @return the set of starters in the menu
+	 */
 	public Set<Starter> getStarters() {
 		return starters;
 	}
 
+	/** 
+	 * Sets the set of starters in the menu
+	 * @param starters the new set of starters
+	 */
 	public void setStarters(Set<Starter> starters) {
 		this.starters = starters;
 	}
 
+	/** 
+	 * @return the set of main dishes in the menu
+	 */
 	public Set<MainDish> getMainDishes() {
 		return mainDishes;
 	}
 
+	/** 
+	 * Sets the set of main dishes in the menu
+	 * @param mainDishes the new set of main dishes
+	 */
 	public void setMainDishes(Set<MainDish> mainDishes) {
 		this.mainDishes = mainDishes;
 	}
 
+	/** 
+	 * @return the set of desserts in the menu
+	 */
 	public Set<Dessert> getDesserts() {
 		return desserts;
 	}
 
+	/** 
+	 * Sets the set of desserts in the menu
+	 * @param desserts the new set of desserts
+	 */
 	public void setDesserts(Set<Dessert> desserts) {
 		this.desserts = desserts;
 	}
 
+	/** 
+	 * @return the set of meals in the menu
+	 */
 	public Set<Meal> getMeals() {
 		return meals;
 	}
 
+	/** 
+	 * Sets the set of meals in the menu
+	 * @param meals the new set of meals
+	 */
 	public void setMeals(Set<Meal> meals) {
 		this.meals = meals;
 	}
 
+	/** 
+	 * @return the general discount rate applied to meals
+	 */
 	public double getGeneralDiscount() {
 		return generalDiscount;
 	}
 
+	/** 
+	 * @return the special discount rate for "Meal of the Week"
+	 */
 	public double getSpecialDiscount() {
 		return mealOfTheWeekDiscount;
 	}
 
+	/** 
+	 * Sets the special discount rate for "Meal of the Week" and updates related meals' pricing strategy
+	 * @param mealOfTheWeekDiscount the new special discount rate
+	 */
 	public void setSpecialDiscount(double mealOfTheWeekDiscount) {
 		this.mealOfTheWeekDiscount = mealOfTheWeekDiscount;
 		
@@ -90,6 +128,10 @@ public class Menu {
 		}
 	}
 	
+	/** 
+	 * Sets the general discount rate and updates meals currently using general discount pricing strategy
+	 * @param generalDiscount the new general discount rate
+	 */
 	public void setGeneralDiscount(double generalDiscount) {
 		this.generalDiscount = generalDiscount;
 		
@@ -100,6 +142,10 @@ public class Menu {
 		}
 	}
 	
+	/** 
+	 * Adds a dish to the appropriate category (starter, main dish, or dessert)
+	 * @param dish the dish to add
+	 */
 	public void addDish(Dish dish) {
 		if (dish instanceof Starter) {
 			Starter starter = (Starter) dish;
@@ -110,11 +156,15 @@ public class Menu {
 			this.mainDishes.add(mainDish);
 		}
 		else if (dish instanceof Dessert) {
-			Dessert desser = (Dessert) dish;
-			this.desserts.add(desser);
+			Dessert dessert = (Dessert) dish;
+			this.desserts.add(dessert);
 		}
 	}
 	
+	/** 
+	 * Removes a dish from the appropriate category (starter, main dish, or dessert)
+	 * @param dish the dish to remove
+	 */
 	public void removeDish(Dish dish) {
 		if (dish instanceof Starter) {
 			Starter starter = (Starter) dish;
@@ -125,15 +175,23 @@ public class Menu {
 			this.mainDishes.remove(mainDish);
 		}
 		else if (dish instanceof Dessert) {
-			Dessert desser = (Dessert) dish;
-			this.desserts.remove(desser);
+			Dessert dessert = (Dessert) dish;
+			this.desserts.remove(dessert);
 		}
 	}
 	
+	/** 
+	 * Adds a meal to the menu
+	 * @param meal the meal to add
+	 */
 	public void addMeal(Meal meal) {
 		this.meals.add(meal);
 	}
 	
+	/** 
+	 * Removes a meal from the menu
+	 * @param meal the meal to remove
+	 */
 	public void removeMeal(Meal meal) {
 		this.meals.remove(meal);
 	}
