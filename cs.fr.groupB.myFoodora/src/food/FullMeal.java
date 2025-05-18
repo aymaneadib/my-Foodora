@@ -51,7 +51,7 @@ public class FullMeal extends Meal{
 			throw new BadMealFormulaException("This meal is not composed of 3 dishes.");
 		}
 		
-		return (starter & mainDish & dessert);
+		return (starter && mainDish && dessert);
 	}
 
 }
