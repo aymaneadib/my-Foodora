@@ -118,13 +118,19 @@ public class MyFoodora {
     	}
     }
     
-    //public void registerUser(String userType, String name, String lastName, String username, String adress, String password) {
-    //	User user = this.userFactory(userType, )
-    //}
+    public void registerUser(String userType, String name, String lastName, String username, String adress,
+    		String password, String phoneNumber) throws BadUserCreationException {
+    	
+    	User user = this.userFactory.createUser(userType, name, lastName, username, password, phoneNumber, adress);
+    	this.addUser(user);
+    }
     
-    //public void registerUser(String userType, String name, String username, String adress, String password) {
-    //	
-    //}
+    public void registerUser(String userType, String name, String username, String adress,
+    		String password) throws BadUserCreationException {
+    	
+    	User user = this.userFactory.createUser(userType, name, username, password, adress);
+    	this.addUser(user);
+    }
     
     public void login(String username, String password) throws UserNotFoundException, IncorrectCredentialsException{
     	// User to be returned
@@ -159,29 +165,7 @@ public class MyFoodora {
     	
     	return selectedCourier;
     }
-    
-    public double computeTotalIncome() {
-    	double totalIncome = 0;
-    	
-    	// Computing total income (sum of price of all orders)
-    	for (Order order : this.orderHistory) {
-    		totalIncome += order.getPrice();
-    	}
-    	
-    	return totalIncome;
-    }
-    
-    public double computeTotalProfit() {
-    	double totalProfit = 0;
-    	
-    	// Computing total profit
-    	// profitForOneOrder = orderPrice*markupPercentage + serviceFee − deliveryCost
-    	for (Order order : this.orderHistory) {
-    		totalProfit += order.getPrice()*this.profitData.getMarkupPercentage() + this.profitData.getServiceFee() - this.profitData.getDeliveryCost();
-    	}
-    	
-    	return totalProfit;
-    }
+
     
     public void updateProfitDataFromTargetProfit(double targetProfit) {
     	// Getting the date interval

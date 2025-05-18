@@ -1,5 +1,11 @@
 package food;
 
+/**
+ * Exception class for handling errors related to factories.
+ * This exception is thrown when a bad argument is passed to a factory.
+ * 
+ * @author Alisson Bonatto
+ */
 public class BadArgumentTypeException extends Exception{
 
 

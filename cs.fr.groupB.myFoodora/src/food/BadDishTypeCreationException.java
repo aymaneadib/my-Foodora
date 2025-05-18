@@ -1,5 +1,11 @@
 package food;
 
+/**
+ * Exception class for handling errors related to dish creation.
+ * This exception is thrown when someone tries to create a unrecognized type of dish.
+ * 
+ * @author Alisson Bonatto
+ */
 public class BadDishTypeCreationException extends Exception{
 
 	

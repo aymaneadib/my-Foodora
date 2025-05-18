@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import system.MyFoodora;
+import system.UserNotFoundException;
 
 /**
  * The Manager class represents a manager in the MyFoodora system.
@@ -41,7 +42,7 @@ public class Manager extends Person {
      * @param user   the user to be added
      * @param system the MyFoodora system
      */
-    public void removeUser(User user, MyFoodora system) {
+    public void removeUser(User user, MyFoodora system) throws UserNotFoundException{
         system.removeUser(user);
     }
 
