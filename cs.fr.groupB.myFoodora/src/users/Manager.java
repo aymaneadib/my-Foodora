@@ -43,6 +43,7 @@ public class Manager extends Person {
      *
      * @param user   the user to be added
      * @param system the MyFoodora system
+     * @throws UserNotFoundException 
      */
     public void removeUser(User user, MyFoodora system) throws UserNotFoundException {
         system.removeUser(user);
@@ -88,7 +89,7 @@ public class Manager extends Person {
      */
     public ArrayList<Order> getOrders(MyFoodora system, LocalDate startdate, LocalDate enddate) {
         ArrayList<Order> orders = new ArrayList<Order>();
-        for (Order order : system.getOrders()) {
+        for (Order order : system.getOrderHistory()) {
             if (order.getDate().isAfter(startdate) && order.getDate().isBefore(enddate)) {
                 orders.add(order);
             }
@@ -168,7 +169,7 @@ public class Manager extends Person {
      * @return the most selling restaurant in the system
      */
     public Restaurant mostSelliRestaurant(MyFoodora system){
-        ArrayList<Restaurant> restaurants = system.getRestaurants();
+        ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>(system.getRestaurants());
         RestaurantSorter restaurantSorter = new RestaurantSorter();
         restaurantSorter.sort(restaurants);
         return restaurants.get(0);
@@ -181,7 +182,7 @@ public class Manager extends Person {
      * @return the least selling restaurant in the system
      */
     public Restaurant leastSelliRestaurant(MyFoodora system){
-        ArrayList<Restaurant> restaurants = system.getRestaurants();
+        ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>(system.getRestaurants());
         RestaurantSorter restaurantSorter = new RestaurantSorter();
         restaurantSorter.sort(restaurants);
         return restaurants.get(restaurants.size()-1);
@@ -193,7 +194,7 @@ public class Manager extends Person {
      * @return the most active courier in the system
      */
     public Courier mostActiveCourier(MyFoodora system){
-        ArrayList<Courier> couriers = system.getCouriers();
+        ArrayList<Courier> couriers = new ArrayList<Courier>(system.getCouriers());
         CourierSorter courierSorter = new CourierSorter();
         courierSorter.sort(couriers);
         return couriers.get(0);
@@ -206,7 +207,7 @@ public class Manager extends Person {
      * @return the least active courier in the system
      */
     public Courier leastActiveCourier(MyFoodora system){
-        ArrayList<Courier> couriers = system.getCouriers();
+        ArrayList<Courier> couriers = new ArrayList<Courier>(system.getCouriers());
         CourierSorter courierSorter = new CourierSorter();
         courierSorter.sort(couriers);
         return couriers.get(couriers.size()-1);
