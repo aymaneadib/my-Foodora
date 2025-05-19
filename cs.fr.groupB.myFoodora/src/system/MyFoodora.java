@@ -71,8 +71,100 @@ public class MyFoodora {
     	
     	return instance;
     }
+    
+    /**
+     * Returns the current delivery strategy used by the system.
+     *
+     * @return the DeliveryStrategy currently in use
+     */
+    public DeliveryStrategy getDeliveryStrategy() {
+        return deliveryStrategy;
+    }
 
     /**
+     * Sets the delivery strategy to be used by the system.
+     *
+     * @param deliveryStrategy the DeliveryStrategy to apply
+     */
+    public void setDeliveryStrategy(DeliveryStrategy deliveryStrategy) {
+        this.deliveryStrategy = deliveryStrategy;
+    }
+
+
+	/**
+     * Returns the set of registered customers in the system.
+     *
+     * @return a set of Customer objects
+     */
+    public Set<Customer> getCustomers() {
+        return customers;
+    }
+
+    /**
+     * Sets the registered customers in the system.
+     *
+     * @param customers a set of Customer objects to be assigned
+     */
+    public void setCustomers(Set<Customer> customers) {
+        this.customers = customers;
+    }
+
+    /**
+     * Returns the set of registered restaurants in the system.
+     *
+     * @return a set of Restaurant objects
+     */
+    public Set<Restaurant> getRestaurants() {
+        return restaurants;
+    }
+
+    /**
+     * Sets the registered restaurants in the system.
+     *
+     * @param restaurants a set of Restaurant objects to be assigned
+     */
+    public void setRestaurants(Set<Restaurant> restaurants) {
+        this.restaurants = restaurants;
+    }
+
+    /**
+     * Returns the set of registered managers in the system.
+     *
+     * @return a set of Manager objects
+     */
+    public Set<Manager> getManagers() {
+        return managers;
+    }
+
+    /**
+     * Sets the registered managers in the system.
+     *
+     * @param managers a set of Manager objects to be assigned
+     */
+    public void setManagers(Set<Manager> managers) {
+        this.managers = managers;
+    }
+
+    /**
+     * Returns the set of registered couriers in the system.
+     *
+     * @return a set of Courier objects
+     */
+    public Set<Courier> getCouriers() {
+        return couriers;
+    }
+
+    /**
+     * Sets the registered couriers in the system.
+     *
+     * @param couriers a set of Courier objects to be assigned
+     */
+    public void setCouriers(Set<Courier> couriers) {
+        this.couriers = couriers;
+    }
+
+
+	/**
      * Returns the history of all completed orders.
      * 
      * @return a set of orders
