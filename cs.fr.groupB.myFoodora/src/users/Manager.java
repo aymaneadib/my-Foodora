@@ -239,8 +239,8 @@ public class Manager extends Person {
      * @param targetProfit  the target profit to be achieved
      * @return the updated profit data
      */
-    public ProfitData getProfitData(MyFoodora system,ProfitData profitData, Set<Order> lastMonthOrders, double targetProfit) {
-        return system.getProfitStrategy().getProfitData(profitData, lastMonthOrders, targetProfit);
+    public ProfitData getProfitData(ProfitStrategy strategy,ProfitData profitData, Set<Order> lastMonthOrders, double targetProfit) {
+        return strategy.getProfitData(profitData, lastMonthOrders, targetProfit);
     }
 
     /**
