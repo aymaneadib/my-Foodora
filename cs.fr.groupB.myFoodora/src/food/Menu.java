@@ -12,33 +12,54 @@ public class Menu {
 	private double generalDiscount;
 	private double mealOfTheWeekDiscount;
 	
+	/**
+	 * Creates a menu with specified sets of starters, main dishes, desserts, and meals,
+	 * along with specified general and special discounts.
+	 *
+	 * @param starters the set of starters to include in the menu
+	 * @param mainDishes the set of main dishes to include in the menu
+	 * @param desserts the set of desserts to include in the menu
+	 * @param meals the set of meals to include in the menu
+	 * @param genericDiscout the general discount rate to apply
+	 * @param mealOfTheWeekDiscount the special discount rate for the meal of the week
+	 */
 	public Menu(Set<Starter> starters, Set<MainDish> mainDishes, Set<Dessert> desserts, Set<Meal> meals,
-			double genericDiscout, double mealOfTheWeekDiscount) {
-		this.starters = starters;
-		this.mainDishes = mainDishes;
-		this.desserts = desserts;
-		this.meals = meals;
-		this.generalDiscount = genericDiscout;
-		this.mealOfTheWeekDiscount = mealOfTheWeekDiscount;
+	        double genericDiscout, double mealOfTheWeekDiscount) {
+	    this.starters = starters;
+	    this.mainDishes = mainDishes;
+	    this.desserts = desserts;
+	    this.meals = meals;
+	    this.generalDiscount = genericDiscout;
+	    this.mealOfTheWeekDiscount = mealOfTheWeekDiscount;
 	}
-	
+
+	/**
+	 * Creates an empty menu (no dishes or meals) with specified general and special discounts.
+	 *
+	 * @param genericDiscout the general discount rate to apply
+	 * @param mealOfTheWeekDiscount the special discount rate for the meal of the week
+	 */
 	public Menu(double genericDiscout, double mealOfTheWeekDiscount) {
-		this.starters = new HashSet<Starter>();
-		this.mainDishes = new HashSet<MainDish>();
-		this.desserts = new HashSet<Dessert>();
-		this.meals = new HashSet<Meal>();
-		this.generalDiscount = genericDiscout;
-		this.mealOfTheWeekDiscount = mealOfTheWeekDiscount;
+	    this.starters = new HashSet<Starter>();
+	    this.mainDishes = new HashSet<MainDish>();
+	    this.desserts = new HashSet<Dessert>();
+	    this.meals = new HashSet<Meal>();
+	    this.generalDiscount = genericDiscout;
+	    this.mealOfTheWeekDiscount = mealOfTheWeekDiscount;
 	}
-	
+
+	/**
+	 * Creates an empty menu with no discounts.
+	 */
 	public Menu() {
-		this.starters = new HashSet<Starter>();
-		this.mainDishes = new HashSet<MainDish>();
-		this.desserts = new HashSet<Dessert>();
-		this.meals = new HashSet<Meal>();
-		this.generalDiscount = 0;
-		this.mealOfTheWeekDiscount = 0;
+	    this.starters = new HashSet<Starter>();
+	    this.mainDishes = new HashSet<MainDish>();
+	    this.desserts = new HashSet<Dessert>();
+	    this.meals = new HashSet<Meal>();
+	    this.generalDiscount = 0;
+	    this.mealOfTheWeekDiscount = 0;
 	}
+
 
 	/** 
 	 * @return the set of starters in the menu

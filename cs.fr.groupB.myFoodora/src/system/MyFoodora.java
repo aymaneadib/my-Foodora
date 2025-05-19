@@ -5,6 +5,7 @@ import users.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -14,24 +15,35 @@ import food.*;
 import order.*;
 import users.*;
 
+/**
+ * Singleton class representing the MyFoodora system, managing users, orders,
+ * profit strategies, and other key system functionalities.
+ * Contains all users, orders and profit data.
+ * 
+ * @author Alisson Bonatto
+ */
 public class MyFoodora {
 
-	static MyFoodora instance;
-    private User currentUser;
-    private Set<Customer> customers;
-    private Set<Restaurant> restaurants;
-    private Set<Manager> managers;
-    private Set<Courier> couriers;
-    private Map<String, User> userMap;
-    private HashSet<Order> orderHistory;
-    private ProfitData profitData;
-    private DeliveryStrategy deliveryStrategy;
-    private ProfitStrategy profitStrategy;
-    private DishFactory dishFactory;
-    private MealFactory mealFactory;
-    private UserFactory userFactory;
+	static MyFoodora instance;                   // Instance of the system (singleton design pattern)
+    private User currentUser;                    // Current user logged in. null if there's no user logged in
+    private Set<Customer> customers;             // Set of all costumers
+    private Set<Restaurant> restaurants;         // Set of all restaurants
+    private Set<Manager> managers;               // Set of all manages
+    private Set<Courier> couriers;               // Set of all couriers
+    private Map<String, User> userMap;           // HashMap <username, user>
+    private HashSet<Order> orderHistory;         // All orders made using the system
+    private ProfitData profitData;               // Profit data (markup percentage, service fee and delivery cost)
+    private DeliveryStrategy deliveryStrategy;   // Delivery police (least occupied or fastest delivery)
+    private ProfitStrategy profitStrategy;       // Profit strategy (markup percentage, service fee and delivery cost oriented)
+    private DishFactory dishFactory;             // Factory of dishes
+    private MealFactory mealFactory;             // Factory of meals
+    private UserFactory userFactory;             // Factory of users
     
-
+    /**
+     * Private constructor to prevent external instantiation.
+     * It's used by a static method ensuring the singleton design pattern.
+     * Initializes all sets, maps, factories, and strategies with default values.
+     */
     private MyFoodora() {
     	this.customers = new HashSet<Customer>();
     	this.restaurants = new HashSet<Restaurant>();
@@ -47,6 +59,11 @@ public class MyFoodora {
     	this.userFactory = new UserFactory();
     }
     
+    /**
+     * Returns the single instance of MyFoodora (singleton).
+     * 
+     * @return the MyFoodora instance
+     */
     public static MyFoodora getInstance() {
     	if (instance == null) {
     		instance = new MyFoodora();
@@ -55,26 +72,66 @@ public class MyFoodora {
     	return instance;
     }
 
+    /**
+     * Returns the history of all completed orders.
+     * 
+     * @return a set of orders
+     */
     public HashSet<Order> getOrderHistory() {
         return this.orderHistory;
     }
     
+    /**
+     * Sets the current profit strategy used by the platform.
+     * 
+     * @param strategy the new profit strategy
+     */
     public void setProfitStrategy(ProfitStrategy strategy) {
     	this.profitStrategy = strategy;
     }
     
+    /**
+     * Sets the service fee used in profit calculation.
+     * 
+     * @param serviceFee the new service fee
+     */
     public void setServiceFee(double serviceFee) {
     	this.profitData.setServiceFee(serviceFee);
     }
     
+    /**
+     * Sets the markup percentage used in profit calculation.
+     * 
+     * @param markupPercentage the new markup percentage
+     */
     public void setMarkupPercentage(double markupPercentage) {
     	this.profitData.setMarkupPercentage(markupPercentage);
     }
     
+    /**
+     * Sets the delivery cost (internally uses setServiceFee).
+     * 
+     * @param deliveryCost the new delivery cost
+     */
     public void setDeliveryCost(double deliveryCost) {
     	this.profitData.setServiceFee(deliveryCost);
     }
     
+    /**
+     * Returns the current profit data.
+     * 
+     * @return the profit data object
+     */
+    public ProfitData getProfitData() {
+    	return this.profitData;
+    }
+    
+    /**
+     * Adds a user to the system and categorizes them into the appropriate user set.
+     * Also adds the user into the mapping user.
+     * 
+     * @param user the user to add
+     */
     public void addUser(User user) {
     	// Puts user in the map
     	this.userMap.put(user.getUsername(), user);
@@ -94,6 +151,12 @@ public class MyFoodora {
     	}
     }
     
+    /**
+     * Removes a user from the system.
+     * 
+     * @param user the user to remove
+     * @throws UserNotFoundException if user does not exist
+     */
     public void removeUser(User user) throws UserNotFoundException{
     	// Removes user from map
     	User removedUser = this.userMap.remove(user.getUsername());
@@ -118,6 +181,18 @@ public class MyFoodora {
     	}
     }
     
+    /**
+     * Registers a user with full personal information.
+     * 
+     * @param userType the type of user
+     * @param name user's first name
+     * @param lastName user's last name
+     * @param username unique username
+     * @param adress address of the user
+     * @param password user's password
+     * @param phoneNumber user's phone number
+     * @throws BadUserCreationException if user creation fails
+     */
     public void registerUser(String userType, String name, String lastName, String username, String adress,
     		String password, String phoneNumber) throws BadUserCreationException {
     	
@@ -125,6 +200,16 @@ public class MyFoodora {
     	this.addUser(user);
     }
     
+    /**
+     * Registers a user (alternative method with fewer arguments).
+     * 
+     * @param userType the type of user
+     * @param name user's name
+     * @param username unique username
+     * @param adress user's address
+     * @param password user's password
+     * @throws BadUserCreationException if user creation fails
+     */
     public void registerUser(String userType, String name, String username, String adress,
     		String password) throws BadUserCreationException {
     	
@@ -132,6 +217,16 @@ public class MyFoodora {
     	this.addUser(user);
     }
     
+    /**
+     * Authenticates a user.
+     * The system saves the user logged in the system
+     * if authentication does not fails.
+     * 
+     * @param username the username
+     * @param password the password
+     * @throws UserNotFoundException if the user is not found
+     * @throws IncorrectCredentialsException if credentials are incorrect
+     */
     public void login(String username, String password) throws UserNotFoundException, IncorrectCredentialsException{
     	// User to be returned
     	User user = this.userMap.get(username);
@@ -150,10 +245,85 @@ public class MyFoodora {
     	}
     }
     
+    /**
+     * Logs out the currently logged-in user.
+     */
     public void logout() {
     	this.currentUser = null;
     }
     
+    /**
+     * Creates a new dish using the dish factory.
+     * 
+     * @param dishType type of dish (Starter, MainDish, Dessert)
+     * @param name name of the dish
+     * @param price price of the dish
+     * @param isVegetarian vegetarian flag
+     * @param isGlutenFree gluten-free flag
+     * @return the created Dish
+     * @throws BadNumberOfArgumentsException if arguments are incorrect
+     * @throws BadDishTypeCreationException if the type is unrecognized
+     * @throws BadArgumentTypeException if argument types are invalid
+     */
+    public Dish createDish(String dishType, String name, double price, boolean isVegetarian, boolean isGlutenFree) 
+    		throws BadNumberOfArgumentsException, BadDishTypeCreationException, BadArgumentTypeException {
+    	
+    	return this.dishFactory.createDish(dishType, name, price, isVegetarian, isGlutenFree);
+    }
+    
+    /**
+     * Creates a meal with default pricing strategy using
+     * the meal factory.
+     * 
+     * @param mealType the type of meal
+     * @param name name of the meal
+     * @param dishes set of dishes
+     * @param isGlutenFree gluten-free flag
+     * @param isVegetarian vegetarian flag
+     * @return the created Meal
+     * @throws UnrecognizedDishException if dish is unrecognized
+     * @throws BadMealFormulaException if meal formula is invalid
+     * @throws BadMealTypeCreationException if type is unrecognized
+     * @throws BadNumberOfArgumentsException if argument count is wrong
+     * @throws BadArgumentTypeException if argument types are invalid
+     */
+    public Meal createMeal(String mealType, String name, Set<Dish> dishes, boolean isGlutenFree, boolean isVegetarian)
+    		throws UnrecognizedDishException, BadMealFormulaException, BadMealTypeCreationException, BadNumberOfArgumentsException, BadArgumentTypeException{
+    	
+    	return this.mealFactory.createMeal(mealType, name, dishes, isGlutenFree, isVegetarian);
+    }
+    
+    /**
+     * Creates a meal with a custom pricing strategy using
+     * the meal factory.
+     * 
+     * @param mealType the type of meal
+     * @param name name of the meal
+     * @param dishes set of dishes
+     * @param isGlutenFree gluten-free flag
+     * @param isVegetarian vegetarian flag
+     * @param pricingStrategy pricing strategy to apply
+     * @return the created Meal
+     * @throws UnrecognizedDishException if dish is unrecognized
+     * @throws BadMealFormulaException if meal formula is invalid
+     * @throws BadMealTypeCreationException if type is unrecognized
+     * @throws BadNumberOfArgumentsException if argument count is wrong
+     * @throws BadArgumentTypeException if argument types are invalid
+     */
+    public Meal createMeal(String mealType, String name, Set<Dish> dishes, boolean isGlutenFree, boolean isVegetarian, PricingMealStrategy pricingStrategy)
+    		throws UnrecognizedDishException, BadMealFormulaException, BadMealTypeCreationException, BadNumberOfArgumentsException, BadArgumentTypeException{
+    	
+    	return this.mealFactory.createMeal(mealType, name, dishes, isGlutenFree, isVegetarian, pricingStrategy);
+    }
+    
+    /**
+     * Selects a courier to deliver an order based on current delivery police.
+     * 
+     * @param restaurantToPickDeliver the restaurant
+     * @param customerToDeliver the customer
+     * @return the selected courier
+     * @throws AvailableCourierNotFoundException if no courier is available
+     */
     public Courier selectCourier(Restaurant restaurantToPickDeliver, Customer customerToDeliver) throws AvailableCourierNotFoundException{
     	// Selecting courier based on current policy
     	Courier selectedCourier = this.deliveryStrategy.selectCourier(this.couriers, restaurantToPickDeliver, customerToDeliver);
@@ -165,8 +335,77 @@ public class MyFoodora {
     	
     	return selectedCourier;
     }
-
     
+    /**
+     * Returns a sorted list of dishes based on their delivery frequency.
+     * 
+     * @param dishes set of dishes to sort
+     * @return sorted list of dishes
+     */
+    public ArrayList<Dish> sortDishesDeliveryFrequency(Set<Dish> dishes){
+    	ArrayList<Dish> arrayDishes = new ArrayList<Dish>(dishes);
+    	DishComparator comparator = new DishComparator();
+    	
+    	Collections.sort(arrayDishes, comparator);
+    	return arrayDishes;
+    }
+    
+    /**
+     * Returns a sorted list of meals based on their delivery frequency.
+     * 
+     * @param meals set of meals to sort
+     * @return sorted list of meals
+     */
+    public ArrayList<Meal> sortMealsDeliveryFrequency(Set<Meal> meals){
+    	ArrayList<Meal> arrayMeals = new ArrayList<Meal>(meals);
+    	MealComparator comparator = new MealComparator();
+    	
+    	Collections.sort(arrayMeals, comparator);
+    	return arrayMeals;
+    }
+    
+    /**
+     * Notifies the current user with the meal of the week, if they gave consent.
+     * 
+     * @param restaurant the restaurant sending the notification
+     * @return string describing the meal or null if no consent or user
+     */
+    public String notifyUser(Restaurant restaurant) {
+    	// Here notifyUser = return the toString of the meal of the week
+    	// returns null if the user did not give consensus
+    	
+    	String output = "";
+    	
+    	// If there's a user logged in
+    	if (this.currentUser != null) {
+        	if (this.currentUser instanceof Customer) {
+        		if (((Customer) this.currentUser).isNotificationsConsent()) {
+        			for(Meal meal : restaurant.getMenu().getMeals()) {
+                		if (meal.isMealOfTheWeek()) {
+                			output += meal;
+                		}
+                	}
+        		}
+        		else {
+        			return null;
+        		}
+        	}
+        	else {
+        		return null;
+        	}
+    	}
+    	else {
+    		return null;
+    	}
+    	
+    	return output;
+    }
+
+    /**
+     * Updates the platform's profit data to meet a target profit over the last month.
+     * 
+     * @param targetProfit the profit goal
+     */
     public void updateProfitDataFromTargetProfit(double targetProfit) {
     	// Getting the date interval
     	// Last month = last 30 days
