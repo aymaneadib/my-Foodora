@@ -492,6 +492,49 @@ public class MyFoodora {
     	
     	return output;
     }
+    
+    /**
+     * Creates and processes a new order for the specified customer and restaurant, including the selected dishes and meals.
+     * A courier is automatically assigned based on the current delivery strategy.
+     * The order is only processed if the current user is an active customer and there is at least one dish or meal.
+     *
+     * @param customer the customer placing the order
+     * @param restaurant the restaurant fulfilling the order
+     * @param dishes the set of individual dishes included in the order
+     * @param meals the set of meals included in the order
+     * @throws AvailableCourierNotFoundException if no available courier can be assigned to the order
+     */
+    public void makeOrder(Customer customer, Restaurant restaurant, HashSet<Dish> dishes, HashSet<Meal> meals) throws AvailableCourierNotFoundException {
+    	if (this.currentUser instanceof Customer) {
+    		
+    		// If the currentUser and restaurant are active and there's at least one dish or meal
+    		if (((Customer) this.currentUser).isActive() && !(dishes.isEmpty() && meals.isEmpty()) && restaurant.isActive()) {
+    			
+    			// Choosing a courier
+    			Courier courier = this.selectCourier(restaurant, customer);
+    			
+    			if (courier != null) {
+    				// Creating a new Order
+        			Order newOrder = new Order(customer, restaurant, courier);
+        			
+        			// Adding meals and dishes
+        			for (Dish dish : dishes) {
+        				newOrder.addDish(dish);
+        			}
+        			for (Meal meal : meals) {
+        				newOrder.addMeal(meal);
+        			}
+        			
+        			// Getting and setting the final price based on fidelity card
+        			double newPrice = ((Customer) this.currentUser).getFidelityCard().getFinalPrice(newOrder);
+        			newOrder.setPrice(newPrice);
+        			
+        			// Adding order to history
+        			this.orderHistory.add(newOrder);
+    			}
+    		}
+    	}
+    }
 
     /**
      * Updates the platform's profit data to meet a target profit over the last month.
