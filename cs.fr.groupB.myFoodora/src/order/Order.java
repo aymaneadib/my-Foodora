@@ -255,6 +255,15 @@ public class Order {
     public double getPrice() {
         return price;
     }
+    
+    /**
+     * Sets the price of the order.
+     *
+     * @param the price of the order
+     */
+    public void setPrice(double price) {
+    	this.price = price;
+    }
 
     /**
      * String representation of the Order object.

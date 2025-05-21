@@ -17,6 +17,7 @@ public abstract class User {
     protected String username;
     protected String password;
     protected int id;
+    protected boolean active;
 
     /**
      * Constructor for the User class.
@@ -35,6 +36,30 @@ public abstract class User {
         this.password = password;
         this.id = idCounter++;
         usernamesUsed.add(username);
+        this.active = true;
+    }
+    
+    /**
+     * Returns if the user is active.
+     *
+     * @return the state of user.
+     */
+    public boolean isActive() {
+    	return this.active;
+    }
+    
+    /**
+     * Activates user.
+     */
+    public void activateUser() {
+    	this.active = true;
+    }
+    
+    /**
+     * Deactivates user.
+     */
+    public void deactivateUser() {
+    	this.active = false;
     }
 
     /**
