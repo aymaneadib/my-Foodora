@@ -23,6 +23,7 @@ public class Customer extends Person implements notifications.Observer {
     private FidelityCard fidelityCard;
     private boolean notificationsConsent;
     private String email;
+    private String notifications; // Set to store used phone numbers
 
     /**
      * Constructor for Customer.
@@ -50,6 +51,7 @@ public class Customer extends Person implements notifications.Observer {
         this.fidelityCard = new BasicCard(this);
         this.notificationsConsent = false;
         this.email = email;
+        this.notifications = "";
     }
 
     /**
@@ -79,6 +81,7 @@ public class Customer extends Person implements notifications.Observer {
         this.fidelityCard = new BasicCard(this);
         this.notificationsConsent = consent;
         this.email = email;
+        this.notifications = "";
     }
 
     /**
@@ -90,7 +93,10 @@ public class Customer extends Person implements notifications.Observer {
     public void update(Meal mealOfTheWeek) {
         // Notify the customer about the new meal of the week
         if (notificationsConsent) {
-            System.out.println("New meal of the week: " + mealOfTheWeek);
+            if (notifications != "") {
+                 notifications += "\n";
+            }
+            notifications += mealOfTheWeek.toString() + " is the new meal of the week !! ";
         }
     }
 
