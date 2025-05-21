@@ -1,5 +1,6 @@
 package food;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -10,7 +11,9 @@ import java.util.Set;
  * 
  * @author Alisson Bonatto
  */
-public abstract class Meal {
+public abstract class Meal implements notifications.Observable {
+
+	private static List<notifications.Observer> observers = new java.util.ArrayList<>();
     
 	protected String name;
 	protected Set<Dish> dishes;
@@ -53,6 +56,22 @@ public abstract class Meal {
 		this.isVegetarian = verifyVegetarian(dishes);
 		this.frequencyDelivery = 0;
 		this.pricingMealStrategy = pricingStrategy;
+	}
+
+	/**
+	 * Returns the list of observers registered to this meal.
+	 * 
+	 * @return the list of observers
+	 */
+	public List<notifications.Observer> getObservers() {
+		return observers;
+	}
+
+	/**
+	 * Adds an observer to the list of observers for the meals of the week.
+	 */
+	public static void addObserver(notifications.Observer observer) {
+		observers.add(observer);
 	}
 	
 	/**
@@ -186,6 +205,36 @@ public abstract class Meal {
 	public double getPrice() {
 		return this.pricingMealStrategy.getTotal(dishes);
 	}
+
+	/**
+	 * Registers an observer to the meals of the week.
+	 * 
+	 * @param observer the observer to register
+	 */
+	@Override
+	public void registerObserver(notifications.Observer observer) {
+		observers.add(observer);
+	}
+
+	/**
+	 * Removes an observer from the meals of the week.
+	 * 
+	 * @param observer the observer to remove
+	 */
+	@Override
+	public void removeObserver(notifications.Observer observer) {
+		observers.remove(observer);
+	}
+
+	/**
+	 * Notifies all registered observers of the deal.
+	 */
+	@Override
+	public void notifyObservers() {
+		for (notifications.Observer observer : observers) {
+			observer.update(this);
+		}
+	}
 	
 	/**
 	 * Checks if this meal currently has the "meal of the week" discount applied.
@@ -203,6 +252,7 @@ public abstract class Meal {
 	 */
 	public void makeMealOfTheWeek(double discount) {
 		this.pricingMealStrategy = new MealOfTheWeekDiscount(discount);
+		notifyObservers();
 	}
 	
 	/**
@@ -210,6 +260,7 @@ public abstract class Meal {
 	 */
 	public void makeMealOfTheWeek() {
 		this.pricingMealStrategy = new MealOfTheWeekDiscount();
+		notifyObservers();
 	}
 	
 	/**

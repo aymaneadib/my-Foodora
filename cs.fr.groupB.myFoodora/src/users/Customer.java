@@ -4,6 +4,7 @@ import java.util.*;
 
 import fidelity.*;
 import order.*;
+import food.*;
 import system.*;
 
 /**
@@ -12,7 +13,7 @@ import system.*;
  * 
  * @author Aymane Adib
  */
-public class Customer extends Person {
+public class Customer extends Person implements notifications.Observer {
 
     private static Set<String> emailsUsed = new HashSet<>(); // Set to store used emails
     private static final Set<String> availableOperations = new HashSet<>(); // Set to store available operations
@@ -78,6 +79,19 @@ public class Customer extends Person {
         this.fidelityCard = new BasicCard(this);
         this.notificationsConsent = consent;
         this.email = email;
+    }
+
+    /**
+     * Notifies the customer about the new meal of the week.
+     * 
+     * @param meal the meal to observe
+     */
+    @Override
+    public void update(Meal mealOfTheWeek) {
+        // Notify the customer about the new meal of the week
+        if (notificationsConsent) {
+            System.out.println("New meal of the week: " + mealOfTheWeek);
+        }
     }
 
     /**
@@ -172,6 +186,9 @@ public class Customer extends Person {
      */
     public void setNotificationsConsent(boolean notificationsConsent) {
         this.notificationsConsent = notificationsConsent;
+        if (notificationsConsent) {
+            Meal.addObserver(this);
+        } 
     }
 
     /**
