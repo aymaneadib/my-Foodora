@@ -20,4 +20,14 @@ public class Starter extends Dish {
         super(name, price, isVegetarian, isGlutenFree);
     }
 
+    /**
+     * Returns a string representation of the Starter.
+     * 
+     * @return a string representation of the Starter
+     */
+    @Override
+	public String toString() {
+		return name + " (Starter at " + price + "€)" ;
+	}
+
 }

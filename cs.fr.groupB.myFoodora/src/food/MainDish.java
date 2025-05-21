@@ -20,4 +20,14 @@ public class MainDish extends Dish {
 		super(name, price, isVegetarian, isGlutenFree);
 	}
 
+	/**
+	 * Returns a string representation of the MainDish.
+	 * 
+	 * @return a string representation of the MainDish
+	 */
+	@Override
+	public String toString() {
+		return name + " (Main Dish at " + price + "€)" ;
+	}
+
 }
