@@ -8,13 +8,6 @@ package notifications;
  * @author Aymane ADIB
  */
 public interface Observable {
-
-    /**
-     * Registers an observer to the observable.
-     * 
-     * @param observer The observer to be registered.
-     */
-    public void registerObserver(Observer observer);
     
     /**
      * Removes an observer from the observable.

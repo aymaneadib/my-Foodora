@@ -66,13 +66,6 @@ public abstract class Meal implements notifications.Observable {
 	public List<notifications.Observer> getObservers() {
 		return observers;
 	}
-
-	/**
-	 * Adds an observer to the list of observers for the meals of the week.
-	 */
-	public static void addObserver(notifications.Observer observer) {
-		observers.add(observer);
-	}
 	
 	/**
 	 * Returns the meal name.
@@ -211,8 +204,7 @@ public abstract class Meal implements notifications.Observable {
 	 * 
 	 * @param observer the observer to register
 	 */
-	@Override
-	public void registerObserver(notifications.Observer observer) {
+	public static void registerObserver(notifications.Observer observer) {
 		observers.add(observer);
 	}
 

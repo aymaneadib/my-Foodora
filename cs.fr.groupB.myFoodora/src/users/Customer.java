@@ -187,8 +187,8 @@ public class Customer extends Person implements notifications.Observer {
     public void setNotificationsConsent(boolean notificationsConsent) {
         this.notificationsConsent = notificationsConsent;
         if (notificationsConsent) {
-            Meal.addObserver(this);
-        } 
+            Meal.registerObserver(this);
+        }
     }
 
     /**
