@@ -125,6 +125,14 @@ public abstract class Dish {
 	public void incrementFrequencyDelivery() {
 		this.frequencyDelivery++;
 	}
+
+	/**
+	 * Decrements the frequency of deliveries by 1.
+	 * 
+	 */
+	public void decrementFrequencyDelivery() {
+		this.frequencyDelivery--;
+	}
 	
 	/**
 	 * Compares this dish to another object for equality.

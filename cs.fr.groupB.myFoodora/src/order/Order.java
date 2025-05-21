@@ -65,9 +65,9 @@ public class Order {
      * @param dish
      */
     public void addDish(Dish dish){
-        
         dishes.add(dish);
         price += dish.getPrice();
+        dish.incrementFrequencyDelivery();
     }
 
     /**
@@ -79,6 +79,7 @@ public class Order {
     public void removeDish(Dish dish) throws BadOrderHandlingException {
         if (dishes.remove(dish)) {
             price -= dish.getPrice();
+            dish.decrementFrequencyDelivery();
         } else {
             throw new BadOrderHandlingException("Dish not found in the order.");    
         }
@@ -92,6 +93,7 @@ public class Order {
     public void addMeal(Meal meal) {
         meals.add(meal);
         price += meal.getPrice();
+        meal.incrementFrequencyDelivery();
     }
 
     /**
@@ -103,6 +105,7 @@ public class Order {
     public void removeMeal(Meal meal) throws BadOrderHandlingException {
         if (meals.remove(meal)) {
             price -= meal.getPrice();
+            meal.decrementFrequencyDelivery();
         }
         else {
             throw new BadOrderHandlingException("Meal not found in the order.");

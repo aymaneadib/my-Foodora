@@ -169,6 +169,13 @@ public abstract class Meal {
 	public void incrementFrequencyDelivery() {
 		this.frequencyDelivery++;
 	}
+
+	/**
+	 * Decrements the delivery frequency counter by one.
+	 */
+	public void decrementFrequencyDelivery() {
+		this.frequencyDelivery--;
+	}
 	
 	/**
 	 * Calculates and returns the total price of the meal,
