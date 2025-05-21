@@ -55,4 +55,22 @@ public class DishTest {
         Assert.assertEquals(expectedString2, dish2.toString());
     }
 
+    @Test
+    public void testCompareTo() {
+        DishComparator comparator = new DishComparator();
+        Dish dish1 = new Dessert("Gelato", 5.99, true, false);
+        Dish dish2 = new Starter("Tiramisu", 6.99, true, false);
+        Assert.assertTrue(comparator.compare(dish1, dish2)<=0);
+    }
+
+    @Test
+    public void testGetFrequencyDelivery() {
+        Dish dish = new Dessert("Gelato", 5.99, true, false);
+        Assert.assertEquals(0, dish.getFrequencyDelivery());
+        dish.incrementFrequencyDelivery();
+        Assert.assertEquals(1, dish.getFrequencyDelivery());
+        dish.decrementFrequencyDelivery();
+        Assert.assertEquals(0, dish.getFrequencyDelivery());
+    }
+
 }
