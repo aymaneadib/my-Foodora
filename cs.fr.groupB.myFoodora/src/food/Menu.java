@@ -25,6 +25,9 @@ public class Menu {
 	 */
 	public Menu(Set<Starter> starters, Set<MainDish> mainDishes, Set<Dessert> desserts, Set<Meal> meals,
 	        double genericDiscout, double mealOfTheWeekDiscount) {
+		if (genericDiscout < 0 || genericDiscout > 1 || mealOfTheWeekDiscount < 0 || mealOfTheWeekDiscount > 1) {
+			throw new IllegalArgumentException("Discount must be between 0 and 1");
+		}
 	    this.starters = starters;
 	    this.mainDishes = mainDishes;
 	    this.desserts = desserts;
@@ -40,6 +43,9 @@ public class Menu {
 	 * @param mealOfTheWeekDiscount the special discount rate for the meal of the week
 	 */
 	public Menu(double genericDiscout, double mealOfTheWeekDiscount) {
+		if (genericDiscout < 0 || genericDiscout > 1 || mealOfTheWeekDiscount < 0 || mealOfTheWeekDiscount > 1) {
+			throw new IllegalArgumentException("Discount must be between 0 and 1");
+		}
 	    this.starters = new HashSet<Starter>();
 	    this.mainDishes = new HashSet<MainDish>();
 	    this.desserts = new HashSet<Dessert>();

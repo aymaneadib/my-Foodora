@@ -49,6 +49,19 @@ public class TestMenu {
         Assert.assertEquals(0.0, menu.getGeneralDiscount(), 0.0001);
         menu.setGeneralDiscount(0.1);
         Assert.assertEquals(0.1, menu.getGeneralDiscount(), 0.0001);
+        
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetNegativeDiscountThrowsException() {
+        Menu menu = new Menu();
+        menu.setGeneralDiscount(-0.2);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetDiscountGreaterThanOneThrowsException() {
+        Menu menu = new Menu();
+        menu.setSpecialDiscount(1.5);
     }
 
 }
