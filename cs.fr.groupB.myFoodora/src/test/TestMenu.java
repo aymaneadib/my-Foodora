@@ -43,4 +43,12 @@ public class TestMenu {
         Assert.assertTrue(menu.getDesserts().contains(dish2));
     }
 
+    @Test
+    public void testGeneralDiscount() {
+        Menu menu = new Menu();
+        Assert.assertEquals(0.0, menu.getGeneralDiscount(), 0.0001);
+        menu.setGeneralDiscount(0.1);
+        Assert.assertEquals(0.1, menu.getGeneralDiscount(), 0.0001);
+    }
+
 }

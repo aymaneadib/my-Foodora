@@ -140,6 +140,9 @@ public class Menu {
 	 * @param mealOfTheWeekDiscount the new special discount rate
 	 */
 	public void setSpecialDiscount(double mealOfTheWeekDiscount) {
+		if (mealOfTheWeekDiscount < 0 || mealOfTheWeekDiscount > 1) {
+			throw new IllegalArgumentException("Discount must be between 0 and 1");
+		}
 		this.mealOfTheWeekDiscount = mealOfTheWeekDiscount;
 		
 		for (Meal meal : meals) {
@@ -154,6 +157,9 @@ public class Menu {
 	 * @param generalDiscount the new general discount rate
 	 */
 	public void setGeneralDiscount(double generalDiscount) {
+		if (generalDiscount < 0 || generalDiscount > 1) {
+			throw new IllegalArgumentException("Discount must be between 0 and 1");
+		}
 		this.generalDiscount = generalDiscount;
 		
 		for (Meal meal : meals) {
