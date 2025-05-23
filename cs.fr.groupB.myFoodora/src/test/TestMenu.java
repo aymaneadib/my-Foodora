@@ -1,9 +1,15 @@
 package test;
 
 import org.junit.*;
+import org.junit.Test;
 import food.*;
 
-
+/**
+ * Test class for Menu.
+ * This class contains unit tests for the Menu class.
+ * 
+ * @author Aymane Adib
+ */
 public class TestMenu {
 
     @Test

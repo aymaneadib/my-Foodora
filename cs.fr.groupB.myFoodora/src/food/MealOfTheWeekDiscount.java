@@ -60,7 +60,7 @@ public class MealOfTheWeekDiscount implements PricingMealStrategy{
 			total += dish.price;
 		}
 		
-		return total * this.discount;
+		return total * (1-this.discount);
 	}
 	
 }

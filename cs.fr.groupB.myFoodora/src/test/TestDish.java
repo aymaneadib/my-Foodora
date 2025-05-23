@@ -2,6 +2,7 @@ package test;
 
 import food.*;
 import org.junit.*;
+import org.junit.Test;
 
 
 /**
@@ -9,7 +10,7 @@ import org.junit.*;
  * 
  * @author Aymane ADIB
  */
-public class DishTest {
+public class TestDish {
 
     @Test
     public void testDishCreation() {
@@ -24,7 +25,6 @@ public class DishTest {
         Assert.assertEquals(false, dish2.isVegetarian());
         Assert.assertEquals(false, dish2.isGlutenFree());
         Assert.assertNotNull(dish3);
-
     }
 
     @Test
@@ -73,4 +73,12 @@ public class DishTest {
         Assert.assertEquals(0, dish.getFrequencyDelivery());
     }
 
+    @Test
+    public void testDishFactory() throws BadNumberOfArgumentsException, BadDishTypeCreationException, BadArgumentTypeException {
+        DishFactory factory = new DishFactory();
+        Dish dish1 = factory.createDish("Dessert", "Gelato", 5.99, true, false);
+        Dish dish2 = factory.createDish("MainDish", "Pizza", 10.0, false, false);
+        Assert.assertTrue(dish1 instanceof Dessert);
+        Assert.assertTrue(dish2 instanceof MainDish);
+    }
 }
