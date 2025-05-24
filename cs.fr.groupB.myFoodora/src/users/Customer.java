@@ -219,6 +219,15 @@ public class Customer extends Person implements notifications.Observer {
             Meal.registerObserver(this);
         }
     }
+    
+    /**
+     * Clear the notifications.
+     * Sets the strings of notifications to an empty string.
+     * 
+     */
+    public void clearNotifications() {
+    	this.notifications = "";
+    }
 
     /**
      * Returns the email of the customer.

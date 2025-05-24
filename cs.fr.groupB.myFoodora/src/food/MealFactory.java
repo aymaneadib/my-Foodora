@@ -17,12 +17,10 @@ public class MealFactory {
 	 * @param args variable arguments expected:
 	 *             - args[0]: String name of the meal
 	 *             - args[1]: Set<Dish> dishes included in the meal
-	 *             - args[2]: Boolean indicating if the meal is gluten-free
-	 *             - args[3]: Boolean indicating if the meal is vegetarian
-	 *             - args[4] (optional): PricingMealStrategy custom pricing strategy
+	 *             - args[2] (optional): PricingMealStrategy custom pricing strategy
 	 * @return a Meal instance matching the specified type and parameters
 	 * @throws BadMealTypeCreationException if the mealType is unrecognized
-	 * @throws BadNumberOfArgumentsException if the number of arguments is incorrect (not 4 or 5)
+	 * @throws BadNumberOfArgumentsException if the number of arguments is incorrect (not 2 or 3)
 	 * @throws BadArgumentTypeException if argument types are incorrect or Set is not of Dish
 	 * @throws UnrecognizedDishException if a Dish in the Set is unrecognized
 	 * @throws BadMealFormulaException if the meal composition is invalid
@@ -32,13 +30,12 @@ public class MealFactory {
 		BadArgumentTypeException, UnrecognizedDishException, BadMealFormulaException{
 
 		// Verifying parameters number
-		if (args.length != 4 && args.length != 5) {
-			throw new BadNumberOfArgumentsException("Constructor must have 4 or 5 arguments.");
+		if (args.length != 2 && args.length != 3) {
+			throw new BadNumberOfArgumentsException("Constructor must have 2 or 3 arguments.");
 		}
 		
 		// Verifying parameters types
-		if (!(args[0] instanceof String) || !(args[1] instanceof Set) || !(args[2] instanceof Boolean)
-				|| !(args[3] instanceof Boolean)) {
+		if (!(args[0] instanceof String) || !(args[1] instanceof Set)) {
 			throw new BadArgumentTypeException("Unrecognized type of argument.");
 		}
 		
@@ -49,8 +46,8 @@ public class MealFactory {
 	    	throw new BadArgumentTypeException("Second argument isn't a Set of Dishes (i.e. Set<Dish>).");
 	    }
 		
-		if (args.length == 5) {
-			if(!(args[4] instanceof PricingMealStrategy)) {
+		if (args.length == 3) {
+			if(!(args[2] instanceof PricingMealStrategy)) {
 				throw new BadArgumentTypeException("Unrecognized type of argument.");
 			}
 		}
@@ -61,11 +58,11 @@ public class MealFactory {
 		case "FULLMEAL" -> {
 			Meal meal;
 			
-			if(args.length == 4) {
-				meal = new FullMeal((String) args[0], (Set<Dish>) args[1], (Boolean) args[2], (Boolean) args[3]);
+			if(args.length == 2) {
+				meal = new FullMeal((String) args[0], (Set<Dish>) args[1]);
 			}
 			else {
-				meal = new FullMeal((String) args[0], (Set<Dish>) args[1], (Boolean) args[2], (Boolean) args[3], (PricingMealStrategy) args[4]);
+				meal = new FullMeal((String) args[0], (Set<Dish>) args[1], (PricingMealStrategy) args[2]);
 			}
 			
 			yield meal;
@@ -74,11 +71,11 @@ public class MealFactory {
 		case "HALFMEAL" -> {
 			Meal meal;
 			
-			if(args.length == 4) {
-				meal = new HalfMeal((String) args[0], (Set<Dish>) args[1], (Boolean) args[2], (Boolean) args[3]);
+			if(args.length == 2) {
+				meal = new HalfMeal((String) args[0], (Set<Dish>) args[1]);
 			}
 			else {
-				meal = new HalfMeal((String) args[0], (Set<Dish>) args[1], (Boolean) args[2], (Boolean) args[3], (PricingMealStrategy) args[4]);
+				meal = new HalfMeal((String) args[0], (Set<Dish>) args[1], (PricingMealStrategy) args[2]);
 			}
 
 			yield meal;

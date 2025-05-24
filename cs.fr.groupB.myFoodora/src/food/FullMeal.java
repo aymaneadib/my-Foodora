@@ -21,10 +21,10 @@ public class FullMeal extends Meal{
 	 * @throws UnrecognizedDishException if any dish in the set is not recognized as Starter, MainDish or Dessert
 	 * @throws BadMealFormulaException if the combination of dishes does not follow the full meal formula
 	 */
-	public FullMeal(String name, Set<Dish> dishes, boolean isGlutenFree, boolean isVegetarian)
+	public FullMeal(String name, Set<Dish> dishes)
 			throws UnrecognizedDishException, BadMealFormulaException{
 	
-		super(name, dishes, isGlutenFree, isVegetarian);
+		super(name, dishes);
 		
 		// Verifying consistency of meal
 		if(!isFormulaConsistent(dishes)) {
@@ -43,10 +43,10 @@ public class FullMeal extends Meal{
 	 * @throws UnrecognizedDishException if any dish in the set is not recognized as Starter, MainDish or Dessert
 	 * @throws BadMealFormulaException if the combination of dishes does not follow the full meal formula
 	 */
-	public FullMeal(String name, Set<Dish> dishes, boolean isGlutenFree, boolean isVegetarian, PricingMealStrategy pricingStrategy)
+	public FullMeal(String name, Set<Dish> dishes, PricingMealStrategy pricingStrategy)
 			throws UnrecognizedDishException, BadMealFormulaException{
 		
-		super(name, dishes, isGlutenFree, isVegetarian, pricingStrategy);
+		super(name, dishes, pricingStrategy);
 		
 		// Verifying consistency of meal
 		if(!isFormulaConsistent(dishes)) {

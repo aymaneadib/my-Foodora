@@ -90,9 +90,11 @@ public abstract class User {
     }
 
     /**
-     * Returns the string representation of the user.
+     * Verifies if the argument user is equals to current user.
+     * Two users are equals if they have the same id.
      *
-     * @return the string representation of the user
+     * @param obj the other user to be compared with
+     * @return true if the ids are equals
      */
     @Override
     public boolean equals(Object obj) {

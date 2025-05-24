@@ -17,9 +17,9 @@ public class TestMeal {
         Dish maindish = new MainDish("Pizza",10, false, false);
         Dish starter = new  Starter("Salad", 3, false, true);
         Dish dessert = new Dessert("Gelato", 5.99, true, false);
-        Meal fullMeal = new FullMeal("Full Meal", Set.of(maindish, starter, dessert), false, true);
-        Meal halfMeal = new HalfMeal("Half Meal", Set.of(maindish, dessert), false, true);
-        Meal halfMeal2 = new HalfMeal("Half Meal 2", Set.of(maindish, starter), false, true);
+        Meal fullMeal = new FullMeal("Full Meal", Set.of(maindish, starter, dessert));
+        Meal halfMeal = new HalfMeal("Half Meal", Set.of(maindish, dessert));
+        Meal halfMeal2 = new HalfMeal("Half Meal 2", Set.of(maindish, starter));
         Assert.assertNotNull(fullMeal);
         Assert.assertNotNull(halfMeal);
         Assert.assertNotNull(halfMeal2);
@@ -36,9 +36,9 @@ public class TestMeal {
         Dish starter = new  Starter("Salad", 3, false, true);
         Dish dessert = new Dessert("Gelato", 5.99, true, false);
         MealFactory mealFactory = new MealFactory();
-        Meal fullMeal = mealFactory.createMeal("FullMeal", "Full Meal", Set.of(maindish, starter, dessert), false, true);
-        Meal halfMeal = mealFactory.createMeal("HalfMeal","Half Meal 1", Set.of(maindish, dessert), false, true);
-        Meal halfMeal2 = mealFactory.createMeal("haLfMEaL","Half Meal 2", Set.of(maindish, starter), false, true);
+        Meal fullMeal = mealFactory.createMeal("FullMeal", "Full Meal", Set.of(maindish, starter, dessert));
+        Meal halfMeal = mealFactory.createMeal("HalfMeal","Half Meal 1", Set.of(maindish, dessert));
+        Meal halfMeal2 = mealFactory.createMeal("haLfMEaL","Half Meal 2", Set.of(maindish, starter));
         Assert.assertNotNull(fullMeal);
         Assert.assertNotNull(halfMeal);
         Assert.assertNotNull(halfMeal2);
@@ -47,13 +47,16 @@ public class TestMeal {
     @Test(expected = BadMealFormulaException.class)
     public void testBadMealTypeCreation() throws BadMealTypeCreationException, BadNumberOfArgumentsException,
             BadArgumentTypeException, UnrecognizedDishException, BadMealFormulaException {
-        Dish maindish = new MainDish("Pizza",10, false, false);
+        @SuppressWarnings("unused")
+		Dish maindish = new MainDish("Pizza",10, false, false);
         Dish starter1 = new  Starter("Eggs", 3, false, true);
         Dish starter2 = new  Starter("Salad", 3, false, true);
         Dish dessert = new Dessert("Gelato", 5.99, true, false);
         MealFactory mealFactory = new MealFactory();
-        Meal fullMeal = mealFactory.createMeal("FullMeal", "Full Meal", Set.of(starter1, starter2, dessert), false, true);
-        Meal halfMeal = mealFactory.createMeal("HalfMeal","Half Meal 1", Set.of(starter1, dessert), false, true);
+        @SuppressWarnings("unused")
+		Meal fullMeal = mealFactory.createMeal("FullMeal", "Full Meal", Set.of(starter1, starter2, dessert));
+        @SuppressWarnings("unused")
+		Meal halfMeal = mealFactory.createMeal("HalfMeal","Half Meal 1", Set.of(starter1, dessert));
     }
 
     @Test
@@ -61,7 +64,7 @@ public class TestMeal {
         Dish maindish = new MainDish("Pizza",10, false, false);
         Dish starter = new  Starter("Salad", 3, false, true);
         Dish dessert = new Dessert("Gelato", 5.99, true, false);
-        Meal fullMeal = new FullMeal("Full Meal", Set.of(maindish, starter, dessert), false, true);
+        Meal fullMeal = new FullMeal("Full Meal", Set.of(maindish, starter, dessert));
         fullMeal.makeMealOfTheWeek();
         Assert.assertTrue(fullMeal.isMealOfTheWeek());
         fullMeal.removeMealOfTheWeek();
@@ -73,8 +76,8 @@ public class TestMeal {
         Dish maindish = new MainDish("Pizza",10, false, false);
         Dish starter = new  Starter("Salad", 3, false, true);
         Dish dessert = new Dessert("Gelato", 5.99, true, false);
-        Meal fullMeal1 = new FullMeal("Full Meal", Set.of(maindish, starter, dessert), false, true);
-        Meal fullMeal2 = new FullMeal("Full Meal", Set.of(maindish, starter, dessert), false, true);
+        Meal fullMeal1 = new FullMeal("Full Meal", Set.of(maindish, starter, dessert));
+        Meal fullMeal2 = new FullMeal("Full Meal", Set.of(maindish, starter, dessert));
         Assert.assertEquals(fullMeal1, fullMeal2);
     }
 
@@ -83,7 +86,7 @@ public class TestMeal {
         Dish maindish = new MainDish("Pizza",10, false, false);
         Dish starter = new  Starter("Salad", 5, false, true);
         Dish dessert = new Dessert("Gelato", 5, true, false);
-        Meal fullMeal = new FullMeal("Full Meal", Set.of(maindish, starter, dessert), false, true);
+        Meal fullMeal = new FullMeal("Full Meal", Set.of(maindish, starter, dessert));
         double price = fullMeal.getPrice();
         Assert.assertEquals(20*0.95,price,0.01);
         ((GeneralDiscountMeal)fullMeal.getPricingStrategy()).setDiscount(0.5);

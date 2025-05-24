@@ -27,10 +27,8 @@ public abstract class Meal implements notifications.Observable {
 	 * Uses a default GeneralDiscountMeal pricing strategy.
 	 * @param name the name of the meal
 	 * @param dishes the set of dishes composing the meal
-	 * @param true if the meal is vegetarian, false otherwise (overridden by dish verification)
-	 * @param isVegetarian true if the meal is vegetarian, false otherwise (overridden by dish verification)
 	 */
-	public Meal(String name, Set<Dish> dishes, boolean isGlutenFree, boolean isVegetarian) {
+	public Meal(String name, Set<Dish> dishes) {
 		this.name = name;
 		this.dishes = dishes;
 		this.isGlutenFree = verifyGlutenFree(dishes);
@@ -45,11 +43,9 @@ public abstract class Meal implements notifications.Observable {
 	 * 
 	 * @param name the name of the meal
 	 * @param dishes the set of dishes composing the meal
-	 * @param true if the meal is vegetarian, false otherwise (overridden by dish verification)
-	 * @param isVegetarian true if the meal is vegetarian, false otherwise (overridden by dish verification)
 	 * @param pricingStrategy the pricing strategy to apply
 	 */
-	public Meal(String name, Set<Dish> dishes, boolean isGlutenFree, boolean isVegetarian, PricingMealStrategy pricingStrategy) {
+	public Meal(String name, Set<Dish> dishes, PricingMealStrategy pricingStrategy) {
 		this.name = name;
 		this.dishes = dishes;
 		this.isGlutenFree = verifyGlutenFree(dishes);

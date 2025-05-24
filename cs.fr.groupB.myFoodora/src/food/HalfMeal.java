@@ -24,9 +24,8 @@ public class HalfMeal extends Meal{
 	 * @throws BadMealFormulaException if the combination of dishes is invalid
 	 * @throws UnrecognizedDishException if a dish type is unrecognized
 	 */
-	public HalfMeal(String name, Set<Dish> dishes, boolean isGlutenFree, boolean isVegetarian)
-			 throws BadMealFormulaException, UnrecognizedDishException {
-		super(name, dishes, isGlutenFree, isVegetarian);
+	public HalfMeal(String name, Set<Dish> dishes) throws BadMealFormulaException, UnrecognizedDishException {
+		super(name, dishes);
 		this.formula = verifyFormulaType(dishes);
 	}
 	
@@ -41,9 +40,8 @@ public class HalfMeal extends Meal{
 	 * @throws BadMealFormulaException if the combination of dishes is invalid
 	 * @throws UnrecognizedDishException if a dish type is unrecognized
 	 */
-	public HalfMeal(String name, Set<Dish> dishes, boolean isGlutenFree, boolean isVegetarian,
-			PricingMealStrategy pricingStrategy)  throws BadMealFormulaException, UnrecognizedDishException {
-		super(name, dishes, isGlutenFree, isVegetarian, pricingStrategy);
+	public HalfMeal(String name, Set<Dish> dishes, PricingMealStrategy pricingStrategy)  throws BadMealFormulaException, UnrecognizedDishException {
+		super(name, dishes, pricingStrategy);
 		this.formula = verifyFormulaType(dishes);
 	}
 	

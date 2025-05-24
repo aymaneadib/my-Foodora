@@ -1,11 +1,19 @@
 package test;
 
-import static org.junit.Assert.*;
+import java.util.HashSet;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import fidelity.LotteryCard;
+import food.BadMealFormulaException;
+import food.Dessert;
+import food.Dish;
+import food.HalfMeal;
+import food.MainDish;
+import food.Meal;
+import food.UnrecognizedDishException;
 import users.BadUserCreationException;
 import users.Customer;
 import users.Location;
@@ -52,20 +60,74 @@ public class TestCustomer {
 		Assert.assertTrue(customerTheo.isActive() == true);
 	}
 	
+	@Test
+	public void testSetters() throws BadUserCreationException {
+		Customer customerEmpty = new Customer(".", ".", "", ".", ".", ".", null);
+		customerEmpty.setName("Alisson");
+		customerEmpty.setSurname("Bonatto");
+		customerEmpty.setUsername("alissonbonatto");
+		customerEmpty.setPassword("1234");
+		customerEmpty.setPhoneNumber("+55999999999");
+		customerEmpty.setEmail("email@email.com");
+		customerEmpty.setAdress(new Location(5.5, 5.5));
+		customerEmpty.setNotificationsConsent(true);
+		customerEmpty.deactivateUser();
+		LotteryCard lotteryCard = new LotteryCard(customerEmpty);
+		customerEmpty.setFidelityCard(lotteryCard);
+		
+		
+		Assert.assertTrue(customerEmpty.getName().equals("Alisson"));
+		Assert.assertTrue(customerEmpty.getSurname().equals("Bonatto"));
+		Assert.assertTrue(customerEmpty.getUsername().equals("alissonbonatto"));
+		Assert.assertTrue(customerEmpty.getPassword().equals("1234"));
+		Assert.assertTrue(customerEmpty.getPhoneNumber().equals("+55999999999"));
+		Assert.assertTrue(customerEmpty.getEmail().equals("email@email.com"));
+		Assert.assertTrue(customerEmpty.getAdress().equals(new Location(5.5, 5.5)));
+		Assert.assertTrue(customerEmpty.isNotificationsConsent() == true);
+		Assert.assertTrue(customerEmpty.isActive() == false);
+		Assert.assertTrue(customerEmpty.getFidelityCard().equals(lotteryCard));
+	}
+	
 	@Test(expected = BadUserCreationException.class)
 	public void testUserAlreadyExists() throws BadUserCreationException {
-		Customer customerLucasSameUserName = new Customer("", "", "lucaspetit", "", "", "", new Location(0, 0));
+		String lucasUsername = "lucaspetit";
+		@SuppressWarnings("unused")
+		Customer customerLucasSameUserName = new Customer("", "", lucasUsername, "", "+331", "user.already.exists@email.com", new Location(0, 0));
 	}
 	
 	@Test(expected = BadUserCreationException.class)
 	public void testEmailAlreadyUsed() throws BadUserCreationException {
-		Customer customerTheoSameEmail = new Customer("", "", "", "", "", "theo.bernard@email.com", new Location(0, 0));
+		String emailTheo = "theo.bernard@email.com";
+		@SuppressWarnings("unused")
+		Customer customerTheoSameEmail = new Customer("", "", "customerTheoSameEmail", "", "+332", emailTheo, new Location(0, 0));
 	}
 	
 	@Test(expected = BadUserCreationException.class)
 	public void testPhoneNumberAlreadyUsed() throws BadUserCreationException {
-		Customer customerTheoSameNumber = new Customer("", "", "", "", "+33666666666", "", new Location(0, 0));
+		String theoPhoneNumber = "+33666666666";
+		@SuppressWarnings("unused")
+		Customer customerTheoSameNumber = new Customer("", "", "customerTheoSameNumber", "", theoPhoneNumber,
+				"customer.theosamenumber@email.com", new Location(0, 0));
 	}
+	
+	@Test
+	public void testToString() {
+		String expectedStringCustomerLucas = "Lucas Petit <lucas.petit@email.com> ( lucaspetit - Customer )";
+		String expectedStringCustomerTheo = "Theo Bernard <theo.bernard@email.com> ( theobernard - Customer )";
+		Assert.assertEquals(expectedStringCustomerLucas, customerLucas.toString());
+		Assert.assertEquals(expectedStringCustomerTheo, customerTheo.toString());
+	}
+	
+	/*
+	@Test
+	public void testNotifications() throws BadMealFormulaException, UnrecognizedDishException {
+		HashSet<Dish> dishes = new HashSet<Dish>();
+		dishes.add(new Dessert("Dish1", 0, true, true));
+		dishes.add(new MainDish("Dish2", 0, true, true));
+		HalfMeal testMeal = new HalfMeal("Meal1", dishes);
+	}
+	*/
+	
 
 
 }
