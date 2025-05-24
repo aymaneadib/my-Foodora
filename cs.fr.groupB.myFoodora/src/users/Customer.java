@@ -48,10 +48,30 @@ public class Customer extends Person implements notifications.Observer {
         }
         this.adress = adress;
         this.phoneNumber = phoneNumber;
+        Person.phonesUsed.add(phoneNumber);
         this.fidelityCard = new BasicCard(this);
         this.notificationsConsent = false;
         this.email = email;
+        Customer.emailsUsed.add(email);
         this.notifications = "";
+    }
+    
+    /**
+     * Adds the given email address to the static collection of emails already in use.
+     *
+     * @param email the email address to be added to the set of used emails.
+     */
+    public static void addEmailToEmailsUsed(String email) {
+    	Customer.emailsUsed.add(email);
+    }
+    
+    /**
+     * Removes the given email address from the static collection of emails already in use.
+     *
+     * @param email the email address to be removed from the set of used emails.
+     */
+    public static void removeEmailFromEmailsUsed(String email) {
+    	Customer.emailsUsed.remove(email);
     }
 
     /**
@@ -78,9 +98,11 @@ public class Customer extends Person implements notifications.Observer {
         }
         this.adress = adress;
         this.phoneNumber = phoneNumber;
+        Person.phonesUsed.add(phoneNumber);
         this.fidelityCard = new BasicCard(this);
         this.notificationsConsent = consent;
         this.email = email;
+        Customer.emailsUsed.add(email);
         this.notifications = "";
     }
 
@@ -156,6 +178,7 @@ public class Customer extends Person implements notifications.Observer {
             throw new BadUserCreationException("Phone number already used by another account: " + phoneNumber);
         }
         this.phoneNumber = phoneNumber;
+        Person.phonesUsed.add(phoneNumber);
     }
 
     /**
@@ -217,6 +240,7 @@ public class Customer extends Person implements notifications.Observer {
             throw new BadUserCreationException("Email already used by another account: " + email);
         }
         this.email = email;
+        Customer.emailsUsed.add(email);
     }
 
     // public Order placeOrder(){

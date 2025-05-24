@@ -40,6 +40,24 @@ public abstract class User {
     }
     
     /**
+     * Adds the given username to the static collection of usernames already in use.
+     *
+     * @param username the username to be added to the set of used usernames.
+     */
+    public static void addUsernameToUsernamesUsed(String username) {
+    	User.usernamesUsed.add(username);
+    }
+    
+    /**
+     * Removes the given username from the static collection of usernames already in use.
+     *
+     * @param username the username to be removed from the set of used usernames.
+     */
+    public static void removeUsernameFromUsernamesUsed(String username) {
+    	User.usernamesUsed.remove(username);
+    }
+    
+    /**
      * Returns if the user is active.
      *
      * @return the state of user.

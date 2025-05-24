@@ -1,5 +1,7 @@
 package users;
 
+import food.Dish;
+
 /**
  * Exception class for handling errors related to user creation.
  * This exception is thrown when there are issues with creating a user.
@@ -65,6 +67,24 @@ public class Location {
     public double distanceTo(Location other) {
         return Math.sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
     }
+    
+    /**
+     * Verifies if the argument location is equals to current location.
+     * Two locations are equals if they have the same coordinates.
+     *
+     * @param location the other location to be compared with
+     * @return true if the locations are equals
+     */
+    @Override
+	public boolean equals(Object location) {
+		boolean result = false;
+		if (location instanceof Location) {
+			Location otherLocation = (Location) location;
+			result = (this.x == otherLocation.getX()) && (this.y == otherLocation.getY());
+		}
+	    
+	    return result;
+	}
 
     /**
      * String representation of the location.

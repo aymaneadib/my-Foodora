@@ -258,18 +258,24 @@ public class MyFoodora {
     		throw new UserNotFoundException("User " + user.getUsername() + " not found.");
     	}
     	
+    	User.removeUsernameFromUsernamesUsed(user.getUsername());
+    	
     	// Removes user from HashSet
     	if (user instanceof Customer) {
     		this.customers.remove((Customer) user);
+    		Customer.removeEmailFromEmailsUsed(((Customer) user).getEmail());
+    		Customer.removePhoneFromPhonesUsed(((Customer) user).getPhoneNumber());
     	}
     	else if(user instanceof Restaurant) {
     		this.restaurants.remove((Restaurant) user);
     	}
     	else if(user instanceof Courier) {
     		this.couriers.remove((Courier) user);
+    		Customer.removePhoneFromPhonesUsed(((Courier) user).getPhoneNumber());
     	}
     	else if(user instanceof Manager) {
     		this.managers.remove((Manager) user);
+    		Customer.removePhoneFromPhonesUsed(((Courier) user).getPhoneNumber());
     	}
     }
     

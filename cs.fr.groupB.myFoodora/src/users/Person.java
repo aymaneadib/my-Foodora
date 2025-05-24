@@ -28,6 +28,24 @@ public abstract class Person extends User {
         super(name, username, password);
         this.surname = surname;
     }
+    
+    /**
+     * Adds the given phone to the static collection of phones already in use.
+     *
+     * @param phone the phone to be added to the set of used phones.
+     */
+    public static void addPhoneToPhonesUsed(String phone) {
+    	Person.phonesUsed.add(phone);
+    }
+    
+    /**
+     * Removes the given phone from the static collection of phones already in use.
+     *
+     * @param phone the phone to remove from the set of used phones.
+     */
+    public static void removePhoneFromPhonesUsed(String phone) {
+    	Person.phonesUsed.remove(phone);
+    }
 
     /**
      * Returns the surname of the person.
