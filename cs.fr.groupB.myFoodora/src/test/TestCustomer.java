@@ -12,11 +12,13 @@ import food.Dessert;
 import food.Dish;
 import food.HalfMeal;
 import food.MainDish;
-import food.Meal;
+import food.MealOfTheWeekDiscount;
 import food.UnrecognizedDishException;
+import notifications.Observer;
 import users.BadUserCreationException;
 import users.Customer;
 import users.Location;
+import users.UserFactory;
 
 /**
  * Test class for all Costumer class.
@@ -118,16 +120,38 @@ public class TestCustomer {
 		Assert.assertEquals(expectedStringCustomerTheo, customerTheo.toString());
 	}
 	
-	/*
 	@Test
 	public void testNotifications() throws BadMealFormulaException, UnrecognizedDishException {
 		HashSet<Dish> dishes = new HashSet<Dish>();
 		dishes.add(new Dessert("Dish1", 0, true, true));
 		dishes.add(new MainDish("Dish2", 0, true, true));
 		HalfMeal testMeal = new HalfMeal("Meal1", dishes);
+		
+		HalfMeal.registerObserver(customerTheo);
+		testMeal.makeMealOfTheWeek();
+		
+		Assert.assertTrue(!customerTheo.getNotifications().equals(""));
+		
+		customerTheo.clearNotifications();
+		
+		Assert.assertTrue(customerTheo.getNotifications().equals(""));
 	}
-	*/
 	
-
+	@Test
+	public void testUserFactoryCreatingCustomer() throws BadUserCreationException {
+		UserFactory userFactory = new UserFactory();
+		
+		Customer newCustomer = (Customer) userFactory.createUser("customer", "Alexis", "T.", "alexist", "1234", "+334", "at@email.com", "0.1", "0");
+		
+		Assert.assertTrue(newCustomer.getName().equals("Alexis"));
+		Assert.assertTrue(newCustomer.getSurname().equals("T."));
+		Assert.assertTrue(newCustomer.getUsername().equals("alexist"));
+		Assert.assertTrue(newCustomer.getPassword().equals("1234"));
+		Assert.assertTrue(newCustomer.getPhoneNumber().equals("+334"));
+		Assert.assertTrue(newCustomer.getEmail().equals("at@email.com"));
+		Assert.assertTrue(newCustomer.getAdress().equals(new Location(0.1, 0)));
+		Assert.assertTrue(newCustomer.isNotificationsConsent() == false);
+		Assert.assertTrue(newCustomer.isActive() == true);
+	}
 
 }

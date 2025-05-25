@@ -221,6 +221,15 @@ public class Customer extends Person implements notifications.Observer {
     }
     
     /**
+     * Gets the notifications receveid by the user.
+     * 
+     * @return notifications the String of notifications received by the user
+     */
+    public String getNotifications() {
+    	return this.notifications;
+    }
+    
+    /**
      * Clear the notifications.
      * Sets the strings of notifications to an empty string.
      * 

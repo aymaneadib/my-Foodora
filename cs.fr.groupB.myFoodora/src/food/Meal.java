@@ -52,6 +52,9 @@ public abstract class Meal implements notifications.Observable {
 		this.isVegetarian = verifyVegetarian(dishes);
 		this.frequencyDelivery = 0;
 		this.pricingMealStrategy = pricingStrategy;
+		if (pricingStrategy instanceof MealOfTheWeekDiscount) {
+			notifyObservers();
+		}
 	}
 
 	/**
@@ -169,6 +172,9 @@ public abstract class Meal implements notifications.Observable {
 	 */
 	public void setPricingStrategy(PricingMealStrategy pricingStrategy) {
 		this.pricingMealStrategy = pricingStrategy;
+		if (pricingStrategy instanceof MealOfTheWeekDiscount) {
+			notifyObservers();
+		}
 	}
 
 	/**
