@@ -90,6 +90,10 @@ public class MyFoodora {
         this.deliveryStrategy = deliveryStrategy;
     }
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
 
 	/**
      * Returns the set of registered customers in the system.
