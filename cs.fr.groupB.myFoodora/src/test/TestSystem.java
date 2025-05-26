@@ -194,7 +194,12 @@ public class TestSystem {
     @Test
     public void testSelectCourier() throws AvailableCourierNotFoundException {
         // Test if a courier can be selected for an order
-        Courier selectedCourier = system.selectCourier((Restaurant) restaurant1,(Customer) customer2);
+        system.setDeliveryStrategy(new FastestDelivery());
+        Courier selectedCourier = system.selectCourier((Restaurant) restaurant1,(Customer) customer1);
         Assert.assertNotNull("Selected courier should not be null", selectedCourier);
+        Assert.assertEquals(courier1, selectedCourier);
+        selectedCourier = system.selectCourier((Restaurant) restaurant2,(Customer) customer2);
+        Assert.assertNotNull("Selected courier should not be null", selectedCourier);
+        Assert.assertEquals(courier1, selectedCourier);
     }
 }
