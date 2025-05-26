@@ -1,10 +1,22 @@
 package test;
 
+import java.time.LocalDate;
+import java.util.HashSet;
+
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import food.BadMealFormulaException;
+import food.Dessert;
+import food.Dish;
+import food.HalfMeal;
+import food.MainDish;
+import food.Meal;
+import food.UnrecognizedDishException;
+import system.AvailableCourierNotFoundException;
 import system.FairOccupationDelivery;
+import system.IncorrectCredentialsException;
 import system.MyFoodora;
 import system.UserNotFoundException;
 import users.BadUserCreationException;
@@ -13,6 +25,7 @@ import users.Customer;
 import users.Location;
 import users.Manager;
 import users.Restaurant;
+import users.UserFactory;
 
 public class TestManager {
 
@@ -28,10 +41,12 @@ public class TestManager {
 	@BeforeClass
 	static public void initializeTests() throws BadUserCreationException {
 		manager1 = new Manager("Alisson", "Bonatto", "alissonbonatto", "1234");
-		customerLucas = new Customer("Lucas", "Petit", "lucaspetit", "1234", "+331", "lucas.petit@email.com", new Location(0, 0));
+		customerLucas = new Customer("Lucas", "Petit", "lucaspetit", "1234", "+331", "lucas.petit@email.com", new Location(0, 0), true);
 		customerTheo = new Customer("Theo", "Bernard", "theobernard", "abcd", "+332", "theo.bernard@email.com", new Location(1, 0), true);
 		courier1 = new Courier("Bernard", "Petit", "bernardpetit", "1234", "+333", new Location(5, 9));
+		courier1.setOnDuty(true);
 		courier2 = new Courier("Maria", "G.", "mariag", "1234", "+334", new Location(5, 9));
+		courier2.setOnDuty(true);
 		restaurant1 = new Restaurant("RestaurantParis", "restoparis", "1234", new Location(0.1, 0.1));
 		restaurant2 = new Restaurant("RestaurantNice", "restonice", "1234", new Location(0.1, 0.1));
 		system = MyFoodora.getInstance();
@@ -110,6 +125,55 @@ public class TestManager {
 		courier2.setDeliveryCounter(100);
 		Assert.assertTrue(manager1.mostActiveCourier(system).equals(courier2));
 		Assert.assertTrue(manager1.leastActiveCourier(system).equals(courier1));
+	}
+	
+	@Test
+	public void testUserFactoryCreateManager() throws BadUserCreationException {
+		UserFactory userFactory = new UserFactory();
+		Manager newManager = (Manager) userFactory.createUser("Manager", "ManagerName", "ManagerSurname", 
+				"ManagerUser", "ManagerPassword");
+		
+		Assert.assertTrue(newManager.getName().equals("ManagerName"));
+		Assert.assertTrue(newManager.getSurname().equals("ManagerSurname"));
+		Assert.assertTrue(newManager.getUsername().equals("ManagerUser"));
+		Assert.assertTrue(newManager.getPassword().equals("ManagerPassword"));
+		Assert.assertTrue(newManager.isActive() == true);
+	}
+	
+	@Test
+	public void getTotalIncomeAndProfit() throws AvailableCourierNotFoundException, BadMealFormulaException,
+			UnrecognizedDishException, UserNotFoundException, IncorrectCredentialsException {
+		// Adding dishes and meals to restaurant1 menu
+		MainDish dish1 = new MainDish("Dish1", 100, true, false);
+		Dessert dish2 = new Dessert("Dish2", 200, false, false);
+		HashSet<Dish> dishes = new HashSet<Dish>();
+		dishes.add(dish1);
+		dishes.add(dish2);
+		HalfMeal halfMeal = new HalfMeal("HalfMeal1", dishes);
+		HashSet<Meal> meals = new HashSet<Meal>();
+		meals.add(halfMeal);
+		restaurant1.addDish(dish1);
+		restaurant1.addDish(dish2);
+		restaurant1.addMeal(halfMeal);
+		
+		// customerLucas makes an order at restaurant1
+		system.login("lucaspetit", "1234");
+		system.makeOrder(customerLucas, restaurant1, dishes, meals);
+		
+		// customerTheo makes an order at restaurant1
+		system.login("theobernard", "abcd");
+		system.makeOrder(customerTheo, restaurant1, new HashSet<Dish>(), meals);
+		
+		// Comparing expected total income and profit with the return of the system
+		// considering a error of 1% (due to imprecision in calculations)
+		double expectedIncome = 100 + 200 + 2*(100+200)*0.95 + system.getProfitData().getServiceFee()*2;
+		double totalIncomeReturnedBySystem = manager1.computeTotalIncome(system, LocalDate.now().minusMonths(1), LocalDate.now());
+		Assert.assertTrue(totalIncomeReturnedBySystem >= expectedIncome*0.99 && totalIncomeReturnedBySystem <= expectedIncome*1.01);
+		
+		double expectedTotalProfit = (100 + 200 + 2*(100+200)*0.95)*system.getProfitData().getMarkupPercentage()
+				+ system.getProfitData().getServiceFee()*2 - system.getProfitData().getDeliveryCost()*2;
+		double totalProfitReturnedBySystem = manager1.computeTotalProfit(system, LocalDate.now().minusMonths(1), LocalDate.now());
+		Assert.assertTrue(totalProfitReturnedBySystem >= expectedTotalProfit*0.99 && totalProfitReturnedBySystem <= expectedTotalProfit*1.01);
 	}
 	
 	

@@ -90,7 +90,8 @@ public class Manager extends Person {
     public ArrayList<Order> getOrders(MyFoodora system, LocalDate startdate, LocalDate enddate) {
         ArrayList<Order> orders = new ArrayList<Order>();
         for (Order order : system.getOrderHistory()) {
-            if (order.getDate().isAfter(startdate) && order.getDate().isBefore(enddate)) {
+            if ((order.getDate().isAfter(startdate) && order.getDate().isBefore(enddate)) ||
+            		(order.getDate().isEqual(startdate) || order.getDate().isEqual(enddate))) {
                 orders.add(order);
             }
         }
