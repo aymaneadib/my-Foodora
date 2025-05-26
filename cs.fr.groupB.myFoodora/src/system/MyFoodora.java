@@ -206,7 +206,7 @@ public class MyFoodora {
      * @param deliveryCost the new delivery cost
      */
     public void setDeliveryCost(double deliveryCost) {
-    	this.profitData.setServiceFee(deliveryCost);
+    	this.profitData.setDeliveryCost(deliveryCost);
     }
     
     /**

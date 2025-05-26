@@ -168,7 +168,7 @@ public class Manager extends Person {
      * @param system the MyFoodora system
      * @return the most selling restaurant in the system
      */
-    public Restaurant mostSelliRestaurant(MyFoodora system){
+    public Restaurant mostSellingRestaurant(MyFoodora system){
         ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>(system.getRestaurants());
         RestaurantSorter restaurantSorter = new RestaurantSorter();
         restaurantSorter.sort(restaurants);
@@ -181,7 +181,7 @@ public class Manager extends Person {
      * @param system the MyFoodora system
      * @return the least selling restaurant in the system
      */
-    public Restaurant leastSelliRestaurant(MyFoodora system){
+    public Restaurant leastSellingRestaurant(MyFoodora system){
         ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>(system.getRestaurants());
         RestaurantSorter restaurantSorter = new RestaurantSorter();
         restaurantSorter.sort(restaurants);
@@ -197,7 +197,7 @@ public class Manager extends Person {
         ArrayList<Courier> couriers = new ArrayList<Courier>(system.getCouriers());
         CourierSorter courierSorter = new CourierSorter();
         courierSorter.sort(couriers);
-        return couriers.get(0);
+        return couriers.get(couriers.size()-1);
     }
 
     /**
@@ -210,7 +210,7 @@ public class Manager extends Person {
         ArrayList<Courier> couriers = new ArrayList<Courier>(system.getCouriers());
         CourierSorter courierSorter = new CourierSorter();
         courierSorter.sort(couriers);
-        return couriers.get(couriers.size()-1);
+        return couriers.get(0);
     }
 
     /**
