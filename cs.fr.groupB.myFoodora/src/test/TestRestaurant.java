@@ -1,7 +1,6 @@
 package test;
 
 import java.util.HashSet;
-import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -122,6 +121,12 @@ public class TestRestaurant {
 	public void testUserAlreadyUsed() throws BadUserCreationException {
 		@SuppressWarnings("unused")
 		Restaurant restaurant2 =  new Restaurant("RestaurantMarseille", "restoparis", "1234", new Location(0.1, 0.1));
+	}
+	
+	@Test(expected = BadUserCreationException.class)
+	public void testUserAlreadyUsedViaSetter() throws BadUserCreationException {
+		Restaurant restaurant2 =  new Restaurant("RestaurantMarseille", "resto", "1234", new Location(0.1, 0.1));
+		restaurant2.setUsername("restoparis");
 	}
 	
 	@Test

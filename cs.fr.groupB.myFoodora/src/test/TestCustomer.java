@@ -12,9 +12,7 @@ import food.Dessert;
 import food.Dish;
 import food.HalfMeal;
 import food.MainDish;
-import food.MealOfTheWeekDiscount;
 import food.UnrecognizedDishException;
-import notifications.Observer;
 import users.BadUserCreationException;
 import users.Customer;
 import users.Location;
@@ -98,10 +96,24 @@ public class TestCustomer {
 	}
 	
 	@Test(expected = BadUserCreationException.class)
+	public void testUserAlreadyExistsViaSetter() throws BadUserCreationException {
+		String lucasUsername = "lucaspetit";
+		Customer customerLucasSameUserName = new Customer("", "", "test", "", "+331", "user.already.exists@email.com", new Location(0, 0));
+		customerLucasSameUserName.setUsername(lucasUsername);
+	}
+	
+	@Test(expected = BadUserCreationException.class)
 	public void testEmailAlreadyUsed() throws BadUserCreationException {
 		String emailTheo = "theo.bernard@email.com";
 		@SuppressWarnings("unused")
 		Customer customerTheoSameEmail = new Customer("", "", "customerTheoSameEmail", "", "+332", emailTheo, new Location(0, 0));
+	}
+	
+	@Test(expected = BadUserCreationException.class)
+	public void testEmailAlreadyUsedViaSetter() throws BadUserCreationException {
+		String emailTheo = "theo.bernard@email.com";
+		Customer customerTheoSameEmail = new Customer("", "", "customerTheoSameEmailViaSetter", "", "+332", "test", new Location(0, 0));
+		customerTheoSameEmail.setEmail(emailTheo);
 	}
 	
 	@Test(expected = BadUserCreationException.class)
@@ -110,6 +122,14 @@ public class TestCustomer {
 		@SuppressWarnings("unused")
 		Customer customerTheoSameNumber = new Customer("", "", "customerTheoSameNumber", "", theoPhoneNumber,
 				"customer.theosamenumber@email.com", new Location(0, 0));
+	}
+	
+	@Test(expected = BadUserCreationException.class)
+	public void testPhoneNumberAlreadyUsedViaSetter() throws BadUserCreationException {
+		String theoPhoneNumber = "+33666666666";
+		Customer customerTheoSameNumber = new Customer("", "", "customerTheoSameNumberViaSetter", "", "0",
+				"customer.theosamenumber@email.com", new Location(0, 0));
+		customerTheoSameNumber.setPhoneNumber(theoPhoneNumber);
 	}
 	
 	@Test
