@@ -24,7 +24,11 @@ import users.Restaurant;
 import users.UserFactory;
 
 
-
+/**
+ * Test class for Restaurant class.
+ * 
+ * @author Alisson Bonatto
+ */
 public class TestRestaurant {
 	
 	static Restaurant restaurant1;

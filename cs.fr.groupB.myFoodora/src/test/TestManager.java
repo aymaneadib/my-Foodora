@@ -27,6 +27,11 @@ import users.Manager;
 import users.Restaurant;
 import users.UserFactory;
 
+/**
+ * Test class for Manager class.
+ * 
+ * @author Alisson Bonatto
+ */
 public class TestManager {
 
 	static Manager manager1;
@@ -174,6 +179,12 @@ public class TestManager {
 				+ system.getProfitData().getServiceFee()*2 - system.getProfitData().getDeliveryCost()*2;
 		double totalProfitReturnedBySystem = manager1.computeTotalProfit(system, LocalDate.now().minusMonths(1), LocalDate.now());
 		Assert.assertTrue(totalProfitReturnedBySystem >= expectedTotalProfit*0.99 && totalProfitReturnedBySystem <= expectedTotalProfit*1.01);
+	}
+	
+	@Test
+	public void testToString() {
+		String expectedString = "Manager " + manager1.getSurname() + " ( "+ manager1.getId() +" )";
+		Assert.assertTrue(manager1.toString().equals(expectedString));
 	}
 	
 	

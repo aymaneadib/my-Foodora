@@ -9,7 +9,11 @@ import users.Courier;
 import users.Location;
 import users.UserFactory;
 
-
+/**
+ * Test class for Courier class.
+ * 
+ * @author Alisson Bonatto
+ */
 public class TestCourier {
 
 	static Courier courier1;

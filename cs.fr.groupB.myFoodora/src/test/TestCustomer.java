@@ -19,9 +19,9 @@ import users.Location;
 import users.UserFactory;
 
 /**
- * Test class for all Costumer class.
+ * Test class for Costumer class.
  * 
- * @author Aymane Adib
+ * @author Alisson Bonatto
  */
 public class TestCustomer {
 	
