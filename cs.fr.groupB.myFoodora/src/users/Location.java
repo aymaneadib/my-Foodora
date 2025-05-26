@@ -1,7 +1,5 @@
 package users;
 
-import food.Dish;
-
 /**
  * Exception class for handling errors related to user creation.
  * This exception is thrown when there are issues with creating a user.

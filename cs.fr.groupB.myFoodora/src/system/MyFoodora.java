@@ -2,6 +2,8 @@ package system;
 
 import order.*;
 import users.*;
+import food.*;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,10 +12,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import food.*;
-import order.*;
-import users.*;
 
 /**
  * Singleton class representing the MyFoodora system, managing users, orders,
@@ -380,8 +378,6 @@ public class MyFoodora {
      * @param mealType the type of meal
      * @param name name of the meal
      * @param dishes set of dishes
-     * @param isGlutenFree gluten-free flag
-     * @param isVegetarian vegetarian flag
      * @return the created Meal
      * @throws UnrecognizedDishException if dish is unrecognized
      * @throws BadMealFormulaException if meal formula is invalid
@@ -389,10 +385,10 @@ public class MyFoodora {
      * @throws BadNumberOfArgumentsException if argument count is wrong
      * @throws BadArgumentTypeException if argument types are invalid
      */
-    public Meal createMeal(String mealType, String name, Set<Dish> dishes, boolean isGlutenFree, boolean isVegetarian)
+    public Meal createMeal(String mealType, String name, Set<Dish> dishes)
     		throws UnrecognizedDishException, BadMealFormulaException, BadMealTypeCreationException, BadNumberOfArgumentsException, BadArgumentTypeException{
     	
-    	return this.mealFactory.createMeal(mealType, name, dishes, isGlutenFree, isVegetarian);
+    	return this.mealFactory.createMeal(mealType, name, dishes);
     }
     
     /**
@@ -412,10 +408,10 @@ public class MyFoodora {
      * @throws BadNumberOfArgumentsException if argument count is wrong
      * @throws BadArgumentTypeException if argument types are invalid
      */
-    public Meal createMeal(String mealType, String name, Set<Dish> dishes, boolean isGlutenFree, boolean isVegetarian, PricingMealStrategy pricingStrategy)
+    public Meal createMeal(String mealType, String name, Set<Dish> dishes, PricingMealStrategy pricingStrategy)
     		throws UnrecognizedDishException, BadMealFormulaException, BadMealTypeCreationException, BadNumberOfArgumentsException, BadArgumentTypeException{
     	
-    	return this.mealFactory.createMeal(mealType, name, dishes, isGlutenFree, isVegetarian, pricingStrategy);
+    	return this.mealFactory.createMeal(mealType, name, dishes, pricingStrategy);
     }
     
     /**

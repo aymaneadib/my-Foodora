@@ -1,10 +1,6 @@
 package test;
 
-import java.lang.reflect.Array;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.ArrayList;
+import java.util.*;
 
 import org.junit.*;
 
@@ -23,20 +19,8 @@ import users.*;
 public class TestSystem {
 
     private static MyFoodora system;
-    private User currentUser;                    // Current user logged in. null if there's no user logged in
-    private Set<Customer> customers;             // Set of all costumers
-    private Set<Restaurant> restaurants;         // Set of all restaurants
-    private Set<Manager> managers;               // Set of all manages
-    private Set<Courier> couriers;               // Set of all couriers
-    private Map<String, User> userMap;           // HashMap <username, user>
-    private HashSet<Order> orderHistory;         // All orders made using the system
-    private ProfitData profitData;               // Profit data (markup percentage, service fee and delivery cost)
-    private DeliveryStrategy deliveryStrategy;   // Delivery police (least occupied or fastest delivery)
-    private ProfitStrategy profitStrategy;       // Profit strategy (markup percentage, service fee and delivery cost oriented)
-    private DishFactory dishFactory;             // Factory of dishes
-    private MealFactory mealFactory;             // Factory of meals
-    private UserFactory userFactory;             // Factory of users
     private static User manager1,manager2, restaurant1, restaurant2, restaurant3, courier1, courier2, courier3, customer1, customer2;
+    private static Dish dish1, dish2,dish3;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
@@ -58,11 +42,17 @@ public class TestSystem {
         system.addUser(restaurant1);
         system.addUser(restaurant2);
         system.addUser(restaurant3);
+        ((Courier) courier1).setOnDuty(true);
         system.addUser(courier1);
+        ((Courier) courier2).setOnDuty(true);
         system.addUser(courier2);
+        ((Courier) courier3).setOnDuty(true);
         system.addUser(courier3);
         system.addUser(customer1);
-        system.addUser(customer2);      
+        system.addUser(customer2); 
+        dish2 = system.createDish("MainDish", "Pizza Margherita", 12.50, true, true);
+        dish3 = system.createDish("Dessert", "Tiramisu", 5.00, true, true);
+        dish1 = system.createDish("Starter", "Bruschetta", 6.00, true, true);    
     }
 
     @Test
@@ -134,8 +124,8 @@ public class TestSystem {
     @Test
     public void testRemoveUser() throws UserNotFoundException {
         // Test if a user can be removed from the system
-        system.removeUser(customer1);
-        Assert.assertFalse("Customer 1 should be removed from the system", system.getCustomers().contains(customer1));
+        system.removeUser(customer2);
+        Assert.assertFalse("Customer 1 should be removed from the system", system.getCustomers().contains(customer2));
     }
 
     @Test(expected = UserNotFoundException.class)
@@ -165,4 +155,46 @@ public class TestSystem {
         system.login("cust_nonexistent", "password123");
     }
 
+    @Test
+    public void testLogout() throws BadUserCreationException, UserNotFoundException, IncorrectCredentialsException {
+        // Test if a user can log out successfully
+        system.login("cust_smith", "password123");
+        system.logout();
+        Assert.assertNull("Current user should be null after logout", system.getCurrentUser());
+    }
+
+    @Test
+    public void testCreateDish() throws BadNumberOfArgumentsException, BadDishTypeCreationException, BadArgumentTypeException{
+        Dish dish1 = system.createDish("MainDish", "Pizza Margherita", 12.50, true, true);
+        Dish dish2 = system.createDish("Dessert", "Tiramisu", 5.00, true, true);
+        Assert.assertNotNull("Dish 1 should not be null", dish1);
+        Assert.assertNotNull("Dish 2 should not be null", dish2);
+    }
+
+    @Test(expected = BadDishTypeCreationException.class)
+    public void testCreateDishWithInvalidArguments() throws BadNumberOfArgumentsException, BadDishTypeCreationException, BadArgumentTypeException {
+        // Test if creating a dish with invalid arguments throws an exception
+        system.createDish("NewType", "Pizza Margherita", 12.50, true, true); // Negative price
+    }
+
+    @Test
+    public void testCreateMeal() throws  UnrecognizedDishException, BadMealFormulaException, BadMealTypeCreationException, BadNumberOfArgumentsException, BadArgumentTypeException{
+        Set<Dish> fullMeal_dishes = new HashSet<Dish>(), halfMeal_dishes = new HashSet<Dish>();
+        fullMeal_dishes.add(dish1);
+        fullMeal_dishes.add(dish2);
+        fullMeal_dishes.add(dish3);
+        halfMeal_dishes.add(dish1);
+        halfMeal_dishes.add(dish2);
+        Meal fullMeal = system.createMeal("FullMeal", "Special 1", fullMeal_dishes);
+        Meal halfMeal = system.createMeal("HalfMeal", "Special 2", halfMeal_dishes);
+        Assert.assertNotNull("Full Meal should not be null", fullMeal);
+        Assert.assertNotNull("Half Meal should not be null", halfMeal);
+    }
+
+    @Test
+    public void testSelectCourier() throws AvailableCourierNotFoundException {
+        // Test if a courier can be selected for an order
+        Courier selectedCourier = system.selectCourier((Restaurant) restaurant1,(Customer) customer2);
+        Assert.assertNotNull("Selected courier should not be null", selectedCourier);
+    }
 }
