@@ -4,10 +4,10 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import users.BadUserCreationException;
-import users.Courier;
-import users.Location;
-import users.UserFactory;
+import user.BadUserCreationException;
+import user.Courier;
+import user.Location;
+import user.UserFactory;
 
 /**
  * Test class for Courier class.

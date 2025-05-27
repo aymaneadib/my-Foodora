@@ -3,7 +3,7 @@ package test;
 import org.junit.Assert;
 import org.junit.Test;
 
-import users.Location;
+import user.Location;
 
 /**
  * Test class for Location class.

@@ -1,7 +1,7 @@
 package fidelity;
 
-import users.Customer;
 import order.Order;
+import user.Customer;
 
 /**
  * Represents a basic fidelity card for a customer in the Foodora system.

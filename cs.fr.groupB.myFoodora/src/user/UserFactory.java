@@ -1,4 +1,4 @@
-package users;
+package user;
 
 /**
  * Exception class for handling errors related to user creation.

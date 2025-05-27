@@ -11,9 +11,9 @@ import java.util.Set;
  * 
  * @author Alisson Bonatto
  */
-public abstract class Meal implements notifications.Observable {
+public abstract class Meal implements notification.Observable {
 
-	private static List<notifications.Observer> observers = new java.util.ArrayList<>();
+	private static List<notification.Observer> observers = new java.util.ArrayList<>();
     
 	protected String name;
 	protected Set<Dish> dishes;
@@ -62,7 +62,7 @@ public abstract class Meal implements notifications.Observable {
 	 * 
 	 * @return the list of observers
 	 */
-	public List<notifications.Observer> getObservers() {
+	public List<notification.Observer> getObservers() {
 		return observers;
 	}
 	
@@ -206,7 +206,7 @@ public abstract class Meal implements notifications.Observable {
 	 * 
 	 * @param observer the observer to register
 	 */
-	public static void registerObserver(notifications.Observer observer) {
+	public static void registerObserver(notification.Observer observer) {
 		observers.add(observer);
 	}
 
@@ -216,7 +216,7 @@ public abstract class Meal implements notifications.Observable {
 	 * @param observer the observer to remove
 	 */
 	@Override
-	public void removeObserver(notifications.Observer observer) {
+	public void removeObserver(notification.Observer observer) {
 		observers.remove(observer);
 	}
 
@@ -225,7 +225,7 @@ public abstract class Meal implements notifications.Observable {
 	 */
 	@Override
 	public void notifyObservers() {
-		for (notifications.Observer observer : observers) {
+		for (notification.Observer observer : observers) {
 			observer.update(this);
 		}
 	}

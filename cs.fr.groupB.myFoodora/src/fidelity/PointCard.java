@@ -1,7 +1,7 @@
 package fidelity;
 
 import order.Order;
-import users.Customer;
+import user.Customer;
 
 /**
  * Class representing a PointCard, which is a type of FidelityCard.

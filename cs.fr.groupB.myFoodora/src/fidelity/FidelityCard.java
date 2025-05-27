@@ -1,6 +1,6 @@
 package fidelity;
 import order.Order;
-import users.Customer;
+import user.Customer;
 /**
  * Abstract class representing a fidelity card for a customer.
  * Provides methods to calculate order reductions and final prices.

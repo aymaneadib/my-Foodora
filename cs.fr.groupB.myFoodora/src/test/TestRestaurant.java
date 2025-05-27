@@ -16,12 +16,12 @@ import food.Meal;
 import food.Menu;
 import food.UnrecognizedDishException;
 import order.Order;
-import users.BadUserCreationException;
-import users.Courier;
-import users.Customer;
-import users.Location;
-import users.Restaurant;
-import users.UserFactory;
+import user.BadUserCreationException;
+import user.Courier;
+import user.Customer;
+import user.Location;
+import user.Restaurant;
+import user.UserFactory;
 
 
 /**

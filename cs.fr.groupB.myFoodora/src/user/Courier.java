@@ -1,4 +1,4 @@
-package users;
+package user;
 
 /**
  * Class representing a Courier in the system.

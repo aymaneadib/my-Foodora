@@ -13,10 +13,10 @@ import food.Dish;
 import food.HalfMeal;
 import food.MainDish;
 import food.UnrecognizedDishException;
-import users.BadUserCreationException;
-import users.Customer;
-import users.Location;
-import users.UserFactory;
+import user.BadUserCreationException;
+import user.Customer;
+import user.Location;
+import user.UserFactory;
 
 /**
  * Test class for Costumer class.

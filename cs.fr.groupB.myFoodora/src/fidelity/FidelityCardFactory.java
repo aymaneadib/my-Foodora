@@ -1,6 +1,6 @@
 package fidelity;
 
-import users.*;
+import user.*;
 
 /**
  * Factory class for creating different types of Fidelity Cards.

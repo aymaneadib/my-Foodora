@@ -17,11 +17,11 @@ import food.Meal;
 import food.UnrecognizedDishException;
 import order.BadOrderHandlingException;
 import order.Order;
-import users.BadUserCreationException;
-import users.Courier;
-import users.Customer;
-import users.Location;
-import users.Restaurant;
+import user.BadUserCreationException;
+import user.Courier;
+import user.Customer;
+import user.Location;
+import user.Restaurant;
 
 /**
  * Test class for Order class.

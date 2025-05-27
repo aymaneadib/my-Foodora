@@ -1,4 +1,4 @@
-package users;
+package user;
 
 import food.*;
 import system.MyFoodora;

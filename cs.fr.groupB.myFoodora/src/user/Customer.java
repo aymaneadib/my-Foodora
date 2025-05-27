@@ -1,4 +1,4 @@
-package users;
+package user;
 
 import java.util.*;
 
@@ -13,7 +13,7 @@ import system.*;
  * 
  * @author Aymane Adib
  */
-public class Customer extends Person implements notifications.Observer {
+public class Customer extends Person implements notification.Observer {
 
     private static Set<String> emailsUsed = new HashSet<>(); // Set to store used emails
     private static final Set<String> availableOperations = new HashSet<>(); // Set to store available operations

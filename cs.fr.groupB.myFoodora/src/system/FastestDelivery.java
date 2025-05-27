@@ -2,9 +2,9 @@ package system;
 
 import java.util.Set;
 
-import users.Courier;
-import users.Customer;
-import users.Restaurant;
+import user.Courier;
+import user.Customer;
+import user.Restaurant;
 
 /**
  * Delivery strategy that selects the courier who can deliver the order fastest,

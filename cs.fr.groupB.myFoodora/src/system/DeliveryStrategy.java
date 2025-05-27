@@ -2,9 +2,9 @@ package system;
 
 import java.util.Set;
 
-import users.Courier;
-import users.Customer;
-import users.Restaurant;
+import user.Courier;
+import user.Customer;
+import user.Restaurant;
 
 /**
  * Interface defining the strategy for selecting a courier for a delivery.

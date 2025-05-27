@@ -1,7 +1,7 @@
 package fidelity;
 
 import order.Order;
-import users.Customer;
+import user.Customer;
 
 
 /**

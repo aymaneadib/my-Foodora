@@ -7,7 +7,7 @@ import org.junit.*;
 import food.*;
 import order.*;
 import system.*;
-import users.*;
+import user.*;
 
 /**
  * Test class for the MyFoodora system.

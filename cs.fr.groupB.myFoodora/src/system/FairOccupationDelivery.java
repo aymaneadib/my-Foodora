@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;
 
-import users.Courier;
-import users.CourierComparator;
-import users.Customer;
-import users.Restaurant;
+import user.Courier;
+import user.CourierComparator;
+import user.Customer;
+import user.Restaurant;
 
 /**
  * Delivery strategy that selects the courier with the least number of deliveries
