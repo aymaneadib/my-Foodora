@@ -510,7 +510,7 @@ public class MyFoodora {
      * @param meals the set of meals included in the order
      * @throws AvailableCourierNotFoundException if no available courier can be assigned to the order
      */
-    public void makeOrder(Customer customer, Restaurant restaurant, HashSet<Dish> dishes, HashSet<Meal> meals) throws AvailableCourierNotFoundException {
+    public Order makeOrder(Customer customer, Restaurant restaurant, HashSet<Dish> dishes, HashSet<Meal> meals) throws AvailableCourierNotFoundException {
     	if (this.currentUser instanceof Customer) {
     		
     		// If the currentUser and restaurant are active and there's at least one dish or meal
@@ -537,9 +537,11 @@ public class MyFoodora {
         			
         			// Adding order to history
         			this.orderHistory.add(newOrder);
+                    return newOrder;
     			}
     		}
     	}
+        return null; // If the current user is not a customer or the order cannot be processed
     }
 
     /**
