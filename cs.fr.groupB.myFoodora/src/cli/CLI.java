@@ -105,100 +105,100 @@ public class CLI {
      * @param input the command input from the user
      */
     private static void handleCommand(String input) {
-            // Split input into command and arguments
-            String[] parts = input.split("\\s+");
-            String command = parts[0].toUpperCase();
-            String[] args = Arrays.copyOfRange(parts, 1, parts.length);
-            
-            switch (command) {
-                case "HELP":
-                    printHelp(system.getCurrentUser());
-                    break;
-                case "LOGIN":
-                    login(args);
-                    break;
-                case "REGISTER":
-                    register(args);
-                    break;
-                case "LOGOUT":
-                    logout();
-                    break;
-                case "REGISTERRESTAURANT":
-                    registerRestaurant(args);
-                    break;
-                case "REGISTERCUSTOMER":
-                    registerCustomer(args);
-                    break;
-                case "REGISTERCOURIER":
-                    registerCourier(args);
-                    break;
-                case "ADDDISHRESTAURANTMENU":
-                    addDishRestauarantMenu(args);
-                    break;
-                case "CREATEMEAL":
-                    createMeal(args);
-                    break;
-                case "ADDDISH2MEAL":
-                    addDish2Meal(args);
-                    break;
-                case "SHOWMEAL":
-                    showMeal(args);
-                    break;
-                case "SAVEMEAL":
-                    saveMeal(args);
-                    break;
-                case "SETSPECIALOFFER":
-                    setSpecialOffer(args);
-                    break;
-                case "REMOVEFROMSPECIALOFFER":
-                    removeFromSpecialOffer(args);
-                    break;
-                case "CREATEORDER":
-                    createOrder(args);
-                    break;
-                case "ADDITEM2ORDER":
-                    addItem2Order(args);
-                    break;
-                case "ENDORDER":
-                    endOrder(args);
-                    break;
-                case "ONDUTY":
-                    onDuty(args);
-                    break;
-                case "OFFDUTY":
-                    offDuty(args);
-                    break;
-                case "SETDELIVERYPOLICY":
-                    setDeliveryPolicy(args);
-                    break;
-                case "SETPROFITPOLICY":
-                    setProfitPolicy(args);
-                    break;
-                case "ASSOCIATECARD":
-                    associateCard(args);
-                    break;
-                case "SHOWCOURIERDELIVERIES":
-                    showCourierDeliveries();
-                    break;
-                case "SHOWRESTAURANTTOP":
-                    showRestaurantTop();
-                    break;
-                case "SHOWCUSTOMERS":
-                    showCustomers();
-                    break;
-                case "SHOWMENUITEM":
-                    showMenuItem(args);
-                    break;
-                case "SHOWTOTALPROFIT":
-                    showTotalProfit(args);
-                    break;
-                case "RUNTEST":
-                    runTest(args);
-                    break;
-                default:
-                    System.out.println("Unknown command: " + command);
-                    System.out.println("Type HELP for available commands");
-            }
+        // Split input into command and arguments
+        String[] parts = input.split("\\s+");
+        String command = parts[0].toUpperCase();
+        String[] args = Arrays.copyOfRange(parts, 1, parts.length);
+        
+        switch (command) {
+            case "HELP":
+                printHelp(system.getCurrentUser());
+                break;
+            case "LOGIN":
+                login(args);
+                break;
+            case "REGISTER":
+                register(args);
+                break;
+            case "LOGOUT":
+                logout();
+                break;
+            case "REGISTERRESTAURANT":
+                registerRestaurant(args);
+                break;
+            case "REGISTERCUSTOMER":
+                registerCustomer(args);
+                break;
+            case "REGISTERCOURIER":
+                registerCourier(args);
+                break;
+            case "ADDDISHRESTAURANTMENU":
+                addDishRestauarantMenu(args);
+                break;
+            case "CREATEMEAL":
+                createMeal(args);
+                break;
+            case "ADDDISH2MEAL":
+                addDish2Meal(args);
+                break;
+            case "SHOWMEAL":
+                showMeal(args);
+                break;
+            case "SAVEMEAL":
+                saveMeal(args);
+                break;
+            case "SETSPECIALOFFER":
+                setSpecialOffer(args);
+                break;
+            case "REMOVEFROMSPECIALOFFER":
+                removeFromSpecialOffer(args);
+                break;
+            case "CREATEORDER":
+                createOrder(args);
+                break;
+            case "ADDITEM2ORDER":
+                addItem2Order(args);
+                break;
+            case "ENDORDER":
+                endOrder(args);
+                break;
+            case "ONDUTY":
+                onDuty(args);
+                break;
+            case "OFFDUTY":
+                offDuty(args);
+                break;
+            case "SETDELIVERYPOLICY":
+                setDeliveryPolicy(args);
+                break;
+            case "SETPROFITPOLICY":
+                setProfitPolicy(args);
+                break;
+            case "ASSOCIATECARD":
+                associateCard(args);
+                break;
+            case "SHOWCOURIERDELIVERIES":
+                showCourierDeliveries();
+                break;
+            case "SHOWRESTAURANTTOP":
+                showRestaurantTop();
+                break;
+            case "SHOWCUSTOMERS":
+                showCustomers();
+                break;
+            case "SHOWMENUITEM":
+                showMenuItem(args);
+                break;
+            case "SHOWTOTALPROFIT":
+                showTotalProfit(args);
+                break;
+            case "RUNTEST":
+                runTest(args);
+                break;
+            default:
+                System.out.println("Unknown command: " + command);
+                System.out.println("Type HELP for available commands");
+        }
     }
     
     /**
