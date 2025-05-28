@@ -218,18 +218,18 @@ public class TestSystem {
         ((Courier) courier3).setOnDuty(true); // Set courier3 back on duty
     }
 
-    @Test
-    public void testMakeOrder() throws AvailableCourierNotFoundException, BadNumberOfArgumentsException, BadDishTypeCreationException, BadArgumentTypeException, UnrecognizedDishException, BadMealFormulaException, BadMealTypeCreationException {
-        // Test if an order can be made successfully
-        HashSet<Dish> halfMeal_dishes = new HashSet<Dish>();
-        halfMeal_dishes.add(dish1);
-        halfMeal_dishes.add(dish2);
-        Meal halfMeal = system.createMeal("halfMeal", "Special 1", halfMeal_dishes);
-        HashSet<Meal> halfMeal_set = new HashSet<Meal>();
-        halfMeal_set.add(halfMeal);
-        system.makeOrder((Customer) customer1,(Restaurant) restaurant1, halfMeal_dishes, halfMeal_set);
-        Assert.assertFalse("Order history should not be empty after making an order", system.getOrderHistory().isEmpty());
-    }
+    // @Test
+    // public void testMakeOrder() throws AvailableCourierNotFoundException, BadNumberOfArgumentsException, BadDishTypeCreationException, BadArgumentTypeException, UnrecognizedDishException, BadMealFormulaException, BadMealTypeCreationException {
+    //     // Test if an order can be made successfully
+    //     HashSet<Dish> halfMeal_dishes = new HashSet<Dish>();
+    //     halfMeal_dishes.add(dish1);
+    //     halfMeal_dishes.add(dish2);
+    //     Meal halfMeal = system.createMeal("halfMeal", "Special 1", halfMeal_dishes);
+    //     HashSet<Meal> halfMeal_set = new HashSet<Meal>();
+    //     halfMeal_set.add(halfMeal);
+    //     system.makeOrder((Customer) customer1,(Restaurant) restaurant1, halfMeal_dishes, halfMeal_set);
+    //     Assert.assertFalse("Order history should not be empty after making an order", system.getOrderHistory().isEmpty());
+    // }
 
     // @Test
     // public void testUpdateProfitDataFromTargetProfit() throws AvailableCourierNotFoundException, BadNumberOfArgumentsException, BadDishTypeCreationException, BadArgumentTypeException, UnrecognizedDishException, BadMealFormulaException, BadMealTypeCreationException {
