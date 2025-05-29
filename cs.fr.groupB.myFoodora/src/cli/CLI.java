@@ -543,7 +543,22 @@ public class CLI {
      * @param args the arguments for removing from special offer, such as meal ID or dish ID
      */
     public static void removeFromSpecialOffer(String... args) {
-        // Do smth
+        if (system.getCurrentUser().getClass() != Restaurant.class) {
+            System.out.println("You must be logged in as a Restaurant to remove from special offer.");
+            return;
+        }
+        if (args.length == 1) {
+            Meal meal = ((Restaurant) system.getCurrentUser()).getMealByName(args[0]);
+            if (meal != null){
+                meal.setPricingStrategy(new GeneralDiscountMeal());
+                print("Removed special offer for meal: " + meal.getName());
+            } else {
+                print("Meal not found in your menu.");
+                return;
+            }
+        } else {
+            print("Usage: removeFromSpecialOffer <mealName>");
+        }
     }
 
     /**
