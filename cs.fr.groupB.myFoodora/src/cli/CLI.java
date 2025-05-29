@@ -270,6 +270,8 @@ public class CLI {
      */
     public static void printCustomerHelp(){
         System.out.println("Customer Commands Available :");
+        System.out.println("    - CREATEORDER <restaurantName> - Create a new order with the specified restaurant.");
+        System.out.println("    - ADDITEM2ORDER <orderId> <itemId> - Add an item to an existing order.");
     }
 
     /**
@@ -567,7 +569,33 @@ public class CLI {
      * @param args the arguments for creating an order, such as customer ID and meal ID
      */
     public static void createOrder(String... args) {
-        // Do smth
+        if (system.getCurrentUser().getClass() != Customer.class) {
+            System.out.println("You must be logged in as a Customer to create an order.");
+            return;
+        }
+        if (((Customer)system.getCurrentUser()).getCurrentOrder() != null) {
+            print("You already have an active order. Please complete it before creating a new one.");
+            return;
+        }
+        if (args.length == 1){
+            String restaurantName = args[0];
+
+            Customer customer = (Customer) system.getCurrentUser();
+            Restaurant restaurant = system.getRestaurantByName(restaurantName);
+            if (restaurant == null) {
+                print("Restaurant not found: " + restaurantName);
+                return;
+            }
+            try {
+                Order order = system.createOrder(restaurant, customer);
+                print("Order created successfully with ID: " + order.getId());
+            } catch (Exception e) {
+                print("Failed to create order: " + e.getMessage());
+            }
+        } else {
+            print("Usage: createOrder <restaurantName>");
+            return;
+        }
     }
 
     /**

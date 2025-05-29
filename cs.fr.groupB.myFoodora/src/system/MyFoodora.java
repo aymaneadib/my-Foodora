@@ -121,6 +121,22 @@ public class MyFoodora {
     }
 
     /**
+     * Returns a restaurant by its name.
+     * If no restaurant is found with the given name, it returns null instead of throwing an exception.
+     *
+     * @param name the name of the restaurant to search for
+     * @return the Restaurant object if found, or null if not found
+     */
+    public Restaurant getRestaurantByName(String name) {
+        for (Restaurant restaurant : restaurants) {
+            if (restaurant.getName().equalsIgnoreCase(name)) {
+                return restaurant; // Restaurant found, no exception thrown
+            }
+        }
+        return null; // If no restaurant found with the given name
+    }
+
+    /**
      * Sets the registered restaurants in the system.
      *
      * @param restaurants a set of Restaurant objects to be assigned
@@ -498,6 +514,21 @@ public class MyFoodora {
     	
     	return output;
     }
+
+    /**
+     * Creates a new order for the specified restaurant and customer.
+     * Initializes the order with no dishes or meals.
+     * The order is stored as the current order of the customer.
+     *
+     * @param restaurant the restaurant fulfilling the order
+     * @param customer the customer placing the order
+     */
+    public Order createOrder(Restaurant restaurant, Customer customer){
+        Order newOrder = new Order(customer, restaurant, null);
+        customer.setCurrentOrder(newOrder);
+        return newOrder;
+    }
+
     
     /**
      * Creates and processes a new order for the specified customer and restaurant, including the selected dishes and meals.

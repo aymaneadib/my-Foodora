@@ -23,6 +23,7 @@ public class Customer extends Person implements notification.Observer {
     private FidelityCard fidelityCard;
     private boolean notificationsConsent;
     private String email;
+    private Order currentOrder; // The current order being processed by the customer
     private String notifications; // Set to store used phone numbers
 
     /**
@@ -54,6 +55,7 @@ public class Customer extends Person implements notification.Observer {
         this.email = email;
         Customer.emailsUsed.add(email);
         this.notifications = "";
+        this.currentOrder = null; // Initialize current order to null
     }
     
     /**
@@ -72,6 +74,14 @@ public class Customer extends Person implements notification.Observer {
      */
     public static void removeEmailFromEmailsUsed(String email) {
     	Customer.emailsUsed.remove(email);
+    }
+
+    public Order getCurrentOrder() {
+        return currentOrder;
+    }
+
+    public void setCurrentOrder(Order currentOrder) {
+        this.currentOrder = currentOrder;
     }
 
     /**
