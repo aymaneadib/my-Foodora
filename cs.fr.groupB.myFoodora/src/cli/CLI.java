@@ -364,7 +364,7 @@ public class CLI {
      */
     public static void addDishRestauarantMenu(String... args) {
         if (system.getCurrentUser().getClass() != Restaurant.class) {
-            System.out.println("You must be logged in as a Restaurant to add a dish to a menu.");
+            print("You must be logged in as a Restaurant to add a dish to a menu.");
             return;
         }
         if (args.length == 5) {
@@ -425,7 +425,7 @@ public class CLI {
      */
     public static void createMeal(String... args) {
         if (system.getCurrentUser().getClass() != Restaurant.class) {
-            System.out.println("You must be logged in as a Restaurant to create a meal.");
+            print("You must be logged in as a Restaurant to create a meal.");
             return;
         }
         String mealType = args[0].toUpperCase();
@@ -497,7 +497,7 @@ public class CLI {
      */
     public static void showMeal(String... args) {
         if (system.getCurrentUser().getClass() != Restaurant.class) {
-            System.out.println("You must be logged in as a Restaurant to show a meal.");
+            print("You must be logged in as a Restaurant to show a meal.");
             return;
         }
 
@@ -522,7 +522,7 @@ public class CLI {
      */
     public static void setSpecialOffer(String... args) {
         if (system.getCurrentUser().getClass() != Restaurant.class) {
-            System.out.println("You must be logged in as a Restaurant to set a special offer.");
+            print("You must be logged in as a Restaurant to set a special offer.");
             return;
         }
         if (args.length == 1) {
@@ -546,7 +546,7 @@ public class CLI {
      */
     public static void removeFromSpecialOffer(String... args) {
         if (system.getCurrentUser().getClass() != Restaurant.class) {
-            System.out.println("You must be logged in as a Restaurant to remove from special offer.");
+            print("You must be logged in as a Restaurant to remove from special offer.");
             return;
         }
         if (args.length == 1) {
@@ -570,7 +570,7 @@ public class CLI {
      */
     public static void createOrder(String... args) {
         if (system.getCurrentUser().getClass() != Customer.class) {
-            System.out.println("You must be logged in as a Customer to create an order.");
+            print("You must be logged in as a Customer to create an order.");
             return;
         }
         if (((Customer)system.getCurrentUser()).getCurrentOrder() != null) {
@@ -604,7 +604,50 @@ public class CLI {
      * @param args the arguments for adding an item to an order, such as order ID and item ID
      */
     public static void addItem2Order(String... args) {
-        // Do smth
+        if (system.getCurrentUser().getClass() != Customer.class) {
+            print("You must be logged in as a Customer to add an item to yout order.");
+            return;
+        }
+        if (args.length == 2) {
+            String itemType = args[0];
+            String itemName = args[1];
+
+            Customer customer = (Customer) system.getCurrentUser();
+            Order currentOrder = customer.getCurrentOrder();
+            if (currentOrder == null){
+                print("You do not have an active order. Please create an order first.");
+                return;
+            }
+            
+            Restaurant restaurant = currentOrder.getRestaurant();
+
+            try {
+                if (itemType.equalsIgnoreCase("meal")) {
+                    Meal meal = restaurant.getMealByName(itemName);
+                    if (meal == null) {
+                        print("Meal not found: " + itemName);
+                        return;
+                    }
+                    currentOrder.addMeal(meal);
+                } else if (itemType.equalsIgnoreCase("dish")) {
+                    Dish dish = restaurant.getDishByName(itemName);
+                    if (dish == null) {
+                        print("Dish not found: " + itemName);
+                        return;
+                    }
+                    currentOrder.addDish(dish);
+                } else {
+                    print("Invalid item type. Use 'meal' or 'dish'.");
+                    return;
+                }
+                print("Item added to order successfully.");
+            } catch (Exception e) {
+                print("Failed to add item to order: " + e.getMessage());
+            }
+
+        } else {
+            print("Usage: addItem2Order <itemType> <itemName>");
+        }
     }
 
     /**
