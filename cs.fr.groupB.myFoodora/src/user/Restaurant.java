@@ -179,6 +179,29 @@ public class Restaurant extends User {
     }
 
     /**
+     * Returns a dish by its name from a specific restaurant's menu.
+     * 
+     * @param dishName
+     * @return
+     */
+    public Dish getDishByName(String dishName) {
+        // Search for the dish in the restaurant's menu
+        return this.getMenu().getDishByName(dishName);
+        
+    }
+
+    /**
+     * Returns a meal by its name from a specific restaurant's menu.
+     * 
+     * @param mealName
+     * @return
+     */
+    public Meal getMealByName(String mealName) {
+        // Search for the meal in the restaurant's menu
+        return this.getMenu().getMealByName(mealName);
+    }
+
+    /**
      * Returns the list of available operations for the restaurant.
      *
      * @return the list of available operations

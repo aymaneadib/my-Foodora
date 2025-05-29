@@ -125,6 +125,40 @@ public class Menu {
 		return dishes;
 	}
 
+	/**
+     * Returns a dish by its name from a specific restaurant's menu.
+     * 
+     * @param dishName
+     * @return
+     */
+    public Dish getDishByName(String dishName) {
+        // Search for the dish in the restaurant's menu
+        for (Dish dish : this.getDishes()) {
+            if (dish.getName().equalsIgnoreCase(dishName)) {
+                return dish; // Dish found, no exception thrown
+            }
+        }
+        // If no dish is found, throw an exception
+        return null;
+        
+    }
+
+	/**
+	 * Returns a meal by its name from the menu.
+	 * 
+	 * @param mealName the name of the meal to search for
+	 * @return the Meal object if found, or null if not found
+	 */
+	public Meal getMealByName(String mealName) {
+		for (Meal meal : meals) {
+			if (meal.getName().equalsIgnoreCase(mealName)) {
+				return meal; // Meal found, no exception thrown
+			}
+		}
+		// If no meal is found, return null
+		return null;
+	}
+
 	/** 
 	 * @return the set of meals in the menu
 	 */

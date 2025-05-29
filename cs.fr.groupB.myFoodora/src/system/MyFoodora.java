@@ -433,25 +433,6 @@ public class MyFoodora {
     	
     	return selectedCourier;
     }
-
-    /**
-     * Returns a dish by its name from a specific restaurant's menu.
-     * 
-     * @param dishName
-     * @param restaurant
-     * @return
-     */
-    public Dish getDishByName(String dishName, Restaurant restaurant) {
-        // Search for the dish in the restaurant's menu
-        for (Dish dish : restaurant.getMenu().getDishes()) {
-            if (dish.getName().equalsIgnoreCase(dishName)) {
-                return dish; // Dish found, no exception thrown
-            }
-        }
-        // If no dish is found, throw an exception
-        return null;
-        
-    }
     
     /**
      * Returns a sorted list of dishes based on their delivery frequency.

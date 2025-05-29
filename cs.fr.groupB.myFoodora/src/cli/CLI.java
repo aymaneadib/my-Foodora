@@ -144,9 +144,6 @@ public class CLI {
             case "CREATEMEAL":
                 createMeal(args);
                 break;
-            case "ADDDISH2MEAL":
-                addDish2Meal(args);
-                break;
             case "SHOWMEAL":
                 showMeal(args);
                 break;
@@ -265,6 +262,7 @@ public class CLI {
         System.out.println("Restaurant Commands Available :");
         System.out.println("    - ADDDISHRESTAURANTMENU <dishType> <dishName> <unitPrice> <isVege [y/n]> <glutenFree [y/n]> - Add a dish to the restaurant's menu.");
         System.out.println("    - CREATEMEAL <mealType> <mealName> <dish1Name> <dish2Name> [<dish3Name>] - Create a meal with specified dishes and add it to your menu.");
+        System.out.println("    - SHOWMEAL <mealName> - Show details of a specific meal from your menu.");
     }
 
     /**
@@ -440,9 +438,9 @@ public class CLI {
                     String dish3Name = args[4];
 
                     try {
-                        Dish dish1 = system.getDishByName(dish1Name, restaurant );
-                        Dish dish2 = system.getDishByName(dish2Name, restaurant);
-                        Dish dish3 = system.getDishByName(dish3Name , restaurant);
+                        Dish dish1 = restaurant.getDishByName(dish1Name);
+                        Dish dish2 = restaurant.getDishByName(dish2Name);
+                        Dish dish3 = restaurant.getDishByName(dish3Name);
 
                         if (dish1 == null || dish2 == null || dish3 == null) {
                             print("One or more dishes not found in the menu.");
@@ -466,8 +464,8 @@ public class CLI {
                     String dish2Name = args[3];
 
                     try {
-                        Dish dish1 = system.getDishByName(dish1Name, restaurant);
-                        Dish dish2 = system.getDishByName(dish2Name, restaurant);
+                        Dish dish1 = restaurant.getDishByName(dish1Name);
+                        Dish dish2 = restaurant.getDishByName(dish2Name);
 
                         if (dish1 == null || dish2 == null) {
                             print("One or more dishes not found in the menu.");
@@ -492,21 +490,28 @@ public class CLI {
     }
 
     /**
-     * Adds a dish to an existing meal.
-     *
-     * @param args the arguments for adding a dish to a meal, such as meal ID and dish ID
-     */
-    public static void addDish2Meal(String... args) {
-        // Do smth
-    }
-
-    /**
      * Displays the details of a specific meal.
      *
      * @param args the arguments for showing a meal, such as meal ID
      */
     public static void showMeal(String... args) {
-        // Do smth
+        if (system.getCurrentUser().getClass() != Restaurant.class) {
+            System.out.println("You must be logged in as a Restaurant to show a meal.");
+            return;
+        }
+
+        if (args.length == 1) {
+            String mealName = args[0];
+            Restaurant restaurant = (Restaurant) system.getCurrentUser();
+            Meal meal = restaurant.getMealByName(mealName);
+            if (meal != null) {
+                print("Meal Details: " + meal.toString());
+            } else {
+                print("Meal not found in your menu.");
+            }
+        } else {
+            print("Usage: showMeal <mealName>");
+        }
     }
 
     /**
