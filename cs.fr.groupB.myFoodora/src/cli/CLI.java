@@ -260,6 +260,8 @@ public class CLI {
         System.out.println("    - ADDDISHRESTAURANTMENU <dishType> <dishName> <unitPrice> <isVege [y/n]> <glutenFree [y/n]> - Add a dish to the restaurant's menu.");
         System.out.println("    - CREATEMEAL <mealType> <mealName> <dish1Name> <dish2Name> [<dish3Name>] - Create a meal with specified dishes and add it to your menu.");
         System.out.println("    - SHOWMEAL <mealName> - Show details of a specific meal from your menu.");
+        System.out.println("    - SETSPECIALOFFER <mealName> - Set a special offer for a meal.");
+        System.out.println("    - REMOVEFROMSPECIALOFFER <mealName> - Remove a meal from the special offer.");
     }
 
     /**
@@ -517,7 +519,22 @@ public class CLI {
      * @param args the arguments for setting a special offer, such as meal ID and offer details
      */
     public static void setSpecialOffer(String... args) {
-        // Do smth
+        if (system.getCurrentUser().getClass() != Restaurant.class) {
+            System.out.println("You must be logged in as a Restaurant to set a special offer.");
+            return;
+        }
+        if (args.length == 1) {
+            Meal meal = ((Restaurant) system.getCurrentUser()).getMealByName(args[0]);
+            if (meal != null){
+                meal.setPricingStrategy(new MealOfTheWeekDiscount());
+                print("Special offer set for meal: " + meal.getName());
+            } else {
+                print("Meal not found in your menu.");
+                return;
+            }
+        } else {
+            print("Usage: setSpecialOffer <mealName>");
+        }
     }
 
     /**
