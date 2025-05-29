@@ -249,7 +249,10 @@ public class CLI {
      * This method can be extended to include specific commands and instructions for couriers.
      */
     public static void printCourierHelp(){
-        // Do smth
+        System.out.println("Courier Commands Available :");
+        System.out.println("    - ONDUTY - Mark yourself as on duty to accept orders.");
+        System.out.println("    - OFFDUTY - Mark yourself as off duty to stop accepting new orders.");
+        System.out.println("    - SHOWCOURIERDELIVERIES - Show your deliveries made.");
     }
 
     /**
@@ -257,7 +260,8 @@ public class CLI {
      * This method can be extended to include specific commands and instructions for restaurants.
      */
     public static void printRestaurantHelp(){
-        // Do smth
+        System.out.println("Restaurant Commands Available :");
+        System.out.println("    - ADDDISHRESTAURANTMENU <dishType> <dishName> <unitPrice> <isVege [y/n]> <glutenFree [y/n]> - Add a dish to the restaurant's menu.");
     }
 
     /**
@@ -265,7 +269,7 @@ public class CLI {
      * This method can be extended to include specific commands and instructions for customers.
      */
     public static void printCustomerHelp(){
-        // Do smth
+        System.out.println("Customer Commands Available :");
     }
 
     /**
@@ -401,12 +405,14 @@ public class CLI {
 
             try {
                 Dish newDish = system.createDish( dishCategory, dishName,unitPrice, isVege,glutenFree);
+                Restaurant restaurant = (Restaurant) system.getCurrentUser();
+                restaurant.addDish(newDish);
                 print("Dish added successfully to the Menu");
             } catch (Exception e) {
                 print("Fail to add Dish to Menu! " + e.getMessage());
             }
         } else {
-            print("Usage : addDishRestaurantMenu <dishName> <dishCategory> <foodType> <glutenFree (yes or no)> <unitPrice>");
+            print("Usage : addDishRestaurantMenu <dishType> <dishName> <unitPrice> <isVege [y/n]> <glutenFree [y/n]> ");
         }
     }
 
