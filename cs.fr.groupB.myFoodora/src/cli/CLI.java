@@ -138,20 +138,32 @@ public class CLI {
             case "REGISTERCOURIER":
                 registerCourier(args);
                 break;
-            case "ADDDISHRESTAURANTMENU":
-                addDishRestauarantMenu(args);
+            case "CREATEDISH":
+                createDish(args);
                 break;
             case "CREATEMEAL":
                 createMeal(args);
                 break;
+            case "REMOVEMEAL":
+                removeMeal(args);
+                break;
+            case "REMOVEDISH":
+                removeDish(args);
+                break;
             case "SHOWMEAL":
                 showMeal(args);
+                break;
+            case "SHOWDISH":
+                showDish(args);
                 break;
             case "SETSPECIALOFFER":
                 setSpecialOffer(args);
                 break;
             case "REMOVEFROMSPECIALOFFER":
                 removeFromSpecialOffer(args);
+                break;
+            case "SETPRICE":
+                setPrice(args);
                 break;
             case "CREATEORDER":
                 createOrder(args);
@@ -186,8 +198,8 @@ public class CLI {
             case "SHOWCUSTOMERS":
                 showCustomers();
                 break;
-            case "SHOWMENUITEM":
-                showMenuItem(args);
+            case "SHOWMENUITEMS":
+                showMenuItems(args);
                 break;
             case "SHOWTOTALPROFIT":
                 showTotalProfit(args);
@@ -247,8 +259,7 @@ public class CLI {
     public static void printCourierHelp(){
         System.out.println("Courier Commands Available :");
         System.out.println("    - ONDUTY - Mark yourself as on duty to accept orders.");
-        System.out.println("    - OFFDUTY - Mark yourself as off duty to stop accepting new orders.");
-        System.out.println("    - SHOWCOURIERDELIVERIES - Show your deliveries made.");
+        System.out.println("    - OFFDUTY - Mark yourself as off duty to stop accepting new orders.");    
     }
 
     /**
@@ -257,11 +268,16 @@ public class CLI {
      */
     public static void printRestaurantHelp(){
         System.out.println("Restaurant Commands Available :");
-        System.out.println("    - ADDDISHRESTAURANTMENU <dishType> <dishName> <unitPrice> <isVege [y/n]> <glutenFree [y/n]> - Add a dish to the restaurant's menu.");
+        System.out.println("    - CREATEDISH <dishType> <dishName> <unitPrice> <isVege [y/n]> <glutenFree [y/n]> - Add a dish to the restaurant's menu.");
         System.out.println("    - CREATEMEAL <mealType> <mealName> <dish1Name> <dish2Name> [<dish3Name>] - Create a meal with specified dishes and add it to your menu.");
         System.out.println("    - SHOWMEAL <mealName> - Show details of a specific meal from your menu.");
+        System.out.println("    - SHOWDISH <dishName> - Show details of a specific dish from your menu.");
+        System.out.println("    - REMOVEMEAL <mealName> - Remove a specific meal from your menu.");
+        System.out.println("    - REMOVEDISH <dishName> - Remove a specific dish from your menu.");
         System.out.println("    - SETSPECIALOFFER <mealName> - Set a special offer for a meal.");
         System.out.println("    - REMOVEFROMSPECIALOFFER <mealName> - Remove a meal from the special offer.");
+        System.out.println("    - SHOWMENUITEMS - Show details of your menu.");
+        System.out.println("    - SETPRICE <dishName> <newPrice> - Changing the price of an existing dish in your menu.");
     }
 
     /**
@@ -273,6 +289,9 @@ public class CLI {
         System.out.println("    - CREATEORDER <restaurantName> - Create a new order with the specified restaurant.");
         System.out.println("    - ADDITEM2ORDER <itemType> <itemName> - Add an item to an existing order.");
         System.out.println("    - ENDORDER - End the current order, finalizing it and processing it.");
+        System.out.println("    - ASSOCIATECARD <cardNumber> - Associate a fidelity card with your account.");
+        System.out.println("    - SHOWMENUITEMS <restaurantName> - Show details of a specific restaurant's menu.");
+
     }
 
     /**
@@ -280,7 +299,8 @@ public class CLI {
      * This method can be extended to include specific commands and instructions for managers.
      */
     public static void printManagerHelp(){
-        // Do smth
+        System.out.println("Manager Commands Available :");
+        System.out.println("    - SHOWMENUITEMS <restaurantName> - Show details of a specific restaurant's menu.");
     }
 
     /**
@@ -363,7 +383,7 @@ public class CLI {
      *
      * @param args the arguments for adding a dish, such as dish name, price, and description
      */
-    public static void addDishRestauarantMenu(String... args) {
+    public static void createDish(String... args) {
         if (system.getCurrentUser().getClass() != Restaurant.class) {
             print("You must be logged in as a Restaurant to add a dish to a menu.");
             return;
@@ -492,6 +512,58 @@ public class CLI {
     }
 
     /**
+     * Removes a meal from the restaurant's menu.
+     *
+     * @param args the arguments for removing a meal, such as meal name
+     */
+    public static void removeMeal(String... args) {
+        if (system.getCurrentUser().getClass() != Restaurant.class) {
+            print("You must be logged in as a Restaurant to remove a meal from a menu.");
+            return;
+        }
+
+        if (args.length == 1) {
+            String mealName = args[0];
+            Restaurant restaurant = (Restaurant) system.getCurrentUser();
+            Meal meal = restaurant.getMealByName(mealName);
+            if (meal != null) {
+                restaurant.removeMeal(meal);
+                print("Meal removed successfully from your menu.");
+            } else {
+                print("Meal not found in your menu.");
+            }
+        } else {
+            print("Usage: removeMeal <mealName>");
+        }
+    }
+
+    /**
+     * Removes a dish from the restaurant's menu.
+     *
+     * @param args the arguments for removing a dish, such as dish name
+     */
+    public static void removeDish(String... args){
+        if (system.getCurrentUser().getClass() != Restaurant.class) {
+            print("You must be logged in as a Restaurant to remove a dish from a menu.");
+            return;
+        }
+
+        if (args.length == 1) {
+            String dishName = args[0];
+            Restaurant restaurant = (Restaurant) system.getCurrentUser();
+            Dish dish = restaurant.getDishByName(dishName);
+            if (dish != null) {
+                restaurant.removeDish(dish);
+                print("Dish removed successfully from your menu.");
+            } else {
+                print("Dish not found in your menu.");
+            }
+        } else {
+            print("Usage: removeDish <dishName>");
+        }
+    }
+
+    /**
      * Displays the details of a specific meal.
      *
      * @param args the arguments for showing a meal, such as meal ID
@@ -513,6 +585,31 @@ public class CLI {
             }
         } else {
             print("Usage: showMeal <mealName>");
+        }
+    }
+
+    /**
+     * Displays the details of a specific dish.
+     *
+     * @param args the arguments for showing a dish, such as dish ID
+     */
+    public static void showDish(String... args) {
+        if (system.getCurrentUser().getClass() != Restaurant.class) {
+            print("You must be logged in as a Restaurant to show a dish.");
+            return;
+        }
+
+        if (args.length == 1) {
+            String dishName = args[0];
+            Restaurant restaurant = (Restaurant) system.getCurrentUser();
+            Dish dish = restaurant.getDishByName(dishName);
+            if (dish != null) {
+                print("Dish Details: " + dish.toString());
+            } else {
+                print("Dish not found in your menu.");
+            }
+        } else {
+            print("Usage: showDish <dishName>");
         }
     }
 
@@ -596,6 +693,35 @@ public class CLI {
         } else {
             print("Usage: createOrder <restaurantName>");
             return;
+        }
+    }
+
+    public static void setPrice(String... args) {
+        if (system.getCurrentUser().getClass() != Restaurant.class) {
+            print("You must be logged in as a Restaurant to set the price of a dish.");
+            return;
+        }
+        if (args.length == 2) {
+            String dishName = args[0];
+            double newPrice;
+
+            try {
+                newPrice = Double.parseDouble(args[1]);
+            } catch (NumberFormatException e) {
+                print("Error: Price must be a valid number.");
+                return;
+            }
+
+            Restaurant restaurant = (Restaurant) system.getCurrentUser();
+            Dish dish = restaurant.getDishByName(dishName);
+            if (dish != null) {
+                dish.setPrice(newPrice);
+                print("Price updated successfully for dish: " + dish.getName());
+            } else {
+                print("Dish not found in your menu.");
+            }
+        } else {
+            print("Usage: setPrice <dishName> <newPrice>");
         }
     }
 
@@ -781,8 +907,26 @@ public class CLI {
      *
      * @param args the arguments for showing a menu item, such as item ID or name
      */
-    public static void showMenuItem(String... args) {
-        // Do smth
+    public static void showMenuItems(String... args) {
+        if (system.getCurrentUser().getClass() != Manager.class && system.getCurrentUser().getClass() != Restaurant.class && system.getCurrentUser().getClass() != Customer.class) {
+            print("Your user account does not permit you to show a menu item.");
+            return;
+        }
+
+        if (args.length == 0 && system.getCurrentUser().getClass() == Restaurant.class ) {
+            Restaurant restaurant = (Restaurant) system.getCurrentUser();
+            System.out.println(restaurant.getMenu().toString());
+        } else if (args.length == 1) {
+            String restaurantName = args[0];
+            Restaurant restaurant = system.getRestaurantByName(restaurantName);
+            if (restaurant == null) {
+                print("Restaurant not found: " + restaurantName);
+                return;
+            }
+            System.out.println(restaurant.getMenu().toString());
+        } else {
+            print("Usage: showMenuItem <restaurantName>");
+        }
     }
 
     /**
