@@ -273,6 +273,20 @@ public class CLI {
     }
 
     /**
+     * Prints a message to the console, prefixed with the current user's username if available.
+     * This method is used for displaying messages in a user-friendly format.
+     *
+     * @param message the message to be printed
+     */
+    public static void print(String message) {
+        if (system.getCurrentUser() != null) {
+            System.out.println("(" + system.getCurrentUser().getUsername() + ") " + message);
+        } else {
+            System.out.println(message);
+        }
+    }
+
+    /**
      * Exits the CLI application.
      */
     public static void exit() {
@@ -339,7 +353,28 @@ public class CLI {
      * @param args the arguments for adding a dish, such as dish name, price, and description
      */
     public static void addDishRestauarantMenu(String... args) {
-        // Do smth
+        // if (system.getCurrentUser().getClass() != Restaurant.class) {
+        //     System.out.println("You must be logged in as a Restaurant to add a dish to a menu.");
+        //     return;
+        // }
+        // else if (args.length == 6) {
+        //     String dishName = parts[1];
+        //     String dishCategory = parts[2];
+        //     String foodType = parts[3];
+        //     String glutenFree = parts[4];
+        //     String unitPrice = parts[5];
+
+        //     try {
+        //         appSystem.addDishRestaurantMenu(dishName, dishCategory, foodType, glutenFree, unitPrice);
+        //         System.out.println("Dish added successfully to the Menu");
+        //     } 
+        //     catch (Exception e) {
+        //         System.out.println("Fail to add Dish to Menu! " + e.getMessage());
+        //     }
+
+        // } else {
+        //     System.out.println("Usage : addDishRestaurantMenu <dishName> <dishCategory> <foodType> <glutenFree (yes or no)> <unitPrice>");
+        // }
     }
 
     /**
