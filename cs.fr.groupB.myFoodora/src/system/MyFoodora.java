@@ -93,7 +93,11 @@ public class MyFoodora {
     }
 
 
-	/**
+	public Map<String, User> getUserMap() {
+        return userMap;
+    }
+
+    /**
      * Returns the set of registered customers in the system.
      *
      * @return a set of Customer objects

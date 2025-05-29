@@ -4,6 +4,8 @@ import java.util.Scanner;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 import system.MyFoodora;
 import user.*;
@@ -189,6 +191,27 @@ public class CLI {
             case "ASSOCIATECARD":
                 associateCard(args);
                 break;
+            case "SHOWORDERS":
+                showOrders(args);
+                break;
+            case "SHOWRESTAURANTS":
+                showRestaurants();
+                break;
+            case "SHOWPOPULARRESTAURANTS":
+                showPopularRestaurants();
+                break;
+            case "SHOWMONEYSPENT":
+                showMoneySpent(args);
+                break;
+            case "CHANGEADDRESS":
+                changeAddress(args);
+                break;
+            case "CHANGEPHONENUMBER":
+                changePhoneNumber(args);
+                break;
+            case "CONSENTNOTIFICATIONS":
+                consentNotifications(args);
+                break;
             case "SHOWCOURIERDELIVERIES":
                 showCourierDeliveries();
                 break;
@@ -291,7 +314,13 @@ public class CLI {
         System.out.println("    - ENDORDER - End the current order, finalizing it and processing it.");
         System.out.println("    - ASSOCIATECARD <cardNumber> - Associate a fidelity card with your account.");
         System.out.println("    - SHOWMENUITEMS <restaurantName> - Show details of a specific restaurant's menu.");
-
+        System.out.println("    - SHOWRESTAURANTS - Show a list of all available restaurants.");
+        System.out.println("    - SHOWORDERS [<restaurantName>] - Show a list of your past orders, can be to a specific restaurant.");
+        System.out.println("    - SHOWPOPULARRESTAURANTS - Show a list of the most popular restaurants.");
+        System.out.println("    - SHOWMONEYSPENT [<restaurantName>] - Show the total amount of money spent on orders, can be to a specific restaurant.");
+        System.out.println("    - CHANGEADDRESS <x> <y>  - Change your delivery address.");
+        System.out.println("    - CHANGEPHONENUMBER <newPhoneNumber> - Change your phone number.");
+        System.out.println("    - CONSENTNOTIFICATIONS <yes/no> - Set your consent for receiving notifications.");
     }
 
     /**
@@ -301,6 +330,7 @@ public class CLI {
     public static void printManagerHelp(){
         System.out.println("Manager Commands Available :");
         System.out.println("    - SHOWMENUITEMS <restaurantName> - Show details of a specific restaurant's menu.");
+        System.out.println("    - ASSOCIATECARD <cardNumber> <customerUsername> - Associate a fidelity card with a customer account.");
     }
 
     /**
@@ -807,6 +837,130 @@ public class CLI {
     }
 
     /**
+     * Displays a list of available restaurants.
+     */
+    public static void showRestaurants(){
+        if (system.getCurrentUser().getClass() != Customer.class && system.getCurrentUser().getClass() != Manager.class) {
+            print("Your user account does not permit you to show restaurants.");
+            return;
+        }
+
+        Set<Restaurant> restaurants = system.getRestaurants();
+        if (restaurants.isEmpty()) {
+            print("No restaurants available.");
+            return;
+        }
+
+        print("Available Restaurants:");
+        for (Restaurant restaurant : restaurants) {
+            System.out.println("    - " + restaurant.getName());
+        }
+    }
+
+    public static void showOrders(String... args) {
+        if (system.getCurrentUser().getClass() != Customer.class) {
+            print("Your user account does not permit you to show orders.");
+            return;
+        }
+
+        Customer customer = (Customer) system.getCurrentUser();
+        Set<Order> orders = customer.getHistory(system);
+
+        if (orders.isEmpty()) {
+            print("You have no past orders.");
+            return;
+        }
+        
+        if (args.length == 1) {
+            String restaurantName = args[0];
+            Restaurant restaurant = system.getRestaurantByName(restaurantName);
+            if (restaurant == null) {
+                print("Restaurant not found: " + restaurantName);
+                return;
+            }
+            print("Your Past Orders at "+ restaurantName +" :");
+            for (Order order : orders) {
+                if (order.getRestaurant().equals(restaurant)) {
+                    System.out.println( "    - " + order.toString());
+                }
+            }
+        } else if (args.length == 0) {
+            print("Your Past Orders:");
+            for (Order order : orders) {
+                System.out.println("    - Order ID: " + order.getId() + ", Restaurant: " + order.getRestaurant().getName());
+            }
+        } else {
+            print("Usage: showOrders [<restaurantName>]");
+            return;
+        }
+    }
+
+    /**
+     * Displays a list of popular restaurants based on customer ratings or order frequency.
+     */
+    public static void showPopularRestaurants() {
+        if (system.getCurrentUser().getClass() != Customer.class && system.getCurrentUser().getClass() != Manager.class) {
+            print("Your user account does not permit you to show popular restaurants.");
+            return;
+        }
+
+        Set<Restaurant> restaurants = system.getRestaurants();
+        if (restaurants.isEmpty()) {
+            print("No popular restaurants available.");
+            return;
+        }
+
+        RestaurantSorter restaurantSorter = new RestaurantSorter();
+        ArrayList<Restaurant> popularRestaurants = restaurantSorter.sort(new ArrayList<Restaurant>(restaurants));
+        if (popularRestaurants.size() > 3) {
+            popularRestaurants = new ArrayList<>(popularRestaurants.subList(0, 3));
+        }
+
+        print("Popular Restaurants:");
+        for (Restaurant restaurant : popularRestaurants) {
+            System.out.println("    - " + restaurant.getName());
+        }
+    }
+
+    /**
+     * Displays the total amount of money spent by the customer on orders.
+     * If a restaurant name is provided, it shows the total spent at that specific restaurant.
+     * @param args the arguments for showing money spent, such as restaurant name
+     */
+    public static void showMoneySpent(String... args) {
+        if (system.getCurrentUser().getClass() != Customer.class) {
+            print("Your user account does not permit you to show money spent.");
+            return;
+        }
+
+        Customer customer = (Customer) system.getCurrentUser();
+        double totalSpent = 0.0;
+        Set<Order> orders = customer.getHistory(system);
+
+        if (args.length == 1) {
+            String restaurantName = args[0];
+            Restaurant restaurant = system.getRestaurantByName(restaurantName);
+            if (restaurant == null) {
+                print("Restaurant not found: " + restaurantName);
+                return;
+            }
+            for (Order order : orders) {
+                if (order.getRestaurant().equals(restaurant)) {
+                    totalSpent += order.getPrice();
+                }
+            }
+            print("Total money spent at " + restaurantName + ": " + totalSpent + "€");
+        } else if (args.length == 0) {
+            for (Order order : orders) {
+                totalSpent += order.getPrice();
+            }
+            print("Total money spent: " + totalSpent+ "€");
+        } else {
+            print("Usage: showMoneySpent [<restaurantName>]");
+        }
+    }
+
+    /**
      * Marks the courier as on duty, allowing them to accept orders.
      *
      * @param args the arguments for going on duty, such as courier ID
@@ -855,6 +1009,85 @@ public class CLI {
     }
 
     /**
+     * Changes the address of the current user (Customer).
+     *
+     * @param args the arguments for changing the address, such as new coordinates
+     */
+    public static void changeAddress(String... args) {
+        if (system.getCurrentUser().getClass() != Customer.class) {
+            print("You must be logged in as a Customer to change your address.");
+            return;
+        }
+
+        if (args.length == 2) {
+            try {
+                double x = Double.parseDouble(args[0]);
+                double y = Double.parseDouble(args[1]);
+                Customer customer = (Customer) system.getCurrentUser();
+                customer.setAdress(new Location(x, y));
+                print("Address changed successfully to: (" + x + ", " + y + ")");
+            } catch (NumberFormatException e) {
+                print("Error: Coordinates must be valid numbers.");
+            }
+        } else {
+            print("Usage: changeAddress <x> <y>");
+        }
+    }
+
+    /**
+     * Changes the phone number of the current user (Customer).
+     *
+     * @param args the arguments for changing the phone number, such as new phone number
+     */
+    public static void changePhoneNumber(String... args) {
+        if (system.getCurrentUser().getClass() != Customer.class) {
+            print("You must be logged in as a Customer to change your phone number.");
+            return;
+        }
+
+        if (args.length == 1) {
+            String newPhoneNumber = args[0];
+            Customer customer = (Customer) system.getCurrentUser();
+            try {
+            customer.setPhoneNumber(newPhoneNumber);
+            print("Phone number changed successfully to: " + newPhoneNumber);
+            } catch (Exception e) {
+                print("Failed to change phone number: " + e.getMessage());
+            }
+        } else {
+            print("Usage: changePhoneNumber <newPhoneNumber>");
+        }
+    }
+
+    /**
+     * Sets the consent for receiving notifications for the current user (Customer).
+     *
+     * @param args the arguments for setting consent, such as "yes" or "no"
+     */
+    public static void consentNotifications(String... args) {
+        if (system.getCurrentUser().getClass() != Customer.class) {
+            print("You must be logged in as a Customer to set consent for notifications.");
+            return;
+        }
+
+        if (args.length == 1) {
+            String consent = args[0].toLowerCase();
+            Customer customer = (Customer) system.getCurrentUser();
+            if (consent.equals("yes") || consent.equals("true") || consent.equals("1") || consent.equals("y")) {
+                customer.setNotificationsConsent(true);
+                print("Consent for notifications set to yes.");
+            } else if (consent.equals("no") || consent.equals("false") || consent.equals("0") || consent.equals("n")) {
+                customer.setNotificationsConsent(false);
+                print("Consent for notifications set to no.");
+            } else {
+                print("Invalid argument. Use 'yes' or 'no'.");
+            }
+        } else {
+            print("Usage: consentNotifications <yes/no>");
+        }
+    }
+
+    /**
      * Finds a deliverer for the current order based on the provided criteria.
      *
      * @param args the arguments for finding a deliverer, such as order ID or delivery location
@@ -872,13 +1105,61 @@ public class CLI {
         // Do smth
     }
 
+    public static FidelityCard string2FidelityCard(String cardType, Customer owner) {
+        switch (cardType){
+            case "basic":
+                return new BasicCard(owner);
+            case "lottery":
+                return new LotteryCard(owner);
+            case "point":
+                return new PointCard(owner);
+            default:
+                return null; // Invalid card type
+        }
+    }
+
     /**
      * Associates a fidelity card with the user's account.
      *
      * @param args the arguments for associating a card, such as card number and user ID
      */
     public static void associateCard(String... args) {
-        // Do smth
+        if (system.getCurrentUser().getClass() != Customer.class && system.getCurrentUser().getClass() != Manager.class) {
+            print("Your user account does not permit you to associate a fidelity card.");
+            return;
+        }
+        if (args.length == 1 && system.getCurrentUser().getClass() == Customer.class) {
+            String cardType = args[0].toLowerCase();
+            Customer customer = (Customer) system.getCurrentUser();
+            try {
+                FidelityCard card = string2FidelityCard(cardType,customer);
+                if (card == null) {
+                    print("Fidelity card type not found: " + cardType);
+                    return;
+                }
+                customer.setFidelityCard(card);
+                print("Fidelity card associated successfully with your account.");
+            } catch (Exception e) {
+                print("Failed to associate fidelity card: " + e.getMessage());
+            }
+        } else if (args.length == 2 && system.getCurrentUser().getClass() == Manager.class) {
+            String cardType = args[0].toLowerCase();
+            String customerUsername = args[1];
+            Customer customer = (Customer) system.getUserMap().get(customerUsername);
+            if (customer == null) {
+                print("Customer not found: " + customerUsername);
+                return;
+            }
+            FidelityCard card = string2FidelityCard(cardType, customer);
+            if (card == null) {
+                print("Fidelity card type not found: " + cardType);
+                return;
+            }
+            customer.setFidelityCard(card);
+            print("Fidelity card associated successfully with customer: " + customerUsername);
+        } else {
+            print("Usage: associateCard <cardNumber> [<customerUsername>]");
+        }
     }
 
     /**
