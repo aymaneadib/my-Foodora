@@ -2,6 +2,8 @@ package cli;
 
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import system.MyFoodora;
 import user.*;
@@ -262,6 +264,7 @@ public class CLI {
     public static void printRestaurantHelp(){
         System.out.println("Restaurant Commands Available :");
         System.out.println("    - ADDDISHRESTAURANTMENU <dishType> <dishName> <unitPrice> <isVege [y/n]> <glutenFree [y/n]> - Add a dish to the restaurant's menu.");
+        System.out.println("    - CREATEMEAL <mealType> <mealName> <dish1Name> <dish2Name> [<dish3Name>] - Create a meal with specified dishes and add it to your menu.");
     }
 
     /**
@@ -422,7 +425,70 @@ public class CLI {
      * @param args the arguments for creating a meal, such as meal name and description
      */
     public static void createMeal(String... args) {
-        // Do smth
+        if (system.getCurrentUser().getClass() != Restaurant.class) {
+            System.out.println("You must be logged in as a Restaurant to create a meal.");
+            return;
+        }
+        String mealType = args[0].toUpperCase();
+        Restaurant restaurant = (Restaurant) system.getCurrentUser();
+        switch (mealType){
+            case "FULLMEAL":
+                if (args.length == 5){
+                    String mealName = args[1];
+                    String dish1Name = args[2];
+                    String dish2Name = args[3];
+                    String dish3Name = args[4];
+
+                    try {
+                        Dish dish1 = system.getDishByName(dish1Name, restaurant );
+                        Dish dish2 = system.getDishByName(dish2Name, restaurant);
+                        Dish dish3 = system.getDishByName(dish3Name , restaurant);
+
+                        if (dish1 == null || dish2 == null || dish3 == null) {
+                            print("One or more dishes not found in the menu.");
+                            return;
+                        }
+
+                        FullMeal meal = new FullMeal(mealName, Set.of(dish1, dish2, dish3));
+                        restaurant.addMeal(meal);
+                        print("Full meal created successfully.");
+                    } catch (Exception e) {
+                        print("Failed to create full meal: " + e.getMessage());
+                    }
+                } else {
+                    print("Usage: createMeal FULLMEAL <mealName> <dish1Name> <dish2Name> <dish3Name>");
+                }
+                break;
+            case "HALFMEAL":
+                if (args.length == 4){
+                    String mealName = args[1];
+                    String dish1Name = args[2];
+                    String dish2Name = args[3];
+
+                    try {
+                        Dish dish1 = system.getDishByName(dish1Name, restaurant);
+                        Dish dish2 = system.getDishByName(dish2Name, restaurant);
+
+                        if (dish1 == null || dish2 == null) {
+                            print("One or more dishes not found in the menu.");
+                            return;
+                        }
+
+                        HalfMeal meal = new HalfMeal(mealName, Set.of(dish1, dish2));
+                        restaurant.addMeal(meal);
+                        print("Half meal created successfully.");
+                    } catch (Exception e) {
+                        print("Failed to create half meal: " + e.getMessage());
+                    }
+                } else {
+                    print("Usage: createMeal HALFMEAL <mealName> <dish1Name> <dish2Name>");
+                }
+                break;
+            default:
+                print("Error: Unrecognized meal type. Use FULLMEAL or HALFMEAL.");
+                print("Usage: createMeal <mealType> <mealName> <dish1Name> <dish2Name> [<dish3Name>]");
+                break;
+        }
     }
 
     /**

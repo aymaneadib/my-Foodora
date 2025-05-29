@@ -113,6 +113,19 @@ public class Menu {
 	}
 
 	/** 
+	 * Returns a set of all dishes in the menu, including starters, main dishes, and desserts.
+	 * 
+	 * @return a set containing all dishes in the menu
+	 */
+	public Set<Dish> getDishes() {
+		Set<Dish> dishes = new HashSet<>();
+		dishes.addAll(starters);
+		dishes.addAll(mainDishes);
+		dishes.addAll(desserts);
+		return dishes;
+	}
+
+	/** 
 	 * @return the set of meals in the menu
 	 */
 	public Set<Meal> getMeals() {
