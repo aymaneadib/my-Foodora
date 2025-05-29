@@ -163,7 +163,7 @@ public class CLI {
                 endOrder(args);
                 break;
             case "ONDUTY":
-                onDuty(args);
+                onDuty();
                 break;
             case "OFFDUTY":
                 offDuty(args);
@@ -271,7 +271,8 @@ public class CLI {
     public static void printCustomerHelp(){
         System.out.println("Customer Commands Available :");
         System.out.println("    - CREATEORDER <restaurantName> - Create a new order with the specified restaurant.");
-        System.out.println("    - ADDITEM2ORDER <orderId> <itemId> - Add an item to an existing order.");
+        System.out.println("    - ADDITEM2ORDER <itemType> <itemName> - Add an item to an existing order.");
+        System.out.println("    - ENDORDER - End the current order, finalizing it and processing it.");
     }
 
     /**
@@ -618,7 +619,7 @@ public class CLI {
                 print("You do not have an active order. Please create an order first.");
                 return;
             }
-            
+
             Restaurant restaurant = currentOrder.getRestaurant();
 
             try {
@@ -656,7 +657,27 @@ public class CLI {
      * @param args the arguments for ending an order, such as order ID
      */
     public static void endOrder(String... args) {
-        // Do smth
+        if (system.getCurrentUser().getClass() != Customer.class) {
+            print("You must be logged in as a Customer to end an order.");
+            return;
+        }
+        Customer customer = (Customer) system.getCurrentUser();
+        if (customer.getCurrentOrder() == null) {
+            print("You do not have an active order to end.");
+            return;
+        }
+        Order order = customer.getCurrentOrder();
+        Restaurant restaurant = order.getRestaurant();
+        HashSet<Dish> dishes = new HashSet<>(order.getDishes()); // Assuming getDishes() returns an ArrayList<Dish>
+        HashSet<Meal> meals = new HashSet<>(order.getMeals()); // Assuming Order has a method getMeals() that returns a HashSet<Meal>
+        try {
+            system.makeOrder(customer, restaurant, dishes, meals);
+            print("Order ended successfully. Order ID: " + order.getId());
+            customer.setCurrentOrder(null); // Clear the current order after ending it
+        } catch (Exception e) {
+            print("Failed to end order: " + e.getMessage());
+        }
+
     }
 
     /**
@@ -664,8 +685,23 @@ public class CLI {
      *
      * @param args the arguments for going on duty, such as courier ID
      */
-    public static void onDuty(String... args) {
-        // Do smth
+    public static void onDuty() {
+        if (system.getCurrentUser().getClass() != Courier.class) {
+            print("You must be logged in as a Courier to go on duty.");
+            return;
+        }
+
+        Courier courier = (Courier) system.getCurrentUser();
+        if (courier.isOnDuty()) {
+            print("You are already on duty.");
+            return;
+        }
+        try {
+            courier.setOnDuty(true);
+            print("You are now on duty. You can accept new orders.");
+        } catch (Exception e) {
+            print("Failed to go on duty: " + e.getMessage());
+        }
     }
 
     /**
@@ -674,7 +710,22 @@ public class CLI {
      * @param args the arguments for going off duty, such as courier ID
      */
     public static void offDuty(String... args) {
-        // Do smth
+        if (system.getCurrentUser().getClass() != Courier.class) {
+            print("You must be logged in as a Courier to go off duty.");
+            return;
+        }
+
+        Courier courier = (Courier) system.getCurrentUser();
+        if (!courier.isOnDuty()) {
+            print("You are already off duty.");
+            return;
+        }
+        try {
+            courier.setOnDuty(false);
+            print("You are now off duty. You will not receive new orders.");
+        } catch (Exception e) {
+            print("Failed to go off duty: " + e.getMessage());
+        }
     }
 
     /**
