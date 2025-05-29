@@ -1,11 +1,15 @@
 package cli;
 
 import java.util.Scanner;
+import java.util.Arrays;
 
 import system.MyFoodora;
 import user.*;
-
-import java.util.Arrays;
+import food.*;
+import fidelity.*;
+import notification.*;
+import order.*;
+import system.*;
 
 
 /**
@@ -353,28 +357,57 @@ public class CLI {
      * @param args the arguments for adding a dish, such as dish name, price, and description
      */
     public static void addDishRestauarantMenu(String... args) {
-        // if (system.getCurrentUser().getClass() != Restaurant.class) {
-        //     System.out.println("You must be logged in as a Restaurant to add a dish to a menu.");
-        //     return;
-        // }
-        // else if (args.length == 6) {
-        //     String dishName = parts[1];
-        //     String dishCategory = parts[2];
-        //     String foodType = parts[3];
-        //     String glutenFree = parts[4];
-        //     String unitPrice = parts[5];
+        if (system.getCurrentUser().getClass() != Restaurant.class) {
+            System.out.println("You must be logged in as a Restaurant to add a dish to a menu.");
+            return;
+        }
+        if (args.length == 5) {
+            String dishName = args[1];
+            String dishCategory = args[0];
+            boolean glutenFree;
+            boolean isVege;
+            double unitPrice;
 
-        //     try {
-        //         appSystem.addDishRestaurantMenu(dishName, dishCategory, foodType, glutenFree, unitPrice);
-        //         System.out.println("Dish added successfully to the Menu");
-        //     } 
-        //     catch (Exception e) {
-        //         System.out.println("Fail to add Dish to Menu! " + e.getMessage());
-        //     }
+            // Parse glutenFree
+            String glutenFreeArg = args[4].toLowerCase();
+            if (glutenFreeArg.equals("yes") || glutenFreeArg.equals("true") || glutenFreeArg.equals("1") || glutenFreeArg.equals("y")) {
+                glutenFree = true;
+            } else if (glutenFreeArg.equals("no") || glutenFreeArg.equals("false") || glutenFreeArg.equals("0") || glutenFreeArg.equals("n")) {
+                glutenFree = false;
+            } else {
+                print("Error: glutenFree must be yes/no, true/false, 1/0, y/n.");
+                return;
+            }
 
-        // } else {
-        //     System.out.println("Usage : addDishRestaurantMenu <dishName> <dishCategory> <foodType> <glutenFree (yes or no)> <unitPrice>");
-        // }
+            // Parse isVege
+            String isVegeArg = args[3].toLowerCase();
+            if (isVegeArg.equals("yes") || isVegeArg.equals("true") || isVegeArg.equals("1") || isVegeArg.equals("y")) {
+                isVege = true;
+            } else if (isVegeArg.equals("no") || isVegeArg.equals("false") || isVegeArg.equals("0") || isVegeArg.equals("n")) {
+                isVege = false;
+            } else {
+                print("Error: glutenFree must be yes/no, true/false, 1/0, y/n.");
+                return;
+            }
+
+
+            // Parse unitPrice
+            try {
+                unitPrice = Double.parseDouble(args[2]);
+            } catch (NumberFormatException e) {
+                print("Error: unitPrice must be a valid number.");
+                return;
+            }
+
+            try {
+                Dish newDish = system.createDish( dishCategory, dishName,unitPrice, isVege,glutenFree);
+                print("Dish added successfully to the Menu");
+            } catch (Exception e) {
+                print("Fail to add Dish to Menu! " + e.getMessage());
+            }
+        } else {
+            print("Usage : addDishRestaurantMenu <dishName> <dishCategory> <foodType> <glutenFree (yes or no)> <unitPrice>");
+        }
     }
 
     /**
