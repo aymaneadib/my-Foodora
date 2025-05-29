@@ -147,9 +147,6 @@ public class CLI {
             case "SHOWMEAL":
                 showMeal(args);
                 break;
-            case "SAVEMEAL":
-                saveMeal(args);
-                break;
             case "SETSPECIALOFFER":
                 setSpecialOffer(args);
                 break;
@@ -512,15 +509,6 @@ public class CLI {
         } else {
             print("Usage: showMeal <mealName>");
         }
-    }
-
-    /**
-     * Saves the current meal to the system.
-     *
-     * @param args the arguments for saving a meal, such as meal ID or name
-     */
-    public static void saveMeal(String... args) {
-        // Do smth
     }
 
     /**
