@@ -88,11 +88,25 @@ public class MyFoodora {
         this.deliveryStrategy = deliveryStrategy;
     }
 
+    /**
+     * Gets the current user logged into the system.
+     *
+     * @return user the user logged in
+     */
     public User getCurrentUser() {
         return currentUser;
     }
+    
+	/**
+	 * Gets the user factory of the system.
+	 *
+	 * @return userFactory the user factory of the system
+	 */
+    public UserFactory getUserFactory() {
+    	return this.userFactory;
+    }
 
-
+    
 	public Map<String, User> getUserMap() {
         return userMap;
     }

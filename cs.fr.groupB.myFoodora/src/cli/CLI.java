@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
 
-import system.MyFoodora;
 import user.*;
 import food.*;
 import fidelity.*;
@@ -130,15 +129,6 @@ public class CLI {
                 break;
             case "LOGOUT":
                 logout();
-                break;
-            case "REGISTERRESTAURANT":
-                registerRestaurant(args);
-                break;
-            case "REGISTERCUSTOMER":
-                registerCustomer(args);
-                break;
-            case "REGISTERCOURIER":
-                registerCourier(args);
                 break;
             case "CREATEDISH":
                 createDish(args);
@@ -269,7 +259,7 @@ public class CLI {
         System.out.println("    - HELP - Show this help message");
 	    System.out.println("    - RUNTEST <testScenarioFile> - execute the list of CLUI commands contained in the testScenario file passed as argument");
 	    System.out.println("    - LOGIN <username> <password> - Log in with the specified username and password.");
-        System.out.println("    - REGISTER <userType> - Register a new user account. User types can be: CUSTOMER, RESTAURANT, COURIER, MANAGER.");
+        System.out.println("    - REGISTER <userType> - Register a new user account. User types can be: CUSTOMER, RESTAURANT, COURIER.");
 	    System.out.println("    - LOGOUT - Log out of the current session.");
 	    System.out.println("    - EXIT - Exit myFoodora... \n");
         System.out.println("----------------------------------------\n");
@@ -331,6 +321,7 @@ public class CLI {
         System.out.println("Manager Commands Available :");
         System.out.println("    - SHOWMENUITEMS <restaurantName> - Show details of a specific restaurant's menu.");
         System.out.println("    - ASSOCIATECARD <cardNumber> <customerUsername> - Associate a fidelity card with a customer account.");
+        System.out.println("    - REGISTER <userType> - Register a new user account. User types can be: MANAGER, CUSTOMER, RESTAURANT, COURIER.");
     }
 
     /**
@@ -362,7 +353,36 @@ public class CLI {
      * @param args the username and password for login
      */
     public static void login(String... args) {
-        // Do smth
+    	if (args.length == 2) {
+    		
+    		if (system.getCurrentUser() == null) {
+    			// Try to login
+    			try {
+    				system.login(args[0], args[1]);
+    				System.out.println("User " + args[0] + " logged in.");
+    				
+    				// If it's a customer, tries to print new notifications and clear them
+    				if (system.getCurrentUser() instanceof Customer) {
+    					if (((Customer) system.getCurrentUser()).isNotificationsConsent() == true &&
+    							!((Customer) system.getCurrentUser()).getNotifications().equals("")) {
+    						System.out.println(((Customer) system.getCurrentUser()).getName() + ", check your new notifications:");
+    						System.out.println(((Customer) system.getCurrentUser()).getNotifications());
+    						((Customer) system.getCurrentUser()).clearNotifications();
+    					}
+    				}
+    			// Print error message's if doesn't succeed
+    			} catch (UserNotFoundException e) {
+    				System.out.println("Error: " + e.getMessage());
+    			} catch (IncorrectCredentialsException e) {
+    				System.out.println("Error: " + e.getMessage());
+    			}
+    		} else {
+    			System.out.println("Error: There is already a user logged into the system.");
+    		}		
+    		
+    	} else {
+    		System.out.println("Usage: LOGIN <username> <password>");
+    	}
     }
 
     /**
@@ -371,41 +391,92 @@ public class CLI {
      * @param args the arguments for registration, such as user type and details
      */
     public static void register(String... args) {
-        // Do smth
+    	// If there's one parameter
+        if (args.length == 1) {
+        	Scanner scanner = new Scanner(System.in);
+        	String input;
+        	String[] newArgs;
+        	
+        	// Verifies the user type to print the correct instructions
+        	switch (args[0].toUpperCase()) {
+        	
+        	case "CUSTOMER":
+        		System.out.println("Enter the Customer information.");
+        		System.out.println("Usage: <name> <surname> <username> <password> <phoneNumber> <email> <addresX> <addresY> <consentNotifications yes/no>");
+        		System.out.print(">");
+        		
+        		break;
+        		
+        	case "RESTAURANT":
+        		System.out.println("Enter the Restaurant information.");
+        		System.out.println("Usage: <name> <username> <password> <addresX> <addresY>");
+        		System.out.print(">");	
+        		break;
+        		
+        	case "COURIER":
+        		System.out.println("Enter the Courier information.");
+        		System.out.println("Usage: <name> <surname> <username> <password> <phoneNumber> <addresX> <addresY>");
+        		System.out.print(">");
+        		break;
+        		
+        	case "MANAGER":
+        		// A manager can only be created by another manager
+        		if (system.getCurrentUser() instanceof Manager) {
+        			System.out.println("Enter the Manager information.");
+            		System.out.println("Usage: <name> <surname> <username> <password>");
+            		System.out.print(">");		
+        		} else {
+        			System.out.println("Error: Operation not allowed by your user type.");
+        			return;
+        		}
+        		break;
+        		
+        	default:
+        		if (system.getCurrentUser() instanceof Manager) {
+        			System.out.println("Error: User type " + args[0] + " not recognized. User types can be: MANAGER, CUSTOMER, RESTAURANT, COURIER.");
+        		} else {
+        			System.out.println("Error: User type " + args[0] + " not recognized. User types can be: CUSTOMER, RESTAURANT, COURIER.");
+        		}
+        		return;
+        	
+        	}
+        	
+        	// Taking user input information
+        	input = scanner.nextLine().trim();
+			newArgs = input.split("\\s+");
+			
+			// Tries to create the user
+			try {
+				if (newArgs.length == 9) {
+    				if (newArgs[8] == "yes") newArgs[8] = "true";
+    				if (newArgs[8] == "no") newArgs[8] = "false";
+    			}
+    			User newUser = system.getUserFactory().createUser(args[0], newArgs);
+    			system.addUser(newUser);
+        		System.out.println("User " + newUser.getUsername() + " registered successfully!");
+        		System.out.println("To use the new user, you need to login.");
+			} catch (BadUserCreationException e) {
+				System.out.println("Error: " + e.getMessage());
+			}
+			
+        } else {
+        	if (system.getCurrentUser() instanceof Manager) {
+        		System.out.println("Usage: REGISTER <userType> - User types can be: MANAGER, CUSTOMER, RESTAURANT, COURIER.");
+        	} else {
+        		System.out.println("Usage: REGISTER <userType> - User types can be: CUSTOMER, RESTAURANT, COURIER.");
+        	}
+        }
     }
 
     /**
      * Logs out the current user from the system.
      */
     public static void logout() {
-        // Do smth
-    }
-
-    /**
-     * Permits a MANAGER to register a new restaurant with the provided details.
-     *
-     * @param args the arguments for registering a restaurant
-     */
-    public static void registerRestaurant(String... args) {
-        // Do smth
-    }
-
-    /**
-     * Permits a MANAGER to registers a new customer with the provided details.
-     *
-     * @param args the arguments for registering a customer
-     */
-    public static void registerCustomer(String... args) {
-        // Do smth
-    }
-
-    /**
-     * Permits a MANAGER to register a new courier with the provided details.
-     *
-     * @param args the arguments for registering a courier
-     */
-    public static void registerCourier(String... args) {
-        // Do smth
+    	if (system.getCurrentUser() != null) {
+    		System.out.println("User " + system.getCurrentUser().getUsername() + " logged out.");
+    	} else {
+    		System.out.println("There's no user logged into the system to logout.");
+    	}
     }
 
     /**
