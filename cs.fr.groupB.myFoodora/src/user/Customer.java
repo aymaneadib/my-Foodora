@@ -159,14 +159,6 @@ public class Customer extends Person implements notification.Observer {
         return availableOperations;
     }
 
-    /**
-     * Returns the available operations for the customer.
-     * 
-     * @return the set of available operations
-     */
-    public static Set<String> getAvailableOperations() {
-        return availableOperations;
-    }
 
     /**
      * Returns the phone number of the customer.
