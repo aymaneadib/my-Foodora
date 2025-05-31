@@ -367,29 +367,29 @@ public class CLI {
     			// Try to login
     			try {
     				system.login(args[0], args[1]);
-    				System.out.println("User " + args[0] + " logged in.");
+    				print("User " + args[0] + " logged in.");
     				
     				// If it's a customer, tries to print new notifications and clear them
     				if (system.getCurrentUser() instanceof Customer) {
     					if (((Customer) system.getCurrentUser()).isNotificationsConsent() == true &&
     							!((Customer) system.getCurrentUser()).getNotifications().equals("")) {
-    						System.out.println(((Customer) system.getCurrentUser()).getName() + ", check your new notifications:");
-    						System.out.println(((Customer) system.getCurrentUser()).getNotifications());
+    						print(((Customer) system.getCurrentUser()).getName() + ", check your new notifications:");
+    						print(((Customer) system.getCurrentUser()).getNotifications());
     						((Customer) system.getCurrentUser()).clearNotifications();
     					}
     				}
     			// Print error message's if doesn't succeed
     			} catch (UserNotFoundException e) {
-    				System.out.println("Error: " + e.getMessage());
+    				print("Error: " + e.getMessage());
     			} catch (IncorrectCredentialsException e) {
-    				System.out.println("Error: " + e.getMessage());
+    				print("Error: " + e.getMessage());
     			}
     		} else {
-    			System.out.println("Error: There is already a user logged into the system.");
+    			print("Error: There is already a user logged into the system.");
     		}		
     		
     	} else {
-    		System.out.println("Usage: LOGIN <username> <password>");
+    		print("Usage: LOGIN <username> <password>");
     	}
     }
 
@@ -409,41 +409,41 @@ public class CLI {
         	switch (args[0].toUpperCase()) {
         	
         	case "CUSTOMER":
-        		System.out.println("Enter the Customer information.");
-        		System.out.println("Usage: <name> <surname> <username> <password> <phoneNumber> <email> <addresX> <addresY> <consentNotifications yes/no>");
+        		print("Enter the Customer information.");
+        		print("Usage: <name> <surname> <username> <password> <phoneNumber> <email> <addresX> <addresY> <consentNotifications yes/no>");
         		System.out.print(">");
         		
         		break;
         		
         	case "RESTAURANT":
-        		System.out.println("Enter the Restaurant information.");
-        		System.out.println("Usage: <name> <username> <password> <addresX> <addresY>");
+        		print("Enter the Restaurant information.");
+        		print("Usage: <name> <username> <password> <addresX> <addresY>");
         		System.out.print(">");	
         		break;
         		
         	case "COURIER":
-        		System.out.println("Enter the Courier information.");
-        		System.out.println("Usage: <name> <surname> <username> <password> <phoneNumber> <addresX> <addresY>");
+        		print("Enter the Courier information.");
+        		print("Usage: <name> <surname> <username> <password> <phoneNumber> <addresX> <addresY>");
         		System.out.print(">");
         		break;
         		
         	case "MANAGER":
         		// A manager can only be created by another manager
         		if (system.getCurrentUser() instanceof Manager) {
-        			System.out.println("Enter the Manager information.");
-            		System.out.println("Usage: <name> <surname> <username> <password>");
+        			print("Enter the Manager information.");
+        			print("Usage: <name> <surname> <username> <password>");
             		System.out.print(">");		
         		} else {
-        			System.out.println("Error: A manager can only be created by another manager.");
+        			print("Error: A manager can only be created by another manager.");
         			return;
         		}
         		break;
         		
         	default:
         		if (system.getCurrentUser() instanceof Manager) {
-        			System.out.println("Error: User type " + args[0] + " not recognized. User types can be: MANAGER, CUSTOMER, RESTAURANT, COURIER.");
+        			print("Error: User type " + args[0] + " not recognized. User types can be: MANAGER, CUSTOMER, RESTAURANT, COURIER.");
         		} else {
-        			System.out.println("Error: User type " + args[0] + " not recognized. User types can be: CUSTOMER, RESTAURANT, COURIER.");
+        			print("Error: User type " + args[0] + " not recognized. User types can be: CUSTOMER, RESTAURANT, COURIER.");
         		}
         		return;
         	
@@ -461,17 +461,17 @@ public class CLI {
     			}
     			User newUser = system.getUserFactory().createUser(args[0], newArgs);
     			system.addUser(newUser);
-        		System.out.println("User " + newUser.getUsername() + " registered successfully!");
-        		System.out.println("To use the new user, you need to login.");
+    			print("User " + newUser.getUsername() + " registered successfully!");
+    			print("To use the new user, you need to login.");
 			} catch (BadUserCreationException e) {
-				System.out.println("Error: " + e.getMessage());
+				print("Error: " + e.getMessage());
 			}
 			
         } else {
         	if (system.getCurrentUser() instanceof Manager) {
-        		System.out.println("Usage: REGISTER <userType> - User types can be: MANAGER, CUSTOMER, RESTAURANT, COURIER.");
+        		print("Usage: REGISTER <userType> - User types can be: MANAGER, CUSTOMER, RESTAURANT, COURIER.");
         	} else {
-        		System.out.println("Usage: REGISTER <userType> - User types can be: CUSTOMER, RESTAURANT, COURIER.");
+        		print("Usage: REGISTER <userType> - User types can be: CUSTOMER, RESTAURANT, COURIER.");
         	}
         }
     }
@@ -481,9 +481,9 @@ public class CLI {
      */
     public static void logout() {
     	if (system.getCurrentUser() != null) {
-    		System.out.println("User " + system.getCurrentUser().getUsername() + " logged out.");
+    		print("User " + system.getCurrentUser().getUsername() + " logged out.");
     	} else {
-    		System.out.println("There's no user logged into the system to logout.");
+    		print("There's no user logged into the system to logout.");
     	}
     }
 
@@ -1188,11 +1188,11 @@ public class CLI {
     		break;
     		
     	default:
-    		System.out.println("Error: Unrecognized delivery policy.");
+    		print("Error: Unrecognized delivery policy.");
     		return;
     	}
     	
-    	System.out.println("Delivery policy " + args[0] + " setted.");
+    	print("Delivery policy " + args[0] + " setted.");
     }
 
     /**
@@ -1221,11 +1221,11 @@ public class CLI {
     		break;
     		
     	default:
-    		System.out.println("Error: Unrecognized profit policy.");
+    		print("Error: Unrecognized profit policy.");
     		return;
     	}
     	
-    	System.out.println("Profit policy " + args[0] + " setted.");
+    	print("Profit policy " + args[0] + " setted.");
     }
 
     public static FidelityCard string2FidelityCard(String cardType, Customer owner) {
@@ -1300,7 +1300,7 @@ public class CLI {
         		System.out.println(courier);
         	}
     	} else {
-    		System.out.println("Error: no courier found.");
+    		print("Error: no courier found.");
     	}
     }
 
@@ -1319,7 +1319,7 @@ public class CLI {
         		System.out.println(restaurant.getName() + "with " + restaurant.getOrderCounter() + " orders.");
         	}
     	} else {
-    		System.out.println("Error: no restaurant found.");
+    		print("Error: no restaurant found.");
     	}
     }
 
@@ -1338,7 +1338,7 @@ public class CLI {
         		System.out.println(customer);
         	}
     	} else {
-    		System.out.println("Error: no restaurant found.");
+    		print("Error: no restaurant found.");
     	}
     }
 
@@ -1389,7 +1389,7 @@ public class CLI {
     		profit = ((Manager) system.getCurrentUser()).computeTotalProfit(system, LocalDate.MIN, LocalDate.MAX);
     	}
     	
-		System.out.println("Total profit: " + profit + " euros.");
+    	print("Total profit: " + profit + " euros.");
     	
     }
 
