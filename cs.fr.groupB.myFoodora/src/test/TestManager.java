@@ -117,11 +117,25 @@ public class TestManager {
 	}
 	
 	@Test
-	public void testGetMostAndLeastSellingRestaurants() {
+	public void testGetMostSellingRestaurants() {
 		restaurant1.setOrderCounter(15);
 		restaurant2.setOrderCounter(10);
 		Assert.assertTrue(manager1.mostSellingRestaurant(system).equals(restaurant1));
+	}
+	
+	@Test
+	public void testGetLeastSellingRestaurants() {
+		restaurant1.setOrderCounter(15);
+		restaurant2.setOrderCounter(10);
 		Assert.assertTrue(manager1.leastSellingRestaurant(system).equals(restaurant2));
+	}
+	
+	@Test
+	public void testSortRestaurantss() {
+		restaurant1.setOrderCounter(150);
+		restaurant2.setOrderCounter(10);
+		Assert.assertTrue(manager1.sortRestaurants(system).get(0).equals(restaurant1));
+		Assert.assertTrue(manager1.sortRestaurants(system).get(1).equals(restaurant2));
 	}
 	
 	@Test
@@ -142,8 +156,8 @@ public class TestManager {
 	public void testSortCouriers() {
 		courier1.setDeliveryCounter(10);
 		courier2.setDeliveryCounter(100);
-		Assert.assertTrue(manager1.sortCouriers(system).get(0).equals(courier1));
-		Assert.assertTrue(manager1.sortCouriers(system).get(1).equals(courier2));
+		Assert.assertTrue(manager1.sortCouriers(system).get(1).equals(courier1));
+		Assert.assertTrue(manager1.sortCouriers(system).get(0).equals(courier2));
 	}
 	
 	@Test

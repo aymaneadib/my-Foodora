@@ -2,6 +2,7 @@ package user;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -188,6 +189,19 @@ public class Manager extends Person {
         restaurantSorter.sort(restaurants);
         return restaurants.get(restaurants.size()-1);
     }
+    
+    /**
+     * Sorts the restaurants based on their.
+     *
+     * @param system the MyFoodora system
+     * @return the least selling restaurant in the system
+     */
+    public ArrayList<Restaurant> sortRestaurants(MyFoodora system){
+        ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>(system.getRestaurants());
+        RestaurantSorter restaurantSorter = new RestaurantSorter();
+        restaurantSorter.sort(restaurants);
+        return restaurants;
+    }
 
     /**
      * Gets the most active courier in the system.
@@ -218,12 +232,13 @@ public class Manager extends Person {
      * Gets the sorted list courier in the system w.r.t. the number of completed deliveries.
      *
      * @param system the MyFoodora system
-     * @return the least active courier in the system
+     * @return courier the couriers sorted
      */
     public ArrayList<Courier> sortCouriers(MyFoodora system){
         ArrayList<Courier> couriers = new ArrayList<Courier>(system.getCouriers());
         CourierSorter courierSorter = new CourierSorter();
         courierSorter.sort(couriers);
+        Collections.reverse(couriers);
         return couriers;
     }
 

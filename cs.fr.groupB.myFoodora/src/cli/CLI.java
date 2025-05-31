@@ -323,7 +323,9 @@ public class CLI {
         System.out.println("    - SHOWMENUITEMS <restaurantName> - Show details of a specific restaurant's menu.");
         System.out.println("    - ASSOCIATECARD <cardNumber> <customerUsername> - Associate a fidelity card with a customer account.");
         System.out.println("    - REGISTER <userType> - Register a new user account. User types can be: MANAGER, CUSTOMER, RESTAURANT, COURIER.");
-        System.out.println("    - SHOWCOURIERDELIVERIES - Fisplay the list of couriers sorted in decreasing order w.r.t. the number of completed deliveries.");
+        System.out.println("    - SHOWCOURIERDELIVERIES - Display the list of couriers sorted in decreasing order w.r.t. the number of completed deliveries.");
+        System.out.println("    - SHOWRESTAURANTTOP - Display list of restaurants sorted in decreasing order w.r.t. the number of delivered orders.");
+        System.out.println("    - SHOWCUSTOMERS - Display the list of customers.");
     }
 
     /**
@@ -1240,13 +1242,11 @@ public class CLI {
      */
     public static void showCourierDeliveries() {
     	if (system.getCurrentUser().getClass() != Manager.class) {
-            print("Your user account does not allow you to see the courier deliveries.");
+            print("Your user account does not allow you to see the top couriers.");
             return;
         }
     	
     	ArrayList<Courier> couriers = ((Manager) system.getCurrentUser()).sortCouriers(system);
-    	Collections.reverse(couriers);
-    	
     	if (couriers.size() > 0) {
     		for(Courier courier : couriers) {
         		System.out.println(courier);
@@ -1260,14 +1260,38 @@ public class CLI {
      * Displays the top restaurants based on their performance.
      */
     public static void showRestaurantTop() {
-        // Do smth
+    	if (system.getCurrentUser().getClass() != Manager.class) {
+            print("Your user account does not allow you to see the top restaurants.");
+            return;
+        }
+    	
+    	ArrayList<Restaurant> restaurants = ((Manager) system.getCurrentUser()).sortRestaurants(system);
+    	if (restaurants.size() > 0) {
+    		for(Restaurant restaurant : restaurants) {
+        		System.out.println(restaurant.getName() + "with " + restaurant.getOrderCounter() + " orders.");
+        	}
+    	} else {
+    		System.out.println("Error: no restaurant found.");
+    	}
     }
 
     /**
      * Displays the list of customers registered in the system.
      */
     public static void showCustomers() {
-        // Do smth
+    	if (system.getCurrentUser().getClass() != Manager.class) {
+            print("Your user account does not allow you to see the list of customers.");
+            return;
+        }
+    	
+    	Set<Customer> customers = system.getCustomers();
+    	if (customers.size() > 0) {
+    		for(Customer customer : customers) {
+        		System.out.println(customer);
+        	}
+    	} else {
+    		System.out.println("Error: no restaurant found.");
+    	}
     }
 
     /**
