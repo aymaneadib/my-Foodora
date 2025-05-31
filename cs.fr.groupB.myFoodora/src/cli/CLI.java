@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import user.*;
@@ -326,6 +327,9 @@ public class CLI {
         System.out.println("    - SHOWCOURIERDELIVERIES - Display the list of couriers sorted in decreasing order w.r.t. the number of completed deliveries.");
         System.out.println("    - SHOWRESTAURANTTOP - Display list of restaurants sorted in decreasing order w.r.t. the number of delivered orders.");
         System.out.println("    - SHOWCUSTOMERS - Display the list of customers.");
+        System.out.println("    - SHOWTOTALPROFIT <startDate YYYY-MM-DD> <endDate YYYY-MM-DD> - Show the total profit of the system. Time interval is optional.");
+        System.out.println("    - SETDELIVERPOLICY <delPolicy> - set the delivery policy of the system : FairOccupationDelivery, FastestDelivery.");
+        System.out.println("    - SETPROFITPOLICY <profitPolicy> - set the profit policy of the system : DeliveryCostOriented, MarkupPercentageOriented, ServiceFeeOriented.");
     }
 
     /**
@@ -1168,7 +1172,27 @@ public class CLI {
      * @param args the arguments for finding a deliverer, such as order ID or delivery location
      */
     public static void setDeliveryPolicy(String... args) {
-        // Do smth
+    	if (system.getCurrentUser().getClass() != Customer.class && system.getCurrentUser().getClass() != Manager.class) {
+            print("Your user account does not permit you to set a delivery policy.");
+            return;
+        }
+    	
+    	switch (args[0].toUpperCase()) {
+    	
+    	case "FAIROCCUPATIONDELIVERY":
+    		system.setDeliveryStrategy(new FairOccupationDelivery());
+    		break;
+    		
+    	case "FASTESTDELIVERY":
+    		system.setDeliveryStrategy(new FastestDelivery());
+    		break;
+    		
+    	default:
+    		System.out.println("Error: Unrecognized delivery policy.");
+    		return;
+    	}
+    	
+    	System.out.println("Delivery policy " + args[0] + " setted.");
     }
 
     /**
@@ -1177,7 +1201,31 @@ public class CLI {
      * @param args the arguments for setting the profit policy, such as policy details
      */
     public static void setProfitPolicy(String... args) {
-        // Do smth
+    	if (system.getCurrentUser().getClass() != Customer.class && system.getCurrentUser().getClass() != Manager.class) {
+            print("Your user account does not permit you to set a profit policy.");
+            return;
+        }
+    	
+    	switch (args[0].toUpperCase()) {
+    	
+    	case "DELIVERYCOSTORIENTED":
+    		system.setProfitStrategy(new TargetProfitDeliveryCostOriented());
+    		break;
+    		
+    	case "MARKUPPERCENTAGEORIENTED":
+    		system.setProfitStrategy(new TargetProfitMarkupPercentageOriented());
+    		break;
+    		
+    	case "SERVICEFEEORIENTED":
+    		system.setProfitStrategy(new TargetProfitServiceFeeOriented());
+    		break;
+    		
+    	default:
+    		System.out.println("Error: Unrecognized profit policy.");
+    		return;
+    	}
+    	
+    	System.out.println("Profit policy " + args[0] + " setted.");
     }
 
     public static FidelityCard string2FidelityCard(String cardType, Customer owner) {
@@ -1327,7 +1375,22 @@ public class CLI {
      * @param args the arguments for showing total profit, such as date range or filters
      */
     public static void showTotalProfit(String... args) {
-        // Do smth
+    	if (system.getCurrentUser().getClass() != Manager.class) {
+            print("Your user account does not allow you to see the list of customers.");
+            return;
+        }
+    	
+    	
+    	double profit = 0;
+    	
+    	if (args.length == 2) {
+    		profit = ((Manager) system.getCurrentUser()).computeTotalProfit(system, LocalDate.parse(args[0]), LocalDate.parse(args[1]));
+    	} else {
+    		profit = ((Manager) system.getCurrentUser()).computeTotalProfit(system, LocalDate.MIN, LocalDate.MAX);
+    	}
+    	
+		System.out.println("Total profit: " + profit + " euros.");
+    	
     }
 
     /**
