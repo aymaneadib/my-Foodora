@@ -2,6 +2,7 @@ package cli;
 
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
@@ -322,6 +323,7 @@ public class CLI {
         System.out.println("    - SHOWMENUITEMS <restaurantName> - Show details of a specific restaurant's menu.");
         System.out.println("    - ASSOCIATECARD <cardNumber> <customerUsername> - Associate a fidelity card with a customer account.");
         System.out.println("    - REGISTER <userType> - Register a new user account. User types can be: MANAGER, CUSTOMER, RESTAURANT, COURIER.");
+        System.out.println("    - SHOWCOURIERDELIVERIES - Fisplay the list of couriers sorted in decreasing order w.r.t. the number of completed deliveries.");
     }
 
     /**
@@ -426,7 +428,7 @@ public class CLI {
             		System.out.println("Usage: <name> <surname> <username> <password>");
             		System.out.print(">");		
         		} else {
-        			System.out.println("Error: Operation not allowed by your user type.");
+        			System.out.println("Error: A manager can only be created by another manager.");
         			return;
         		}
         		break;
@@ -1234,10 +1236,24 @@ public class CLI {
     }
 
     /**
-     * Displays the deliveries made by couriers.
+     * Displays the the list of couriers sorted in decreasing order w.r.t. the number of completed deliveries.
      */
     public static void showCourierDeliveries() {
-        // Do smth
+    	if (system.getCurrentUser().getClass() != Manager.class) {
+            print("Your user account does not allow you to see the courier deliveries.");
+            return;
+        }
+    	
+    	ArrayList<Courier> couriers = ((Manager) system.getCurrentUser()).sortCouriers(system);
+    	Collections.reverse(couriers);
+    	
+    	if (couriers.size() > 0) {
+    		for(Courier courier : couriers) {
+        		System.out.println(courier);
+        	}
+    	} else {
+    		System.out.println("Error: no courier found.");
+    	}
     }
 
     /**

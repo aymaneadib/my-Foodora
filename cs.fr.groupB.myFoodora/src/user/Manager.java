@@ -213,6 +213,19 @@ public class Manager extends Person {
         courierSorter.sort(couriers);
         return couriers.get(0);
     }
+    
+    /**
+     * Gets the sorted list courier in the system w.r.t. the number of completed deliveries.
+     *
+     * @param system the MyFoodora system
+     * @return the least active courier in the system
+     */
+    public ArrayList<Courier> sortCouriers(MyFoodora system){
+        ArrayList<Courier> couriers = new ArrayList<Courier>(system.getCouriers());
+        CourierSorter courierSorter = new CourierSorter();
+        courierSorter.sort(couriers);
+        return couriers;
+    }
 
     /**
      * Gets the list of available operations for the manager.

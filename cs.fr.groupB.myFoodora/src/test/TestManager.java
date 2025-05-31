@@ -125,11 +125,25 @@ public class TestManager {
 	}
 	
 	@Test
-	public void testGetMostAndLeastActiveCourier() {
+	public void testGetLeastActiveCourier() {
+		courier1.setDeliveryCounter(10);
+		courier2.setDeliveryCounter(100);
+		Assert.assertTrue(manager1.leastActiveCourier(system).equals(courier1));
+	}
+	
+	@Test
+	public void testGetMostActiveCourier() {
 		courier1.setDeliveryCounter(10);
 		courier2.setDeliveryCounter(100);
 		Assert.assertTrue(manager1.mostActiveCourier(system).equals(courier2));
-		Assert.assertTrue(manager1.leastActiveCourier(system).equals(courier1));
+	}
+	
+	@Test
+	public void testSortCouriers() {
+		courier1.setDeliveryCounter(10);
+		courier2.setDeliveryCounter(100);
+		Assert.assertTrue(manager1.sortCouriers(system).get(0).equals(courier1));
+		Assert.assertTrue(manager1.sortCouriers(system).get(1).equals(courier2));
 	}
 	
 	@Test
