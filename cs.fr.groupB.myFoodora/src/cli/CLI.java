@@ -77,13 +77,90 @@ public class CLI {
     }
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
-
+    
     /**
      * Initializes the MyFoodora system and performs any necessary setup.
      * This method can be extended to include additional initialization logic.
      */
     public static void initialization(){
-        //Do smth
+    	UserFactory userFactory = new UserFactory();
+    	// Reading initialization file
+    	String path = "./eval/my_foodora.ini";
+    	FileReader file = null;
+    	BufferedReader reader = null;
+    	ArrayList<String> lines = new ArrayList<String>();
+    	
+    	try {
+    		file = new FileReader(path);     // a FileReader for reading byte−by−byte
+    		reader = new BufferedReader(file); // wrapping a FileReader into a BufferedReader for reading line−by−line
+    		
+    		String line = "";
+    		while ((line = reader.readLine()) != null) { // read the file line−by−line
+    			lines.add(line);
+    		}
+
+    	} catch (IOException e) {
+    		print("Error reading the initialization file " + path + " : "+ e.getMessage());
+    		return;
+    	}
+    	
+    	if (reader != null) {
+			try {reader.close();}
+			catch (IOException e) {
+			}
+		}
+
+    	// Dealing with commands
+    	try {
+    	
+    		for (int i = 0; i < lines.size(); i++) {
+        		if (lines.get(i).equals("") || lines.get(i).equals("\n")) continue;
+        		if (lines.get(i).substring(0, 1).equals(";")) continue;
+        		
+        		String section = lines.get(i).substring(1, lines.get(i).length() - 1);
+        		User user = null;
+        		
+        		switch(section.toUpperCase()) {
+        		
+        		case "MANAGER":
+					user = (Manager) userFactory.createUser("manager", lines.get(i+1).split("=")[1], lines.get(i+2).split("=")[1],
+							lines.get(i+3).split("=")[1], lines.get(i+4).split("=")[1]);
+					i += 4;
+        			break;
+        			
+        		case "CUSTOMER":
+					user = (Customer) userFactory.createUser("customer", lines.get(i+1).split("=")[1], lines.get(i+2).split("=")[1],
+							lines.get(i+3).split("=")[1], lines.get(i+4).split("=")[1], lines.get(i+5).split("=")[1],
+							lines.get(i+6).split("=")[1], lines.get(i+7).split("=")[1], lines.get(i+8).split("=")[1],
+							lines.get(i+9).split("=")[1]);
+					i += 9;
+        			break;
+        			
+        		case "COURIER":
+        			user = (Courier) userFactory.createUser("courier", lines.get(i+1).split("=")[1], lines.get(i+2).split("=")[1],
+        					lines.get(i+3).split("=")[1], lines.get(i+4).split("=")[1], lines.get(i+5).split("=")[1],
+        					lines.get(i+6).split("=")[1], lines.get(i+7).split("=")[1]);
+					i += 7;
+        			break;
+        			
+        		case "RESTAURANT":
+        			user = (Restaurant) userFactory.createUser("restaurant", lines.get(i+1).split("=")[1], lines.get(i+2).split("=")[1],
+        					lines.get(i+3).split("=")[1], lines.get(i+4).split("=")[1], lines.get(i+5).split("=")[1]);
+					i += 5;
+        			break;
+        			
+        		default:
+        			print("Error reading the initialization file " + path + " : "+ "unrecognized section in file.");
+        			break;
+        		}
+        		
+        		system.addUser(user);
+        	}
+    		
+    	} catch (BadUserCreationException e) {
+			print("Error: " + e.getMessage());
+		}
+    	
     }
 
     /**

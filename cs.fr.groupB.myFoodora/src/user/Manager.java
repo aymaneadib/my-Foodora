@@ -16,9 +16,7 @@ import system.*;
  * @author Aymane Adib
  */
 public class Manager extends Person {
-
-    private static final List<String> availableOperations = new ArrayList<>(); // List of available operations for the manager
-
+	
     /**
      * Constructor for the Manager class.
      *
@@ -240,15 +238,6 @@ public class Manager extends Person {
         courierSorter.sort(couriers);
         Collections.reverse(couriers);
         return couriers;
-    }
-
-    /**
-     * Gets the list of available operations for the manager.
-     *
-     * @param operation the operation to be added
-     */
-    public static List<String> getAvailableOperations() {
-        return availableOperations;
     }
 
     /**

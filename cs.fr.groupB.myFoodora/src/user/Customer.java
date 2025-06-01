@@ -16,7 +16,6 @@ import system.*;
 public class Customer extends Person implements notification.Observer {
 
     private static Set<String> emailsUsed = new HashSet<>(); // Set to store used emails
-    private static final Set<String> availableOperations = new HashSet<>(); // Set to store available operations
     
     private Location adress;
     private String phoneNumber;
@@ -149,16 +148,6 @@ public class Customer extends Person implements notification.Observer {
     public void setAdress(Location adress) {
         this.adress = adress;
     }
-
-    /**
-     * Returns the set of used emails.
-     * 
-     * @return
-     */
-    public static Set<String> getAvailableoperations() {
-        return availableOperations;
-    }
-
 
     /**
      * Returns the phone number of the customer.

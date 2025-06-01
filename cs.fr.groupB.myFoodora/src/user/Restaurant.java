@@ -15,8 +15,6 @@ import java.util.*;
  */
 public class Restaurant extends User {
     
-    private static final List<String> availableOperations = new ArrayList<>(); // List of available operations for the restaurant
-    
     private Location location;
     private Menu menu;
     private int orderCounter;
@@ -131,15 +129,6 @@ public class Restaurant extends User {
      */
     public double getSpecialDiscount() {
         return menu.getSpecialDiscount();
-    }
-
-    /**
-     * Returns the list of available operations for the restaurant.
-     *
-     * @return the list of available operations
-     */
-    public static List<String> getAvailableoperations() {
-        return availableOperations;
     }
 
     /**
