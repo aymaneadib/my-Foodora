@@ -1,0 +1,29 @@
+// Tested commands:
+// SETUP
+// LOGIN
+// REGISTER
+// LOGOUT
+
+
+SETUP a 2 3
+SETUP 5 -8 5
+SETUP 3 4 5
+logout
+login incorrectUser password
+login admin incorrectPassword
+login admin admin
+SHOWCUSTOMERS
+SHOWRESTAURANTTOP
+SHOWCOURIERDELIVERIES
+logout
+login restaurantUsername1 restaurantUsername1
+SHOWMENUITEMS
+logout
+REGISTER CUSTOMER
+Alisson Bonatto alissonbonatto bonatto1234 +3312456789 alisson@email.com 12.5 -7
+login alissonbonatto bonatto1234
+logout
+REGISTER CUSTOMER
+NewUserName NewUserSurname alissonbonatto password +phoneNumber newUser@email.com 0 0
+REGISTER CUSTOMER
+NewUserName NewUserSurname newUsername password +3312456789 newUser@email.com 0 0

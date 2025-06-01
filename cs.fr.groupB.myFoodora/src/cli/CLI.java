@@ -2,17 +2,17 @@ package cli;
 
 import java.util.Scanner;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import user.*;
 import food.*;
 import fidelity.*;
-import notification.*;
 import order.*;
 import system.*;
 
@@ -28,6 +28,8 @@ import system.*;
 public class CLI {
 
     private static MyFoodora system;
+    private static boolean registering = false;
+    private static String userTypeRegistering;
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
     /**
@@ -52,7 +54,7 @@ public class CLI {
         // Start the command loop
         while (true) {
             // Prompt the user for input
-            System.out.print("> ");
+            System.out.print("\n> ");
             input = scanner.nextLine().trim();
 
             // Check for exit command
@@ -101,6 +103,7 @@ public class CLI {
         System.out.println("You can interact with the App through this Command Line Interface");
         System.out.println("Available commands:");
         System.out.println("  HELP - Shows the  full help message");
+        System.out.println("  RUNTEST <testScenarioFile> - execute the list of CLUI commands contained in the testScenario file passed as argument.");
         System.out.println("  LOGIN <username> <password>- Login to an existing user account");
         System.out.println("  REGISTER <userType> - Register your new account with the necessary information");
         System.out.println("  SETUP <restaurantQuantity> <customerQuantity> <courierQuantity> - Generates random users based on quantity arguments.");
@@ -115,10 +118,18 @@ public class CLI {
      * @param input the command input from the user
      */
     private static void handleCommand(String input) {
+    	if (CLI.registering) {
+    		String[] args = input.split("\\s+");
+        	completeRegistration(args);
+        	return;
+        }
+    	
         // Split input into command and arguments
         String[] parts = input.split("\\s+");
         String command = parts[0].toUpperCase();
         String[] args = Arrays.copyOfRange(parts, 1, parts.length);
+        
+        
         
         switch (command) {
             case "HELP":
@@ -453,6 +464,30 @@ public class CLI {
     		print("Usage: LOGIN <username> <password>");
     	}
     }
+    
+    public static void completeRegistration(String...args) {
+    	if (!CLI.registering) {
+    		print("Error: There's no registration in course.");
+    	}
+    	CLI.registering = false;
+		
+		// Tries to create the user
+		try {
+			if (args.length == 9) {
+				if (args[8] == "yes") args[8] = "true";
+				
+				if (args[8] == "no") args[8] = "false";
+			}
+			User newUser = system.getUserFactory().createUser(CLI.userTypeRegistering, args);
+			system.addUser(newUser);
+			print("User " + newUser.getUsername() + " registered successfully!");
+			print("To use the new user, you need to login.");
+		} catch (BadUserCreationException e) {
+			print("Error: " + e.getMessage());
+		}
+		
+		CLI.userTypeRegistering = "";
+    }
 
     /**
      * Registers a new user account based on the provided arguments.
@@ -462,9 +497,7 @@ public class CLI {
     public static void register(String... args) {
     	// If there's one parameter
         if (args.length == 1) {
-        	Scanner scanner = new Scanner(System.in);
-        	String input;
-        	String[] newArgs;
+        	CLI.registering = false;
         	
         	// Verifies the user type to print the correct instructions
         	switch (args[0].toUpperCase()) {
@@ -472,28 +505,23 @@ public class CLI {
         	case "CUSTOMER":
         		print("Enter the Customer information.");
         		print("Usage: <name> <surname> <username> <password> <phoneNumber> <email> <addresX> <addresY> <consentNotifications yes/no>");
-        		System.out.print(">");
-        		
         		break;
         		
         	case "RESTAURANT":
         		print("Enter the Restaurant information.");
         		print("Usage: <name> <username> <password> <addresX> <addresY>");
-        		System.out.print(">");	
         		break;
         		
         	case "COURIER":
         		print("Enter the Courier information.");
         		print("Usage: <name> <surname> <username> <password> <phoneNumber> <addresX> <addresY>");
-        		System.out.print(">");
         		break;
         		
         	case "MANAGER":
         		// A manager can only be created by another manager
         		if (system.getCurrentUser() instanceof Manager) {
         			print("Enter the Manager information.");
-        			print("Usage: <name> <surname> <username> <password>");
-            		System.out.print(">");		
+        			print("Usage: <name> <surname> <username> <password>");	
         		} else {
         			print("Error: A manager can only be created by another manager.");
         			return;
@@ -510,24 +538,8 @@ public class CLI {
         	
         	}
         	
-        	// Taking user input information
-        	input = scanner.nextLine().trim();
-			newArgs = input.split("\\s+");
-			
-			// Tries to create the user
-			try {
-				if (newArgs.length == 9) {
-    				if (newArgs[8] == "yes") newArgs[8] = "true";
-    				
-    				if (newArgs[8] == "no") newArgs[8] = "false";
-    			}
-    			User newUser = system.getUserFactory().createUser(args[0], newArgs);
-    			system.addUser(newUser);
-    			print("User " + newUser.getUsername() + " registered successfully!");
-    			print("To use the new user, you need to login.");
-			} catch (BadUserCreationException e) {
-				print("Error: " + e.getMessage());
-			}
+        	CLI.registering = true;
+        	CLI.userTypeRegistering = args[0];
 			
         } else {
         	if (system.getCurrentUser() instanceof Manager) {
@@ -1462,7 +1474,51 @@ public class CLI {
      * @param args the arguments for running the test, such as test scenario file
      */
     public static void runTest(String... args) {
-        // Do smth
+    	if (args.length > 1) {
+            print("Usage: RUNTEST <testScenarioFile> - execute the list of CLUI commands contained in the testScenario file passed as argument.");
+            return;
+        }
+    	
+    	// Reading commands
+    	FileReader file = null;
+    	BufferedReader reader = null;
+    	ArrayList<String> commands = new ArrayList<String>();
+    	
+    	try {
+    		file = new FileReader(args[0]);     // a FileReader for reading byte−by−byte
+    		reader = new BufferedReader(file); // wrapping a FileReader into a BufferedReader for reading line−by−line
+    		
+    		String line = "";
+    		while ((line = reader.readLine()) != null) { // read the file line−by−line
+    			commands.add(line);
+    		}
+
+    	} catch (IOException e) {
+    		print("Error reading the file " + args[0] + " : "+ e.getMessage());
+    		return;
+    	}
+    	
+    	if (reader != null) {
+			try {reader.close();}
+			catch (IOException e) {// Ignore issues }
+			}
+		}
+    	
+    	// Executing comands
+    	System.out.println("EXECUTING TEST FILE " + args[0] + " ...");
+    	for (String command : commands) {
+    		// If it's a comment or a empty line, goes to the next line
+    		if (command.length() == 0) continue;
+    		if (command.substring(0, 1).equals("\n")) continue;
+    		if (command.substring(0, 2).equals("//")) continue;
+    		
+    		// Printing and handling command
+    		System.out.println("\n> " + command);
+    		handleCommand(command);
+    	}
+    	
+    	// Printing final message
+    	System.out.println("\nEND OF EXECUTION OF " + args[0] + " TEST FILE.");
     }
     
 }
