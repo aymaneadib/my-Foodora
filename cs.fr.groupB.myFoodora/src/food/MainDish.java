@@ -1,5 +1,7 @@
 package food;
 
+import java.text.DecimalFormat;
+
 /**
  * Represents a main dish in the system.
  * A main dish is a type of dish, it extends Dish.
@@ -27,7 +29,8 @@ public class MainDish extends Dish {
 	 */
 	@Override
 	public String toString() {
-		return name + " (Main Dish at " + price + "€)" ;
+		DecimalFormat df = new DecimalFormat("#0.00");
+		return "Main Dish " + name + " - " + df.format(price) + "€" ;
 	}
 
 }

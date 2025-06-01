@@ -1,5 +1,7 @@
 package food;
 
+import java.text.DecimalFormat;
+
 /**
  * Class representing a dessert in the system.
  * A dessert is a type of dish, it extends Dish.
@@ -27,6 +29,7 @@ public class Dessert extends Dish {
 	 */
 	@Override
 	public String toString() {
-		return name + " (Dessert at " + price + "€)" ;
+		DecimalFormat df = new DecimalFormat("#0.00");
+		return "Dessert " + name + " - " + df.format(price) + "€" ;
 	}
 }

@@ -106,9 +106,22 @@ public class MyFoodora {
     	return this.userFactory;
     }
 
-    
+    /**
+	 * Gets the user map of the system.
+	 *
+	 * @return userMap the user map of the system
+	 */
 	public Map<String, User> getUserMap() {
         return userMap;
+    }
+	
+	/**
+	 * Sets the user map of the system.
+	 *
+	 * @param userMap the user map to set
+	 */
+	public void setUserMap(Map<String, User> userMap) {
+        this.userMap = userMap;
     }
 
     /**

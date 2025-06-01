@@ -31,7 +31,8 @@ public class TestCustomer {
 	@BeforeClass
 	public static void initializeTests() throws BadUserCreationException {
 		customerLucas = new Customer("Lucas", "Petit", "lucaspetit", "1234", "+33777777777", "lucas.petit@email.com", new Location(0, 0));
-		customerTheo = new Customer("Theo", "Bernard", "theobernard", "abcd", "+33666666666", "theo.bernard@email.com", new Location(1, 0), true);
+		customerTheo = new Customer("Theo", "Bernard", "theobernard", "abcd", "+33666666666", "theo.bernard@email.com", new Location(1, 0));
+		customerTheo.setNotificationsConsent(true);
 	}
 
 	@Test
@@ -147,7 +148,6 @@ public class TestCustomer {
 		dishes.add(new MainDish("Dish2", 0, true, true));
 		HalfMeal testMeal = new HalfMeal("Meal1", dishes);
 		
-		HalfMeal.registerObserver(customerTheo);
 		testMeal.makeMealOfTheWeek();
 		
 		Assert.assertTrue(!customerTheo.getNotifications().equals(""));

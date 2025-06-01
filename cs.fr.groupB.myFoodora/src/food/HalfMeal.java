@@ -1,5 +1,6 @@
 package food;
 
+import java.text.DecimalFormat;
 import java.util.Set;
 
 /**
@@ -108,6 +109,24 @@ public class HalfMeal extends Meal{
 		}
 		
 		return null;
+	}
+	
+	@Override
+	public String toString() {
+		String returnString = "";
+		DecimalFormat df = new DecimalFormat("#0.00");
+		
+		returnString += "Half Meal " + name + " - " + df.format(this.getPrice()) + "€ - ";
+		returnString += "Composed of:";
+		for (Dish dish : this.dishes) {
+			returnString += " " + dish.getName() + ", ";
+		}
+		
+		// Removing lasts ", "
+		returnString = returnString.substring(0, returnString.length() - 2);
+		returnString += ".";
+		
+		return returnString;
 	}
 
 }

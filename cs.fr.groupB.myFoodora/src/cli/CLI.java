@@ -103,6 +103,7 @@ public class CLI {
         System.out.println("  HELP - Shows the  full help message");
         System.out.println("  LOGIN <username> <password>- Login to an existing user account");
         System.out.println("  REGISTER <userType> - Register your new account with the necessary information");
+        System.out.println("  SETUP <restaurantQuantity> <customerQuantity> <courierQuantity> - Generates random users based on quantity arguments.");
         System.out.println("  EXIT - Exit myFoodora...");
         System.out.println("Enter your commands below:");
     }
@@ -219,6 +220,9 @@ public class CLI {
             case "SHOWTOTALPROFIT":
                 showTotalProfit(args);
                 break;
+            case "SETUP":
+            	setup(args);
+            	break;
             case "RUNTEST":
                 runTest(args);
                 break;
@@ -259,7 +263,7 @@ public class CLI {
 	    System.out.println("----------------------------------------");
 	    System.out.println("\nGeneric Commands Available :");
         System.out.println("    - HELP - Show this help message");
-	    System.out.println("    - RUNTEST <testScenarioFile> - execute the list of CLUI commands contained in the testScenario file passed as argument");
+	    System.out.println("    - RUNTEST <testScenarioFile> - execute the list of CLUI commands contained in the testScenario file passed as argument.");
 	    System.out.println("    - LOGIN <username> <password> - Log in with the specified username and password.");
         System.out.println("    - REGISTER <userType> - Register a new user account. User types can be: CUSTOMER, RESTAURANT, COURIER.");
 	    System.out.println("    - LOGOUT - Log out of the current session.");
@@ -352,6 +356,63 @@ public class CLI {
     public static void exit() {
         System.out.println("Exiting myFoodora... Goodbye!");
         // Perform the necessary cleanup before exiting
+    }
+    
+    /**
+     * Creates random users based on quantities specified by the user.
+     *
+     * @param args the quantities of each user to be created : restaurantQuantity, customerQuantity, courierQuantity
+     */
+    public static void setup(String... args){
+    	if (system.getCurrentUser() != null) {
+    		print("Error: you must be logged out to setup new users.");
+    		return;
+    	}
+    	if (args.length != 3) {
+    		print("Usage: SETUP <restaurantQuantity> <customerQuantity> <courierQuantity> - Generates random users based on quantity arguments.");
+    		return;
+    	}
+    	
+    	// Getting parameters
+    	int restaurantQuantity;
+    	int customerQuantity;
+    	int courierQuantity;
+    	
+    	try {
+    		restaurantQuantity = Integer.parseInt(args[0]);
+        	customerQuantity = Integer.parseInt(args[1]);
+        	courierQuantity = Integer.parseInt(args[2]);
+    	} catch(NumberFormatException e) {
+    		print("Error: invalid number type.");
+    		print("Usage: SETUP <restaurantQuantity> <customerQuantity> <courierQuantity> - Generates random users based on quantity arguments.");
+    		return;
+    	}
+    	
+    	
+    	if ((restaurantQuantity <= 0) || (restaurantQuantity > 100) ||
+    	    (customerQuantity <= 0) || (customerQuantity > 100) ||
+    	    (courierQuantity <= 0) || (courierQuantity > 100)) {
+    		print("Error: Select quantities between 1 and 100.");
+    		return;
+    	}
+    	
+    	// Creating users
+    	BasicScenarioGenerator generator = new BasicScenarioGenerator();
+    	try {
+			generator.createRandomUsers(restaurantQuantity, customerQuantity, courierQuantity);
+		} catch (BadUserCreationException | BadNumberOfArgumentsException | BadDishTypeCreationException
+				| BadArgumentTypeException | BadMealTypeCreationException | UnrecognizedDishException
+				| BadMealFormulaException e) {
+			print("Error creating users: "  + e.getMessage());
+		}
+    	
+    	// Sending created users to the system
+    	system.setRestaurants(generator.getCreatedRestaurants());
+    	system.setCustomers(generator.getCreatedCustomers());
+    	system.setCouriers(generator.getCreatedCouriers());
+    	system.setUserMap(generator.getCreatedUserMap());
+    	
+    	print("Created " + restaurantQuantity + " restaurants, " + customerQuantity + " customers and " + courierQuantity + " couriers.");
     }
 
     /**
@@ -457,6 +518,7 @@ public class CLI {
 			try {
 				if (newArgs.length == 9) {
     				if (newArgs[8] == "yes") newArgs[8] = "true";
+    				
     				if (newArgs[8] == "no") newArgs[8] = "false";
     			}
     			User newUser = system.getUserFactory().createUser(args[0], newArgs);
@@ -482,6 +544,7 @@ public class CLI {
     public static void logout() {
     	if (system.getCurrentUser() != null) {
     		print("User " + system.getCurrentUser().getUsername() + " logged out.");
+    		system.logout();
     	} else {
     		print("There's no user logged into the system to logout.");
     	}
@@ -1316,7 +1379,7 @@ public class CLI {
     	ArrayList<Restaurant> restaurants = ((Manager) system.getCurrentUser()).sortRestaurants(system);
     	if (restaurants.size() > 0) {
     		for(Restaurant restaurant : restaurants) {
-        		System.out.println(restaurant.getName() + "with " + restaurant.getOrderCounter() + " orders.");
+        		System.out.println(restaurant.getName() + " with " + restaurant.getOrderCounter() + " orders.");
         	}
     	} else {
     		print("Error: no restaurant found.");

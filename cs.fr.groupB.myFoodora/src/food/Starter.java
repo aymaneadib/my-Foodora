@@ -1,5 +1,7 @@
 package food;
 
+import java.text.DecimalFormat;
+
 /**
  * Represents a Starter in the system.
  * Starter is a specific type of Dish, it extends Dish.
@@ -27,7 +29,8 @@ public class Starter extends Dish {
      */
     @Override
 	public String toString() {
-		return name + " (Starter at " + price + "€)" ;
+    	DecimalFormat df = new DecimalFormat("#0.00");
+    	return "Starter " + name + " - " + df.format(price) + "€" ;
 	}
 
 }

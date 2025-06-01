@@ -275,4 +275,31 @@ public class Menu {
 	public void removeMeal(Meal meal) {
 		this.meals.remove(meal);
 	}
+	
+	@Override
+	public String toString() {
+		String returnString = "";
+		
+		returnString += "------------ STARTERS -----------\n";
+		for (Starter dish : this.starters) {
+			returnString += dish.toString() + "\n";
+		}
+		
+		returnString += "---------- MAIN DISHES ----------\n";
+		for (MainDish dish : this.mainDishes) {
+			returnString += dish.toString() + "\n";
+		}
+		
+		returnString += "------------ DESSERTS -----------\n";
+		for (Dessert dish : this.desserts) {
+			returnString += dish.toString() + "\n";
+		}
+		
+		returnString += "-------------- MEALS ------------\n";
+		for (Meal meal : this.meals) {
+			returnString += meal.toString() + "\n";
+		}
+		
+		return returnString;
+	}
 }
