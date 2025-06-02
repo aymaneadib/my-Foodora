@@ -600,7 +600,7 @@ public class CLI {
         			print("Enter the Manager information.");
         			print("Usage: <name> <surname> <username> <password>");	
         		} else {
-        			print("Error: A manager can only be created by another manager.");
+        			print("Error: You are not authorized to create a manager.");
         			return;
         		}
         		break;
@@ -635,7 +635,7 @@ public class CLI {
     		print("User " + system.getCurrentUser().getUsername() + " logged out.");
     		system.logout();
     	} else {
-    		print("There's no user logged into the system to logout.");
+    		print("There's no user logged into the system.");
     	}
     }
 
