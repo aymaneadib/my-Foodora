@@ -242,6 +242,12 @@ public class CLI {
             case "SETSPECIALOFFER":
                 setSpecialOffer(args);
                 break;
+            case "SETGENERICDISCOUNTFACTOR":
+                setGenericDiscountFactor(args);
+                break;
+            case "SETSPECIALDISCONTFACTOR":
+                setSpecialDiscountFactor(args);
+                break;
             case "REMOVEFROMSPECIALOFFER":
                 removeFromSpecialOffer(args);
                 break;
@@ -385,6 +391,8 @@ public class CLI {
         System.out.println("    - REMOVEFROMSPECIALOFFER <mealName> - Remove a meal from the special offer.");
         System.out.println("    - SHOWMENUITEMS - Show details of your menu.");
         System.out.println("    - SETPRICE <dishName> <newPrice> - Changing the price of an existing dish in your menu.");
+        System.out.println("    - SETGENERICDISCOUNTFACTOR <discountFactor> - Set the generic discount factor for your restaurant.");
+        System.out.println("    - SETSPECIALDISCONTFACTOR <discountFactor> - Set the special discount factor for your restaurant.");
     }
 
     /**
@@ -795,6 +803,52 @@ public class CLI {
             }
         } else {
             print("Usage: removeMeal <mealName>");
+        }
+    }
+
+    /**
+     * Sets the generic discount factor for the restaurant.
+     * @param args
+     */
+    public void setGenericDiscountFactor(String... args) {
+        if (system.getCurrentUser().getClass() != Restaurant.class) {
+            print("You must be logged in as a Restaurant to set the generic discount factor.");
+            return;
+        }
+        Restaurant restaurant = (Restaurant) system.getCurrentUser();
+        if (args.length == 1) {
+            try {
+                double discountFactor = Double.parseDouble(args[0]);
+                restaurant.setGeneralDiscount(discountFactor);
+                print("Generic discount factor set to: " + discountFactor);
+            } catch (NumberFormatException e) {
+                print("Error: Invalid discount factor. Please provide a valid number.");
+            }
+        } else {
+            print("Usage: setGenericDiscountFactor <discountFactor>");
+        }
+    }
+
+    /**
+     * Sets the special discount factor for the restaurant.
+     * @param args
+     */
+    public void setSpecialDiscountFactor(String... args) {
+        if (system.getCurrentUser().getClass() != Restaurant.class) {
+            print("You must be logged in as a Restaurant to set the special discount factor.");
+            return;
+        }
+        Restaurant restaurant = (Restaurant) system.getCurrentUser();
+        if (args.length == 1) {
+            try {
+                double discountFactor = Double.parseDouble(args[0]);
+                restaurant.setSpecialDiscount(discountFactor);
+                print("Special discount factor set to: " + discountFactor);
+            } catch (NumberFormatException e) {
+                print("Error: Invalid discount factor. Please provide a valid number.");
+            }
+        } else {
+            print("Usage: setSpecialDiscountFactor <discountFactor>");
         }
     }
 
