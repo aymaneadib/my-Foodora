@@ -58,7 +58,7 @@ register Courier
 Speedy Gonzalez speedgonz password 12.3 125.3
 showCustomers
 logout 
-login suhsiplace password
+login sushiplace password
 help
 createDish mainDish makisurimi 8 false true
 createDish mainDish makiradish 7.5 true true
