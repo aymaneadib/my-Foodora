@@ -119,11 +119,11 @@ public class HalfMeal extends Meal{
 		returnString += "Half Meal " + name + " - " + df.format(this.getPrice()) + "€ - ";
 		returnString += "Composed of:";
 		for (Dish dish : this.dishes) {
-			returnString += " " + dish.getName() + ", ";
+			returnString += " " + dish.getName() + ",";
 		}
 		
 		// Removing lasts ", "
-		returnString = returnString.substring(0, returnString.length() - 2);
+		returnString = returnString.substring(0, returnString.length() - 1);
 		returnString += ".";
 		
 		return returnString;

@@ -1609,7 +1609,14 @@ public class CLI {
     	double profit = 0;
     	
     	if (args.length == 2) {
-    		profit = ((Manager) system.getCurrentUser()).computeTotalProfit(system, LocalDate.parse(args[0]), LocalDate.parse(args[1]));
+    		String date1 = args[0];
+    		String date2 = args[1];
+    		if (args[0].contains("/")){
+    			// Then it is in the DD/MM/YYYY format
+    			date1 = args[0].substring(6, 10) + "-" + args[0].substring(3, 5) + "-" + args[0].substring(0, 2);
+    			date2 = args[1].substring(6, 10) + "-" + args[1].substring(3, 5) + "-" + args[1].substring(0, 2);
+    		}
+    		profit = ((Manager) system.getCurrentUser()).computeTotalProfit(system, LocalDate.parse(date1), LocalDate.parse(date2));
     	} else {
     		profit = ((Manager) system.getCurrentUser()).computeTotalProfit(system, LocalDate.MIN, LocalDate.MAX);
     	}

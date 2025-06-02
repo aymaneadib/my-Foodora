@@ -1,8 +1,12 @@
-// Tested commands:
+// Test scenario nº1
+//
+// @author Alisson Bonatto
+//
 // SETUP
 // LOGIN
 // REGISTER
 // LOGOUT
+// HELP
 
 
 SETUP a 2 3
