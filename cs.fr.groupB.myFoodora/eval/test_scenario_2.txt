@@ -19,9 +19,29 @@
 // REMOVEDISH
 // SETPRICE
 // REMOVEFROMSPECIALOFFER
+// ASSOCIATECARD
+// DISPLAYFIDELITYCARD
+// CREATEORDER
+// ADDITEM2ORDER
+// ENDORDER
+// SHOWORDERS
+// SHOWRESTAURANTS
+// SHOWPOPULARRESTAURANTS
+// SHOWMONEYSPENT
+// CHANGEADDRESS
+// CHANGEPHONENUMBER
+// CONSENTNOTIFICATIONS
+// SHOWTOTALPROFIT
+// SETDELIVERYPOLICY
+// HELP
+// SETPROFITPOLICY
+// SHOWRESTAURANTTOP
+// SHOWCOURIERDELIVERIES
+// SHOWCUSTOMERS
 //
 
 login aymaneadib adib1234
+help
 register Restaurant
 SushiPlace sushiplace password 152.4 47.2
 register Restaurant 
@@ -39,6 +59,7 @@ Speedy Gonzalez speedgonz password 12.3 125.3
 showCustomers
 logout 
 login suhsiplace password
+help
 createDish mainDish makisurimi 8 false true
 createDish mainDish makiradish 7.5 true true
 createDish mainDish sushiavocat 8.5 TRUE FALSE
@@ -62,76 +83,31 @@ showMenuItems
 removeDish makiradish
 removeFromSpecialOffer FM1
 logout 
-login agusteau chef789
-registerFidelityCard lottery
-displayFidelityInfo
-createOrder Pizza Hut
-addItem2Order midi
-addItem2Order complet
-addItem2Order tiramisu
-endOrder yes
+login jamesoliver password
+help
+assosciateCard lottery
+displayFidelityCard
+showRestaurants
+createOrder SushiPlace
+addItem2Order dish sushiavocat
+addItem2Order meal FM1
+endOrder
+showOrders
+showOrders SushiPlace
+showOrders PizzaHut
+showPopularRestaurants
+showMoneySpent
+changeAddress 0.0 0.0
+changePhoneNumber 123456789
+consentNotifications no
 logout
-login joliver chef123
-registerFidelityCard point
-displayFidelityInfo
-createOrder Sushi Saka
-addItem2Order S3
-addItem2Order M7
-addItem2Order miso
-addItem2Order boule coco
-endOrder no
-logout
-login ubolt jamaik
-acceptDeliveryCall 1 yes
-acceptDeliveryCall 2 no
-offDuty
-logout
-login speedgonz ch33se
-acceptDeliveryCall 2 no
-onDuty
-logout
-login fgump shrink
-acceptDeliveryCall 2 yes
-logout
-login ubolt jamaik
-onDuty
-logout
-login speedgonz ch33se
-onDuty
-logout
-login ceo 123456789
+login aymaneadib adib1234
 showTotalProfit
-showTotalProfit 01/01/2017 31/01/2017
-setDeliveryPolicy fairOccupation
-logout
-login joliver chef123
-historyOfOrders
-displayFidelityInfo
-createOrder Sushi Saka
-addItem2Order M7
-addItem2Order miso
-addItem2Order boule coco
-endOrder yes
-logout
-login ubolt jamaik
-logout
-login speedgonz ch33se
-acceptDeliveryCall 3 yes
-logout
-login saka password
-showSortedMeals
-showSortedDishes
-logout
-login ceo 123456789
-showTotalProfit
-showTotalProfit 01/01/2017 31/01/2017
-meetTargetProfit markup 20
-setProfitInfoValue markup 0.12
-showTotalProfit
-showCustomers 
-showCourierDeliveries
+showTotalProfit 01/01/2023 31/12/2023
+setDeliveryPolicy #######################
+setProfitPolicy ###############3
+showCustomers
 showRestaurantTop
-deactivateUser ubolt
+showCourierDeliveries
 logout
-login ubolt jamaik
-close
+exit
