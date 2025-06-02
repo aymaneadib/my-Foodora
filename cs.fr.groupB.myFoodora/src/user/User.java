@@ -38,6 +38,19 @@ public abstract class User {
         usernamesUsed.add(username);
         this.active = true;
     }
+
+    /**
+     * Constructor for the User class with only a password.
+     * This constructor is used when the name and username are not provided.
+     * @param password
+     */
+    public User(String password) {
+        this.password = password;
+        this.id = idCounter++;
+        this.active = true;
+        this.name = "User " + this.id; // Default name if not provided
+        this.username = "user_" + this.id; // Default username if not provided
+    }
     
     /**
      * Adds the given username to the static collection of usernames already in use.
