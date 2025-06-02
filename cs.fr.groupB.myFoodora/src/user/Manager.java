@@ -171,8 +171,8 @@ public class Manager extends Person {
     public Restaurant mostSellingRestaurant(MyFoodora system){
         ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>(system.getRestaurants());
         RestaurantSorter restaurantSorter = new RestaurantSorter();
-        restaurantSorter.sort(restaurants);
-        return restaurants.get(restaurants.size()-1);
+        restaurants = restaurantSorter.sort(restaurants);
+        return restaurants.get(0);
     }
 
     /**
@@ -184,8 +184,8 @@ public class Manager extends Person {
     public Restaurant leastSellingRestaurant(MyFoodora system){
         ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>(system.getRestaurants());
         RestaurantSorter restaurantSorter = new RestaurantSorter();
-        restaurantSorter.sort(restaurants);
-        return restaurants.get(0);
+        restaurants = restaurantSorter.sort(restaurants);
+        return restaurants.get(restaurants.size()-1);
     }
     
     /**
@@ -197,8 +197,7 @@ public class Manager extends Person {
     public ArrayList<Restaurant> sortRestaurants(MyFoodora system){
         ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>(system.getRestaurants());
         RestaurantSorter restaurantSorter = new RestaurantSorter();
-        restaurantSorter.sort(restaurants);
-        Collections.reverse(restaurants);
+        restaurants = restaurantSorter.sort(restaurants);
         return restaurants;
     }
 
@@ -210,7 +209,7 @@ public class Manager extends Person {
     public Courier mostActiveCourier(MyFoodora system){
         ArrayList<Courier> couriers = new ArrayList<Courier>(system.getCouriers());
         CourierSorter courierSorter = new CourierSorter();
-        courierSorter.sort(couriers);
+        couriers = courierSorter.sort(couriers);
         return couriers.get(0);
     }
 
@@ -223,7 +222,7 @@ public class Manager extends Person {
     public Courier leastActiveCourier(MyFoodora system){
         ArrayList<Courier> couriers = new ArrayList<Courier>(system.getCouriers());
         CourierSorter courierSorter = new CourierSorter();
-        courierSorter.sort(couriers);
+        couriers = courierSorter.sort(couriers);
         return couriers.get(couriers.size()-1);
     }
     
@@ -236,7 +235,7 @@ public class Manager extends Person {
     public ArrayList<Courier> sortCouriers(MyFoodora system){
         ArrayList<Courier> couriers = new ArrayList<Courier>(system.getCouriers());
         CourierSorter courierSorter = new CourierSorter();
-        courierSorter.sort(couriers);
+        couriers = courierSorter.sort(couriers);
         return couriers;
     }
 
