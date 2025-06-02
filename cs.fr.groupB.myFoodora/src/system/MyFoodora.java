@@ -223,6 +223,15 @@ public class MyFoodora {
     }
     
     /**
+     * Sets history of all completed orders.
+     * 
+     * @param a set of orders
+     */
+    public void setOrderHistory(HashSet<Order> orders) {
+    	this.orderHistory = orders;
+    }
+    
+    /**
      * Sets the current profit strategy used by the platform.
      * 
      * @param strategy the new profit strategy

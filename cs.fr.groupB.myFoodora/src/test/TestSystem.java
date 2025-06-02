@@ -27,6 +27,11 @@ public class TestSystem {
     public static void setUpBeforeClass() throws Exception {
         // Initialize the system before any tests run
         system = MyFoodora.getInstance();
+        system.setCustomers(new HashSet<Customer>());
+        system.setManagers(new HashSet<Manager>());
+        system.setCouriers(new HashSet<Courier>());
+        system.setRestaurants(new HashSet<Restaurant>());
+        system.setOrderHistory(new HashSet<Order>());
         UserFactory userFactory = new UserFactory();
         manager1 = userFactory.createUser("manager", "Paolo","Ballarini","man_ballarini","password123");
         manager2 = userFactory.createUser("manager", "Arnault","Lapitre","man_lapitre","password123");
@@ -81,8 +86,8 @@ public class TestSystem {
     public void testCustomers() {
         // Test if users can log in correctly
         HashSet<User> expectedCustomers = new HashSet<User>();
-        expectedCustomers.add(customer1);
         expectedCustomers.add(customer2);
+        expectedCustomers.add(customer1);
         Assert.assertEquals(expectedCustomers, system.getCustomers());
     }
 

@@ -46,14 +46,14 @@ public class TestManager {
 	@BeforeClass
 	static public void initializeTests() throws BadUserCreationException {
 		manager1 = new Manager("Alisson", "Bonatto", "alissonbonatto", "1234");
-		customerLucas = new Customer("Lucas", "Petit", "lucaspetit", "1234", "+331", "lucas.petit@email.com", new Location(0, 0), true);
-		customerTheo = new Customer("Theo", "Bernard", "theobernard", "abcd", "+332", "theo.bernard@email.com", new Location(1, 0), true);
-		courier1 = new Courier("Bernard", "Petit", "bernardpetit", "1234", "+333", new Location(5, 9));
+		customerLucas = new Customer("CustomerName", "CustomerSurname", "c_username", "1234", "+33245878", "user@email.com", new Location(0, 0), true);
+		customerTheo = new Customer("CustomerName", "CustomerSurname", "c_username2", "abcd", "+33285", "user2@email.com", new Location(1, 0), true);
+		courier1 = new Courier("CourierName", "CourierSurname", "courir_username", "1234", "+77", new Location(5, 9));
 		courier1.setOnDuty(true);
-		courier2 = new Courier("Maria", "G.", "mariag", "1234", "+334", new Location(5, 9));
+		courier2 = new Courier("Maria", "G.", "mariag", "1234", "776045879", new Location(5, 9));
 		courier2.setOnDuty(true);
-		restaurant1 = new Restaurant("RestaurantParis", "restoparis", "1234", new Location(0.1, 0.1));
-		restaurant2 = new Restaurant("RestaurantNice", "restonice", "1234", new Location(0.1, 0.1));
+		restaurant1 = new Restaurant("RestaurantParis", "restopariss", "1234", new Location(0.1, 0.1));
+		restaurant2 = new Restaurant("RestaurantNice", "restonicee", "1234", new Location(0.1, 0.1));
 		system = MyFoodora.getInstance();
 		system.addUser(courier1);
 		system.addUser(courier2);
@@ -75,7 +75,7 @@ public class TestManager {
 	
 	@Test
 	public void testManagerSetters() throws BadUserCreationException {
-		Manager managerTest = new Manager("", "", "", "");
+		Manager managerTest = new Manager(".", ".", ".", ".");
 		managerTest.setName("Bob");
 		managerTest.setSurname("Dylan");
 		managerTest.setUsername("bobdylan");
@@ -190,11 +190,11 @@ public class TestManager {
 		restaurant1.addMeal(halfMeal);
 		
 		// customerLucas makes an order at restaurant1
-		system.login("lucaspetit", "1234");
+		system.login("c_username", "1234");
 		system.makeOrder(customerLucas, restaurant1, dishes, meals);
 		
 		// customerTheo makes an order at restaurant1
-		system.login("theobernard", "abcd");
+		system.login("c_username2", "abcd");
 		system.makeOrder(customerTheo, restaurant1, new HashSet<Dish>(), meals);
 		
 		// Comparing expected total income and profit with the return of the system

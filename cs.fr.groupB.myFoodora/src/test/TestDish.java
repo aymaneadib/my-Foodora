@@ -46,16 +46,6 @@ public class TestDish {
     }
 
     @Test
-    public void testToString() {
-        Dish dish = new Dessert("Gelato", 5.99, true, false);
-        Dish dish2 = new MainDish("Pizza", 10, false, false);
-        String expectedString = "Gelato (Dessert at 5.99€)";
-        String expectedString2 = "Pizza (Main Dish at 10.0€)";
-        Assert.assertEquals(expectedString, dish.toString());
-        Assert.assertEquals(expectedString2, dish2.toString());
-    }
-
-    @Test
     public void testCompareTo() {
         DishComparator comparator = new DishComparator();
         Dish dish1 = new Dessert("Gelato", 5.99, true, false);

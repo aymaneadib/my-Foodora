@@ -62,8 +62,8 @@ public class Menu {
 	    this.mainDishes = new HashSet<MainDish>();
 	    this.desserts = new HashSet<Dessert>();
 	    this.meals = new HashSet<Meal>();
-	    this.generalDiscount = 0;
-	    this.mealOfTheWeekDiscount = 0;
+	    this.generalDiscount = 0.05;
+	    this.mealOfTheWeekDiscount = 0.1;
 	}
 
 

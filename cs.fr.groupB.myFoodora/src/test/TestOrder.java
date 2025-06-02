@@ -36,9 +36,11 @@ public class TestOrder {
 	
 	@BeforeClass
 	public static void initializeTests() throws BadUserCreationException {
-		customerLucas = new Customer("Lucas", "Petit", "lucaspetit", "1234", "+331", "lucas.petit@email.com", new Location(0, 0), true);
-		courier1 = new Courier("Bernard", "Petit", "bernardpetit", "1234", "+333", new Location(5, 9));
-		restaurant1 = new Restaurant("RestaurantParis", "restoparis", "1234", new Location(0.1, 0.1));
+		customerLucas = new Customer("CustomerTestOrder", "CustomerTestOrderSurname", "customertestorder", "1234",
+				"+customertestorderphone", "customer.testoder@email.com", new Location(0, 0), true);
+		courier1 = new Courier("CourierTestOrder", "CourierTestOrderSurname", "couriertestorder", "1234",
+				"+customertestorderphone2", new Location(5, 9));
+		restaurant1 = new Restaurant("RestaurantParis", "restoparisTestOrder", "1234", new Location(0.1, 0.1));
 	}
 	
 	@Test

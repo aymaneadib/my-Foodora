@@ -35,13 +35,13 @@ public class TestRestaurant {
 
 	@BeforeClass
 	public static void initializeTests() throws BadUserCreationException{
-		restaurant1 = new Restaurant("RestaurantParis", "restoparis", "1234", new Location(0.1, 0.1));
+		restaurant1 = new Restaurant("RestaurantParis", "restoparistestrestaurant", "1234", new Location(0.1, 0.1));
 	}
 	
 	@Test
 	public void testRestaurantConstructor() {
 		Assert.assertTrue(restaurant1.getName().equals("RestaurantParis"));
-		Assert.assertTrue(restaurant1.getUsername().equals("restoparis"));
+		Assert.assertTrue(restaurant1.getUsername().equals("restoparistestrestaurant"));
 		Assert.assertTrue(restaurant1.getPassword().equals("1234"));
 		Assert.assertTrue(restaurant1.getLocation().equals(new Location(0.1, 0.1)));
 		Assert.assertTrue(restaurant1.isActive() == true);
@@ -82,8 +82,8 @@ public class TestRestaurant {
 	
 	@Test
 	public void testGetPriceDifferentFidelityCards() throws BadUserCreationException {
-		Customer customer = new Customer("", "", "customer1", "", "+331", "", new Location(0, 0));
-		Courier courier = new Courier("", "", "courier1", "", "+332", new Location(0, 0));
+		Customer customer = new Customer("", "", "customer1", "", "+testPricePhone1", "", new Location(0, 0));
+		Courier courier = new Courier("", "", "courier1", "", "+testPricePhone2", new Location(0, 0));
 		MainDish dish1 = new MainDish("Dish1", 100, true, false);
 		
 		Order order = new Order(customer, restaurant1, courier);
@@ -124,13 +124,13 @@ public class TestRestaurant {
 	@Test(expected = BadUserCreationException.class)
 	public void testUserAlreadyUsed() throws BadUserCreationException {
 		@SuppressWarnings("unused")
-		Restaurant restaurant2 =  new Restaurant("RestaurantMarseille", "restoparis", "1234", new Location(0.1, 0.1));
+		Restaurant restaurant2 =  new Restaurant("RestaurantMarseille", "restoparistestrestaurant", "1234", new Location(0.1, 0.1));
 	}
 	
 	@Test(expected = BadUserCreationException.class)
 	public void testUserAlreadyUsedViaSetter() throws BadUserCreationException {
-		Restaurant restaurant2 =  new Restaurant("RestaurantMarseille", "resto", "1234", new Location(0.1, 0.1));
-		restaurant2.setUsername("restoparis");
+		Restaurant restaurant2 =  new Restaurant("RestaurantMarseille", "restomars", "1234", new Location(0.1, 0.1));
+		restaurant2.setUsername("restoparistestrestaurant");
 	}
 	
 	@Test
@@ -144,10 +144,10 @@ public class TestRestaurant {
 	@Test
 	public void testUserFactoryCreateRestaurant() throws BadUserCreationException {
 		UserFactory userFactory = new UserFactory();
-		Restaurant restaurant2 = (Restaurant) userFactory.createUser("ReStAuRaNt", "PetitRestaurant", "petitresto", "1234", "1.9", "1.2");
+		Restaurant restaurant2 = (Restaurant) userFactory.createUser("ReStAuRaNt", "PetitRestaurant", "testRestaurantFactory", "1234", "1.9", "1.2");
 		
 		Assert.assertTrue(restaurant2.getName().equals("PetitRestaurant"));
-		Assert.assertTrue(restaurant2.getUsername().equals("petitresto"));
+		Assert.assertTrue(restaurant2.getUsername().equals("testRestaurantFactory"));
 		Assert.assertTrue(restaurant2.getPassword().equals("1234"));
 		Assert.assertTrue(restaurant2.getLocation().equals(new Location(1.9, 1.2)));
 	}

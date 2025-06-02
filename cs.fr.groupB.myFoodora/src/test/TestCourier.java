@@ -20,16 +20,16 @@ public class TestCourier {
 
 	@BeforeClass
 	public static void initializeTests() throws BadUserCreationException{
-		courier1 = new Courier("Bernard", "Petit", "bernardpetit", "1234", "+33777777777", new Location(5, 9));
+		courier1 = new Courier("Bernard", "Petit", "bernardpetit2025", "1234", "+testcourierphone", new Location(5, 9));
 	}
 	
 	@Test
 	public void testCourierConstructor() {
 		Assert.assertTrue(courier1.getName().equals("Bernard"));
 		Assert.assertTrue(courier1.getSurname().equals("Petit"));
-		Assert.assertTrue(courier1.getUsername().equals("bernardpetit"));
+		Assert.assertTrue(courier1.getUsername().equals("bernardpetit2025"));
 		Assert.assertTrue(courier1.getPassword().equals("1234"));
-		Assert.assertTrue(courier1.getPhoneNumber().equals("+33777777777"));
+		Assert.assertTrue(courier1.getPhoneNumber().equals("+testcourierphone"));
 		Assert.assertTrue(courier1.getPosition().equals(new Location(5, 9)));
 		Assert.assertTrue(courier1.getDeliveryCounter() == 0);
 		Assert.assertTrue(courier1.isOnDuty() == false);
@@ -38,12 +38,12 @@ public class TestCourier {
 	
 	@Test
 	public void testCourierSetters() throws BadUserCreationException {
-		Courier courierTest = new Courier("", "", "", "", "", new Location(0, 0));
+		Courier courierTest = new Courier("foo", "foo", "foo", "foo", "foo", new Location(0, 0));
 		courierTest.setName("Alisson");
 		courierTest.setSurname("Bonatto");
-		courierTest.setUsername("alissonbonatto");
+		courierTest.setUsername("alissonbonatto2025");
 		courierTest.setPassword("1234");
-		courierTest.setPhoneNumber("+331");
+		courierTest.setPhoneNumber("+559999");
 		courierTest.setPosition(new Location(1.1, 1.2));
 		courierTest.setDeliveryCounter(5);
 		courierTest.deactivateUser();
@@ -51,9 +51,9 @@ public class TestCourier {
 		
 		Assert.assertTrue(courierTest.getName().equals("Alisson"));
 		Assert.assertTrue(courierTest.getSurname().equals("Bonatto"));
-		Assert.assertTrue(courierTest.getUsername().equals("alissonbonatto"));
+		Assert.assertTrue(courierTest.getUsername().equals("alissonbonatto2025"));
 		Assert.assertTrue(courierTest.getPassword().equals("1234"));
-		Assert.assertTrue(courierTest.getPhoneNumber().equals("+331"));
+		Assert.assertTrue(courierTest.getPhoneNumber().equals("+559999"));
 		Assert.assertTrue(courierTest.getPosition().equals(new Location(1.1, 1.2)));
 		Assert.assertTrue(courierTest.getDeliveryCounter() == 5);
 		Assert.assertTrue(courierTest.isActive() == false);
@@ -96,14 +96,14 @@ public class TestCourier {
 	
 	@Test(expected = BadUserCreationException.class)
 	public void testPhoneNumberAlreadyUsed() throws BadUserCreationException {
-		String courier1PhoneNumber = "+33777777777";
+		String courier1PhoneNumber = "+testcourierphone";
 		@SuppressWarnings("unused")
 		Courier courierSamePhoneNumber = new Courier("", "", "courierSamePhoneNumber", "1234", courier1PhoneNumber, new Location(5, 9));
 	}
 	
 	@Test(expected = BadUserCreationException.class)
 	public void testPhoneNumberAlreadyUsedViaSetter() throws BadUserCreationException {
-		String courier1PhoneNumber = "+33777777777";
+		String courier1PhoneNumber = "+testcourierphone";
 		Courier courierSamePhoneNumber = new Courier("", "", "courierSamePhoneNumberViaSetter", "1234", "0", new Location(5, 9));
 		courierSamePhoneNumber.setPhoneNumber(courier1PhoneNumber);
 	}

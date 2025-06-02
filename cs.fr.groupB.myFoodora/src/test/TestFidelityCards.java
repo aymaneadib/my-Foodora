@@ -35,9 +35,9 @@ public class TestFidelityCards {
 	
 	@BeforeClass
 	public static void initializeTests() throws BadUserCreationException, BadMealFormulaException, UnrecognizedDishException {
-		customerLucas = new Customer("Lucas", "Petit", "lucaspetit", "1234", "+33777777777", "lucas.petit@email.com", new Location(0, 0));
-		restaurant1 = new Restaurant("RestaurantParis", "restoparis", "1234", new Location(0.1, 0.1));
-		courier1 = new Courier("Bernard", "Petit", "bernardpetit", "1234", "+333", new Location(5, 9));
+		customerLucas = new Customer("Lucas", "Petit", "lucasusername", "1234", "+phoneNumber", "lucas@email.com", new Location(0, 0));
+		restaurant1 = new Restaurant("RestaurantParis", "restoparis2025", "1234", new Location(0.1, 0.1));
+		courier1 = new Courier("Bernard", "Petit", "bernardusername", "1234", "+34", new Location(5, 9));
 		
 		// Adding dishes and meals to restaurant1 menu
 		MainDish dish1 = new MainDish("Dish1", 100, true, false);

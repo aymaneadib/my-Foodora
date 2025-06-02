@@ -30,8 +30,8 @@ public class TestCustomer {
 	
 	@BeforeClass
 	public static void initializeTests() throws BadUserCreationException {
-		customerLucas = new Customer("Lucas", "Petit", "lucaspetit", "1234", "+33777777777", "lucas.petit@email.com", new Location(0, 0));
-		customerTheo = new Customer("Theo", "Bernard", "theobernard", "abcd", "+33666666666", "theo.bernard@email.com", new Location(1, 0));
+		customerLucas = new Customer("Lucas", "Petit", "lucaspetit2024", "1234", "+33777777777", "lucas.petit2024@email.com", new Location(0, 0));
+		customerTheo = new Customer("Theo", "Bernard", "theobernard2024", "abcd", "+33666666666", "theo.bernard2024@email.com", new Location(1, 0));
 		customerTheo.setNotificationsConsent(true);
 	}
 
@@ -39,10 +39,10 @@ public class TestCustomer {
 	public void testCustomerCreationNoConsentConstructor() {
 		Assert.assertTrue(customerLucas.getName().equals("Lucas"));
 		Assert.assertTrue(customerLucas.getSurname().equals("Petit"));
-		Assert.assertTrue(customerLucas.getUsername().equals("lucaspetit"));
+		Assert.assertTrue(customerLucas.getUsername().equals("lucaspetit2024"));
 		Assert.assertTrue(customerLucas.getPassword().equals("1234"));
 		Assert.assertTrue(customerLucas.getPhoneNumber().equals("+33777777777"));
-		Assert.assertTrue(customerLucas.getEmail().equals("lucas.petit@email.com"));
+		Assert.assertTrue(customerLucas.getEmail().equals("lucas.petit2024@email.com"));
 		Assert.assertTrue(customerLucas.getAdress().equals(new Location(0, 0)));
 		Assert.assertTrue(customerLucas.isNotificationsConsent() == false);
 		Assert.assertTrue(customerLucas.isActive() == true);
@@ -52,10 +52,10 @@ public class TestCustomer {
 	public void testCustomerCreationConsentConstructor() {
 		Assert.assertTrue(customerTheo.getName().equals("Theo"));
 		Assert.assertTrue(customerTheo.getSurname().equals("Bernard"));
-		Assert.assertTrue(customerTheo.getUsername().equals("theobernard"));
+		Assert.assertTrue(customerTheo.getUsername().equals("theobernard2024"));
 		Assert.assertTrue(customerTheo.getPassword().equals("abcd"));
 		Assert.assertTrue(customerTheo.getPhoneNumber().equals("+33666666666"));
-		Assert.assertTrue(customerTheo.getEmail().equals("theo.bernard@email.com"));
+		Assert.assertTrue(customerTheo.getEmail().equals("theo.bernard2024@email.com"));
 		Assert.assertTrue(customerTheo.getAdress().equals(new Location(1, 0)));
 		Assert.assertTrue(customerTheo.isNotificationsConsent() == true);
 		Assert.assertTrue(customerTheo.isActive() == true);
@@ -91,28 +91,28 @@ public class TestCustomer {
 	
 	@Test(expected = BadUserCreationException.class)
 	public void testUserAlreadyExists() throws BadUserCreationException {
-		String lucasUsername = "lucaspetit";
+		String lucasUsername = "lucaspetit2024";
 		@SuppressWarnings("unused")
 		Customer customerLucasSameUserName = new Customer("", "", lucasUsername, "", "+331", "user.already.exists@email.com", new Location(0, 0));
 	}
 	
 	@Test(expected = BadUserCreationException.class)
 	public void testUserAlreadyExistsViaSetter() throws BadUserCreationException {
-		String lucasUsername = "lucaspetit";
+		String lucasUsername = "lucaspetit2024";
 		Customer customerLucasSameUserName = new Customer("", "", "test", "", "+331", "user.already.exists@email.com", new Location(0, 0));
 		customerLucasSameUserName.setUsername(lucasUsername);
 	}
 	
 	@Test(expected = BadUserCreationException.class)
 	public void testEmailAlreadyUsed() throws BadUserCreationException {
-		String emailTheo = "theo.bernard@email.com";
+		String emailTheo = "theo.bernard2024@email.com";
 		@SuppressWarnings("unused")
 		Customer customerTheoSameEmail = new Customer("", "", "customerTheoSameEmail", "", "+332", emailTheo, new Location(0, 0));
 	}
 	
 	@Test(expected = BadUserCreationException.class)
 	public void testEmailAlreadyUsedViaSetter() throws BadUserCreationException {
-		String emailTheo = "theo.bernard@email.com";
+		String emailTheo = "theo.bernard2024@email.com";
 		Customer customerTheoSameEmail = new Customer("", "", "customerTheoSameEmailViaSetter", "", "+332", "test", new Location(0, 0));
 		customerTheoSameEmail.setEmail(emailTheo);
 	}
@@ -135,8 +135,8 @@ public class TestCustomer {
 	
 	@Test
 	public void testToString() {
-		String expectedStringCustomerLucas = "Lucas Petit <lucas.petit@email.com> ( lucaspetit - Customer )";
-		String expectedStringCustomerTheo = "Theo Bernard <theo.bernard@email.com> ( theobernard - Customer )";
+		String expectedStringCustomerLucas = "Lucas Petit <lucas.petit2024@email.com> ( lucaspetit2024 - Customer )";
+		String expectedStringCustomerTheo = "Theo Bernard <theo.bernard2024@email.com> ( theobernard2024 - Customer )";
 		Assert.assertEquals(expectedStringCustomerLucas, customerLucas.toString());
 		Assert.assertEquals(expectedStringCustomerTheo, customerTheo.toString());
 	}
