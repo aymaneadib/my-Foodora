@@ -814,7 +814,7 @@ public class CLI {
      * Sets the generic discount factor for the restaurant.
      * @param args
      */
-    public void setGenericDiscountFactor(String... args) {
+    public static void setGenericDiscountFactor(String... args) {
         if (system.getCurrentUser().getClass() != Restaurant.class) {
             print("You must be logged in as a Restaurant to set the generic discount factor.");
             return;
@@ -837,7 +837,7 @@ public class CLI {
      * Sets the special discount factor for the restaurant.
      * @param args
      */
-    public void setSpecialDiscountFactor(String... args) {
+    public static void setSpecialDiscountFactor(String... args) {
         if (system.getCurrentUser().getClass() != Restaurant.class) {
             print("You must be logged in as a Restaurant to set the special discount factor.");
             return;
@@ -1130,7 +1130,7 @@ public class CLI {
      *
      * @param args the arguments for displaying the fidelity card, if any
      */
-    public void displayFidelityCard() {
+    public static void displayFidelityCard() {
         if (system.getCurrentUser().getClass() != Customer.class) {
             print("You must be logged in as a Customer to display your fidelity card.");
             return;
