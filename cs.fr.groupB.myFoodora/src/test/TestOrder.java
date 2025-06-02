@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -41,6 +43,13 @@ public class TestOrder {
 		courier1 = new Courier("CourierTestOrder", "CourierTestOrderSurname", "couriertestorder", "1234",
 				"+customertestorderphone2", new Location(5, 9));
 		restaurant1 = new Restaurant("RestaurantParis", "restoparisTestOrder", "1234", new Location(0.1, 0.1));
+	}
+
+	@AfterClass
+	public static void tearDown() {
+		customerLucas = null;
+		courier1 = null;
+		restaurant1 = null;
 	}
 	
 	@Test

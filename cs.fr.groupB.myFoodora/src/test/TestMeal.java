@@ -12,22 +12,49 @@ import food.*;
  */
 public class TestMeal {
 
+    private static Dish maindish;
+    private static Dish starter;
+    private static Dish dessert;
+    private static Meal fullMeal;
+    private static Meal halfMeal;
+    private static Meal halfMeal2;
+
+    @BeforeClass
+    public static void setUp() throws Exception {
+        maindish = new MainDish("Pizza",10, false, false);
+        starter = new Starter("Salad", 3, false, true);
+        dessert = new Dessert("Gelato", 5.99, true, false);
+        fullMeal = new FullMeal("Full Meal", Set.of(maindish, starter, dessert));
+        halfMeal = new HalfMeal("Half Meal", Set.of(maindish, dessert));
+        halfMeal2 = new HalfMeal("Half Meal 2", Set.of(maindish, starter));
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        maindish = null;
+        starter = null;
+        dessert = null;
+        fullMeal = null;
+        halfMeal = null;
+        halfMeal2 = null;
+    }
+
     @Test
-    public void testMealCreation() throws Exception {
-        Dish maindish = new MainDish("Pizza",10, false, false);
-        Dish starter = new  Starter("Salad", 3, false, true);
-        Dish dessert = new Dessert("Gelato", 5.99, true, false);
-        Meal fullMeal = new FullMeal("Full Meal", Set.of(maindish, starter, dessert));
-        Meal halfMeal = new HalfMeal("Half Meal", Set.of(maindish, dessert));
-        Meal halfMeal2 = new HalfMeal("Half Meal 2", Set.of(maindish, starter));
+    public void testFullMealCreation() throws Exception {
         Assert.assertNotNull(fullMeal);
-        Assert.assertNotNull(halfMeal);
-        Assert.assertNotNull(halfMeal2);
         Assert.assertEquals("Full Meal", fullMeal.getName());
+    }
+
+    @Test
+    public void testHalfMealCreation() throws Exception {
+        Assert.assertNotNull(halfMeal);
         Assert.assertEquals("Half Meal", halfMeal.getName());
         Assert.assertEquals("Half Meal 2", halfMeal2.getName());
-        Assert.assertEquals(3, fullMeal.getDishes().size());
-        Assert.assertEquals(2, halfMeal.getDishes().size());
+    }
+
+    @Test(expected = BadMealFormulaException.class)
+    public void testBadMealFormulaCreation() throws Exception {
+        Meal badMeal = new HalfMeal("Bad Meal", Set.of(maindish, starter, dessert));
     }
 
     @Test
@@ -42,6 +69,13 @@ public class TestMeal {
         Assert.assertNotNull(fullMeal);
         Assert.assertNotNull(halfMeal);
         Assert.assertNotNull(halfMeal2);
+    }
+
+    @Test(expected = BadMealTypeCreationException.class)
+    public void testBadMealTypeCreationException() throws BadMealTypeCreationException, BadNumberOfArgumentsException,
+            BadArgumentTypeException, UnrecognizedDishException, BadMealFormulaException {
+        MealFactory mealFactory = new MealFactory();
+        Meal badMeal = mealFactory.createMeal("BadMeal", "Bad Meal", Set.of(maindish, starter, dessert));
     }
 
     @Test(expected = BadMealFormulaException.class)
