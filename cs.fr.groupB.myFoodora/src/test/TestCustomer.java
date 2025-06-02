@@ -66,7 +66,7 @@ public class TestCustomer {
 		Customer customerEmpty = new Customer(".", ".", "", ".", ".", ".", null);
 		customerEmpty.setName("Alisson");
 		customerEmpty.setSurname("Bonatto");
-		customerEmpty.setUsername("alissonbonatto");
+		customerEmpty.setUsername("alissonbona");
 		customerEmpty.setPassword("1234");
 		customerEmpty.setPhoneNumber("+55999999999");
 		customerEmpty.setEmail("email@email.com");
@@ -79,7 +79,7 @@ public class TestCustomer {
 		
 		Assert.assertTrue(customerEmpty.getName().equals("Alisson"));
 		Assert.assertTrue(customerEmpty.getSurname().equals("Bonatto"));
-		Assert.assertTrue(customerEmpty.getUsername().equals("alissonbonatto"));
+		Assert.assertTrue(customerEmpty.getUsername().equals("alissonbona"));
 		Assert.assertTrue(customerEmpty.getPassword().equals("1234"));
 		Assert.assertTrue(customerEmpty.getPhoneNumber().equals("+55999999999"));
 		Assert.assertTrue(customerEmpty.getEmail().equals("email@email.com"));
