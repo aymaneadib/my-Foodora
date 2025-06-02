@@ -14,6 +14,7 @@ import food.HalfMeal;
 import food.MainDish;
 import food.Meal;
 import food.UnrecognizedDishException;
+import order.Order;
 import system.AvailableCourierNotFoundException;
 import system.FairOccupationDelivery;
 import system.IncorrectCredentialsException;
@@ -55,6 +56,11 @@ public class TestManager {
 		restaurant1 = new Restaurant("RestaurantParis", "restopariss", "1234", new Location(0.1, 0.1));
 		restaurant2 = new Restaurant("RestaurantNice", "restonicee", "1234", new Location(0.1, 0.1));
 		system = MyFoodora.getInstance();
+		system.setCustomers(new HashSet<Customer>());
+        system.setManagers(new HashSet<Manager>());
+        system.setCouriers(new HashSet<Courier>());
+        system.setRestaurants(new HashSet<Restaurant>());
+        system.setOrderHistory(new HashSet<Order>());
 		system.addUser(courier1);
 		system.addUser(courier2);
 		system.addUser(customerTheo);
@@ -156,8 +162,8 @@ public class TestManager {
 	public void testSortCouriers() {
 		courier1.setDeliveryCounter(10);
 		courier2.setDeliveryCounter(100);
-		Assert.assertTrue(manager1.sortCouriers(system).get(1).equals(courier1));
 		Assert.assertTrue(manager1.sortCouriers(system).get(0).equals(courier2));
+		Assert.assertTrue(manager1.sortCouriers(system).get(1).equals(courier1));
 	}
 	
 	@Test

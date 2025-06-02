@@ -104,7 +104,7 @@ public class TestMenu {
     @Test
     public void testGetGeneralDiscount() {
         Menu menu = new Menu();
-        Assert.assertEquals(0.0, menu.getGeneralDiscount(), 0.0001);
+        Assert.assertEquals(0.05, menu.getGeneralDiscount(), 0.0001);
         menu.setGeneralDiscount(0.15);
         Assert.assertEquals(0.15, menu.getGeneralDiscount(), 0.0001);
     }
@@ -132,7 +132,7 @@ public class TestMenu {
 
     @Test
     public void testGetSpecialDiscount() {
-        Assert.assertEquals(0.0, menu.getSpecialDiscount(), 0.0001);
+        Assert.assertEquals(0.1, menu.getSpecialDiscount(), 0.0001);
         menu.setSpecialDiscount(0.2);
         Assert.assertEquals(0.2, menu.getSpecialDiscount(), 0.0001);
     }

@@ -172,7 +172,7 @@ public class Manager extends Person {
         ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>(system.getRestaurants());
         RestaurantSorter restaurantSorter = new RestaurantSorter();
         restaurantSorter.sort(restaurants);
-        return restaurants.get(0);
+        return restaurants.get(restaurants.size()-1);
     }
 
     /**
@@ -185,7 +185,7 @@ public class Manager extends Person {
         ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>(system.getRestaurants());
         RestaurantSorter restaurantSorter = new RestaurantSorter();
         restaurantSorter.sort(restaurants);
-        return restaurants.get(restaurants.size()-1);
+        return restaurants.get(0);
     }
     
     /**
@@ -198,6 +198,7 @@ public class Manager extends Person {
         ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>(system.getRestaurants());
         RestaurantSorter restaurantSorter = new RestaurantSorter();
         restaurantSorter.sort(restaurants);
+        Collections.reverse(restaurants);
         return restaurants;
     }
 
@@ -210,7 +211,7 @@ public class Manager extends Person {
         ArrayList<Courier> couriers = new ArrayList<Courier>(system.getCouriers());
         CourierSorter courierSorter = new CourierSorter();
         courierSorter.sort(couriers);
-        return couriers.get(couriers.size()-1);
+        return couriers.get(0);
     }
 
     /**
@@ -223,7 +224,7 @@ public class Manager extends Person {
         ArrayList<Courier> couriers = new ArrayList<Courier>(system.getCouriers());
         CourierSorter courierSorter = new CourierSorter();
         courierSorter.sort(couriers);
-        return couriers.get(0);
+        return couriers.get(couriers.size()-1);
     }
     
     /**
@@ -236,7 +237,6 @@ public class Manager extends Person {
         ArrayList<Courier> couriers = new ArrayList<Courier>(system.getCouriers());
         CourierSorter courierSorter = new CourierSorter();
         courierSorter.sort(couriers);
-        Collections.reverse(couriers);
         return couriers;
     }
 
