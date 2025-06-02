@@ -247,14 +247,23 @@ public class Menu {
 	 */
 	public void removeDish(Dish dish) {
 		if (dish instanceof Starter) {
+			if (!this.starters.contains(dish)) {
+				throw new IllegalArgumentException("Dish not found in the menu");
+			}
 			Starter starter = (Starter) dish;
 			this.starters.remove(starter);
 		}
 		else if (dish instanceof MainDish) {
+			if (!this.mainDishes.contains(dish)) {
+				throw new IllegalArgumentException("Dish not found in the menu");
+			}
 			MainDish mainDish = (MainDish) dish;
 			this.mainDishes.remove(mainDish);
 		}
 		else if (dish instanceof Dessert) {
+			if (!this.desserts.contains(dish)) {
+				throw new IllegalArgumentException("Dish not found in the menu");
+			}
 			Dessert dessert = (Dessert) dish;
 			this.desserts.remove(dessert);
 		}
@@ -273,6 +282,9 @@ public class Menu {
 	 * @param meal the meal to remove
 	 */
 	public void removeMeal(Meal meal) {
+		if (!this.meals.contains(meal)) {
+			throw new IllegalArgumentException("Meal not found in the menu");
+		}
 		this.meals.remove(meal);
 	}
 	

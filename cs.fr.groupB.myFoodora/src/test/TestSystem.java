@@ -63,16 +63,28 @@ public class TestSystem {
     }
 
     @Test
-    public void testUserCreation() {
+    public void testManagerCreation() {
         // Test if users are created correctly
         Assert.assertNotNull("Manager 1 should not be null", manager1);
         Assert.assertNotNull("Manager 2 should not be null", manager2);
+    }
+
+    @Test
+    public void testRestaurantCreation() {
         Assert.assertNotNull("Restaurant 1 should not be null", restaurant1);
         Assert.assertNotNull("Restaurant 2 should not be null", restaurant2);
         Assert.assertNotNull("Restaurant 3 should not be null", restaurant3);
+    }
+
+    @Test
+    public void testCourierCreation() {
         Assert.assertNotNull("Courier 1 should not be null", courier1);
         Assert.assertNotNull("Courier 2 should not be null", courier2);
         Assert.assertNotNull("Courier 3 should not be null", courier3);
+    }
+
+    @Test
+    public void testCustomerCreation() {
         Assert.assertNotNull("Customer 1 should not be null", customer1);
         Assert.assertNotNull("Customer 2 should not be null", customer2);
     }
@@ -116,9 +128,13 @@ public class TestSystem {
     }
 
     @Test
-    public void testGetters() {
+    public void testDeliveryStratGetter() {
         // Test if getters return the correct values
         Assert.assertEquals("System should return the delivery strategy", new FairOccupationDelivery().getClass(), system.getDeliveryStrategy().getClass());
+    }
+
+    @Test
+    public void testOrderHistory() {
         Assert.assertEquals("System should return order history", new HashSet<Order>(), system.getOrderHistory());
     }
 
@@ -205,6 +221,48 @@ public class TestSystem {
         system.setDeliveryStrategy(new FairOccupationDelivery());
     }
 
+    @Test
+    public void testMakeOrder() throws UserNotFoundException, IncorrectCredentialsException, AvailableCourierNotFoundException, BadNumberOfArgumentsException, BadDishTypeCreationException, BadArgumentTypeException, UnrecognizedDishException, BadMealFormulaException, BadMealTypeCreationException {
+        // Test if an order can be made successfully
+        HashSet<Dish> halfMeal_dishes = new HashSet<Dish>();
+        halfMeal_dishes.add(dish1);
+        halfMeal_dishes.add(dish2);
+        Meal halfMeal = system.createMeal("halfMeal", "Special 1", halfMeal_dishes);
+        HashSet<Meal> halfMeal_set = new HashSet<Meal>();
+        halfMeal_set.add(halfMeal);
+        system.login("cust_smith", "password123");
+        ((Courier) courier1).setOnDuty(true); // Set courier1 back on duty
+        system.makeOrder((Customer) customer1,(Restaurant) restaurant1, halfMeal_dishes, halfMeal_set);
+        Assert.assertFalse("Order history should not be empty after making an order", system.getOrderHistory().isEmpty());
+        system.logout();
+    }
+
+
+    @Test
+    public void testMakeFalseOrder() throws UserNotFoundException, IncorrectCredentialsException, AvailableCourierNotFoundException, BadNumberOfArgumentsException, BadDishTypeCreationException, BadArgumentTypeException, UnrecognizedDishException, BadMealFormulaException, BadMealTypeCreationException {
+        // Test if an order with no dishes can be made
+        system.login("cust_smith", "password123");
+        HashSet<Dish> emptyDishes = new HashSet<Dish>();
+        HashSet<Meal> emptyMeals = new HashSet<Meal>();
+        Order order = system.makeOrder((Customer) customer1,(Restaurant) restaurant1, emptyDishes, emptyMeals);
+        Assert.assertNull("Order should be null when no dishes are provided", order);
+        system.logout();
+    }
+
+    @Test
+    public void testOrderNotLoggedIn() throws UserNotFoundException, IncorrectCredentialsException, AvailableCourierNotFoundException, BadNumberOfArgumentsException, BadDishTypeCreationException, BadArgumentTypeException, UnrecognizedDishException, BadMealFormulaException, BadMealTypeCreationException {
+        // Test if an order cannot be made when the user is not logged in
+        system.logout(); // Ensure no user is logged in
+        HashSet<Dish> halfMeal_dishes = new HashSet<Dish>();
+        halfMeal_dishes.add(dish1);
+        halfMeal_dishes.add(dish2);
+        Meal halfMeal = system.createMeal("halfMeal", "Special 1", halfMeal_dishes);
+        HashSet<Meal> halfMeal_set = new HashSet<Meal>();
+        halfMeal_set.add(halfMeal);
+        Order order = system.makeOrder((Customer) customer1,(Restaurant) restaurant1, halfMeal_dishes, halfMeal_set);
+        Assert.assertNull(order);
+    }
+
     @Test(expected = AvailableCourierNotFoundException.class)
     public void testSelectCourierWithNoAvailableCouriers() throws AvailableCourierNotFoundException {
         // Test if selecting a courier when none are available throws an exception
@@ -218,45 +276,22 @@ public class TestSystem {
         ((Courier) courier3).setOnDuty(true); // Set courier3 back on duty
     }
 
-    // @Test
-    // public void testMakeOrder() throws AvailableCourierNotFoundException, BadNumberOfArgumentsException, BadDishTypeCreationException, BadArgumentTypeException, UnrecognizedDishException, BadMealFormulaException, BadMealTypeCreationException {
-    //     // Test if an order can be made successfully
-    //     HashSet<Dish> halfMeal_dishes = new HashSet<Dish>();
-    //     halfMeal_dishes.add(dish1);
-    //     halfMeal_dishes.add(dish2);
-    //     Meal halfMeal = system.createMeal("halfMeal", "Special 1", halfMeal_dishes);
-    //     HashSet<Meal> halfMeal_set = new HashSet<Meal>();
-    //     halfMeal_set.add(halfMeal);
-    //     system.makeOrder((Customer) customer1,(Restaurant) restaurant1, halfMeal_dishes, halfMeal_set);
-    //     Assert.assertFalse("Order history should not be empty after making an order", system.getOrderHistory().isEmpty());
-    // }
-
-    // @Test
-    // public void testUpdateProfitDataFromTargetProfit() throws AvailableCourierNotFoundException, BadNumberOfArgumentsException, BadDishTypeCreationException, BadArgumentTypeException, UnrecognizedDishException, BadMealFormulaException, BadMealTypeCreationException {
-    //     LocalDate lastMonth = LocalDate.now().minusMonths(1);
-
-    //     HashSet<Dish> dishes = new HashSet<>();
-    //     dishes.add(dish1);
-    //     dishes.add(dish2);
-
-    //     HashSet<Meal> meals = new HashSet<>();
-    //     meals.add(system.createMeal("HalfMeal", "TestMeal", dishes));
-
-    //     List<Order> createdOrders = new ArrayList<>();
-    //     for (int i = 0; i < 4; i++) {
-    //         Order order = system.makeOrder((Customer) customer1, (Restaurant) restaurant1, dishes, meals);
-    //         order.setDate(lastMonth);
-    //     }
-
-    //     // Ensure orders are in order history and have the correct date
-    //     for (Order order : createdOrders) {
-    //         Assert.assertTrue(system.getOrderHistory().contains(order));
-    //         Assert.assertEquals(lastMonth, order.getDate());
-    //     }
-
-    //     // Call the method under test
-    //     system.updateProfitDataFromTargetProfit(1000.0);
-
-    //     // Optionally, you can assert on system's state if updateProfitDataFromTargetProfit has observable effects
-    // }
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+        // Clean up after all tests have run
+        system = null;
+        manager1 = null;
+        manager2 = null;
+        restaurant1 = null;
+        restaurant2 = null;
+        restaurant3 = null;
+        courier1 = null;
+        courier2 = null;
+        courier3 = null;
+        customer1 = null;
+        customer2 = null;
+        dish1 = null;
+        dish2 = null;
+        dish3 = null;
+    }
 }
