@@ -278,6 +278,9 @@ public class CLI {
             case "ASSOCIATECARD":
                 associateCard(args);
                 break;
+            case "DISPLAYFIDELITYCARD":
+                displayFidelityCard();
+                break;
             case "SHOWORDERS":
                 showOrders(args);
                 break;
@@ -413,6 +416,7 @@ public class CLI {
         System.out.println("    - CHANGEADDRESS <x> <y>  - Change your delivery address.");
         System.out.println("    - CHANGEPHONENUMBER <newPhoneNumber> - Change your phone number.");
         System.out.println("    - CONSENTNOTIFICATIONS <yes/no> - Set your consent for receiving notifications.");
+        System.out.println("    - DISPLAYFIDELITYCARD - Display your fidelity card information.");
     }
 
     /**
@@ -1119,6 +1123,21 @@ public class CLI {
             print("Failed to end order: " + e.getMessage());
         }
 
+    }
+
+    /**
+     * Displays the fidelity card information for the current customer.
+     *
+     * @param args the arguments for displaying the fidelity card, if any
+     */
+    public void displayFidelityCard() {
+        if (system.getCurrentUser().getClass() != Customer.class) {
+            print("You must be logged in as a Customer to display your fidelity card.");
+            return;
+        }
+        Customer customer = (Customer) system.getCurrentUser();
+        FidelityCard card = customer.getFidelityCard();
+        print("Fidelity Card Details: " + card.toString());
     }
 
     /**

@@ -14,6 +14,11 @@
 // SHOWDISH
 // SETSPECIALOFFER
 // SHOWMENUITEMS
+// SETSPECIALDISCONTFACTOR
+// SETGENERICDISCOUNTFACTOR
+// REMOVEDISH
+// SETPRICE
+// REMOVEFROMSPECIALOFFER
 //
 
 login aymaneadib adib1234
@@ -52,28 +57,11 @@ showMeal UnexistantMeal
 setSpecialOffer FM1
 showMenuItems
 setGenericDiscountFactor 0.055
-showMenuItem
+setPrice makiradish 99.99
+showMenuItems
+removeDish makiradish
+removeFromSpecialOffer FM1
 logout 
-login hut dateofbirth
-createDish 4 formaggi mainDish vegetarian 12
-createDish margherita mainDish standard 13.5
-createDish grecini starter vegetarian 4.5
-createDish arancine starter vegetarian 3
-createDish tiramisu dessert vegetarian 6.5
-createMeal complet full
-addDish2Meal 4 formaggi complet
-addDish2Meal arancine complet
-addDish2Meal tiramisu complet
-showMeal complet
-createMeal midi half
-addDish2Meal margherita midi
-addDish2Meal grecini midi
-setSpecialOffer midi
-showMenuItem
-setSpecialDiscountFactor 0.09
-showMenuItem 
-logout
-register Auguste Gusteau agusteau chef789 78.9,1.23
 login agusteau chef789
 registerFidelityCard lottery
 displayFidelityInfo
