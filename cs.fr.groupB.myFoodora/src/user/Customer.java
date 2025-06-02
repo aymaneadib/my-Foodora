@@ -44,6 +44,7 @@ public class Customer extends Person implements notification.Observer {
             throw new BadUserCreationException("Email already used by another account: " + email);
         }
         if (phonesUsed.contains(phoneNumber)) {
+        	User.removeUsernameFromUsernamesUsed(username);
             throw new BadUserCreationException("Phone number already used by another account: " + phoneNumber);
         }
         this.adress = adress;
@@ -73,6 +74,14 @@ public class Customer extends Person implements notification.Observer {
      */
     public static void removeEmailFromEmailsUsed(String email) {
     	Customer.emailsUsed.remove(email);
+    }
+    
+    /**
+     * Clear all email addresses from the static collection of emails already in use.
+     *
+     */
+    public static void clearEmailsFromEmailsUsed() {
+    	Customer.emailsUsed.clear();
     }
 
     public Order getCurrentOrder() {

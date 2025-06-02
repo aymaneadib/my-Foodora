@@ -2,12 +2,19 @@
 //
 // @author Alisson Bonatto
 //
+// Tested Commands:
 // SETUP
 // LOGIN
 // REGISTER
 // LOGOUT
 // HELP
-
+//
+// The bellow commands are also used, but their complete functionalities
+// are not completely tested. They are used the show the results of the SETUP command
+// SHOWMENUITEMS
+// SHOWCOURIERDELIVERIES
+// SHOWRESTAURANTTOP
+// SHOWCUSTOMERS
 
 SETUP a 2 3
 SETUP 5 -8 5
@@ -15,6 +22,7 @@ SETUP 3 4 5
 logout
 login incorrectUser password
 login admin incorrectPassword
+// admin user is one of the standard users created with SETUP
 login admin admin
 SHOWCUSTOMERS
 SHOWRESTAURANTTOP
@@ -29,5 +37,7 @@ login alissonbonatto bonatto1234
 logout
 REGISTER CUSTOMER
 NewUserName NewUserSurname alissonbonatto password +phoneNumber newUser@email.com 0 0
+REGISTER CUSTOMER
+NewUserName NewUserSurname newUsername password +phoneNumber alisson@email.com 0 0
 REGISTER CUSTOMER
 NewUserName NewUserSurname newUsername password +3312456789 newUser@email.com 0 0

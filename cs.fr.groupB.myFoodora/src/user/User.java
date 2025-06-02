@@ -28,7 +28,7 @@ public abstract class User {
      * @throws BadUserCreationException if there is an error creating the user
      */
     public User(String name, String username, String password) throws BadUserCreationException {
-        if (usernamesUsed.contains(username)) {
+    	if (usernamesUsed.contains(username)) {
             throw new BadUserCreationException("Username already used: " + username);
         }
         this.name = name;
@@ -68,6 +68,14 @@ public abstract class User {
      */
     public static void removeUsernameFromUsernamesUsed(String username) {
     	User.usernamesUsed.remove(username);
+    }
+    
+    /**
+     * Removes all usernames from the static collection of usernames already in use.
+     *
+     */
+    public static void clearUsernamesFromUsernamesUsed() {
+    	User.usernamesUsed.clear();
     }
     
     /**

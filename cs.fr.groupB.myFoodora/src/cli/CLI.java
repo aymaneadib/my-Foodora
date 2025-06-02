@@ -507,6 +507,9 @@ public class CLI {
 		}
     	
     	// Sending created users to the system
+    	User.clearUsernamesFromUsernamesUsed();
+    	Person.clearPhonesFromPhonesUsed();
+    	Customer.clearEmailsFromEmailsUsed();
     	system.setRestaurants(generator.getCreatedRestaurants());
     	system.setCustomers(generator.getCreatedCustomers());
     	system.setCouriers(generator.getCreatedCouriers());
@@ -573,6 +576,9 @@ public class CLI {
 			print("To use the new user, you need to login.");
 		} catch (BadUserCreationException e) {
 			print("Error: " + e.getMessage());
+			if (e.getMessage().contains("Email already used") || e.getMessage().contains("Phone number already used")) {
+				User.removeUsernameFromUsernamesUsed(args[2]);
+			}
 		}
 		
 		CLI.userTypeRegistering = "";

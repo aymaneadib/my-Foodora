@@ -46,6 +46,14 @@ public abstract class Person extends User {
     public static void removePhoneFromPhonesUsed(String phone) {
     	Person.phonesUsed.remove(phone);
     }
+    
+    /**
+     * Clear all phones from the static collection of phones already in use.
+     *
+     */
+    public static void clearPhonesFromPhonesUsed() {
+    	Person.phonesUsed.clear();
+    }
 
     /**
      * Returns the surname of the person.
