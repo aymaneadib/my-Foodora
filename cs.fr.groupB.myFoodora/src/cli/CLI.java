@@ -1956,7 +1956,11 @@ public class CLI {
     		
     		// Printing and handling command
     		System.out.println("\n> " + command);
-    		handleCommand(command);
+    		if(command.toUpperCase().equals("EXIT")) {
+    			break;
+    		} else {
+    			handleCommand(command);
+    		}
     	}
     	
     	// Printing final message
