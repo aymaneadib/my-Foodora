@@ -41,10 +41,13 @@ createDish starter nachos 5.0 true true
 createMeal fullmeal MealTaco beefTaco nachos chocoChurros
 setSpecialOffer MealTaco
 setPrice beefTaco 12.0
-setGenericDiscountFactor -0.1          // Invalid discount factor
+// Invalid discount factor
+setGenericDiscountFactor -0.1          
 setGenericDiscountFactor 0.05
-removeDish nonExistentDish             // Try removing a dish that doesn't exist
-removeFromSpecialOffer NotInOffer      // Try removing a meal not in special offer
+// Try removing a dish that doesn't exist
+removeDish nonExistentDish             
+// Try removing a meal not in special offer
+removeFromSpecialOffer NotInOffer      
 showMenuItems
 logout
 
@@ -88,13 +91,15 @@ acceptOrder
 onduty
 acceptOrder
 offduty
-acceptOrder    // Try to accept after going off-duty
+// Try to accept after going off-duty
+acceptOrder   
 logout
 
 // Log in BurgersAndFries and create invalid meal
 login bnf secret
 createDish mainDish doubleCheese 10.0 true true
-createMeal halfmeal BrokenMeal doubleCheese NonExistingDish // Meal with invalid dish
+// Meal with invalid dish
+createMeal halfmeal BrokenMeal doubleCheese NonExistingDish 
 createMeal fullmeal DoubleDouble doubleCheese doubleCheese doubleCheese
 createMeal halfmeal OKMeal doubleCheese doubleCheese
 setspecialoffer OKMeal
@@ -116,15 +121,18 @@ logout
 // Customer tries ordering again (dish now removed)
 login acooper pass123
 createOrder BurgersAndFries
-addItem2Order dish doubleCheese    // Should fail: dish was removed
+// Should fail: dish was removed
+addItem2Order dish doubleCheese    
 endOrder
 logout
 
 // Test misconfigured discount policy
 login aymaneadib adib1234
-setProfitPolicy -10                 // Invalid policy
+ // Invalid policy
+setProfitPolicy -10                
 setProfitPolicy 0.3
-setDeliveryPolicy overload          // Invalid format (should be object or string)
+// Invalid format (should be object or string)
+setDeliveryPolicy overload          
 setDeliveryPolicy loadbalancer
 showRestaurantTop
 showTotalProfit
@@ -134,9 +142,11 @@ logout
 // Test customer info updates
 login bmarley oneLove
 changeAddress 200.0 200.0
-changePhoneNumber abc123           // Invalid phone number
+// Invalid phone number
+changePhoneNumber abc123           
 changePhoneNumber 987654321
-consentNotifications maybe         // Invalid input
+// Invalid input
+consentNotifications maybe         
 consentNotifications yes
 logout
 
@@ -144,7 +154,8 @@ logout
 register Courier
 Courier Late cl pw 127.0 127.0
 login cl pw
-onduty                      // Should be assigned oldest waiting order
+// Should be assigned oldest waiting order
+onduty                      
 logout
 
 // Show orders again
