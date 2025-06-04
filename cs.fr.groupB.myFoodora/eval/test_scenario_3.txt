@@ -1,0 +1,163 @@
+// Test scenario nº3
+//
+// Author: Aymane Adib
+//
+// Commands tested:
+// LOGIN, LOGOUT, REGISTER, CREATEDISH, CREATEMEAL, SETSPECIALOFFER, REMOVEFROMSPECIALOFFER,
+// SHOWMENUITEMS, SETPRICE, REMOVEDISH, CREATEORDER, ADDITEM2ORDER, ENDORDER,
+// ONDUTY, OFFDUTY, ACCEPTORDER, REJECTORDER, SHOWORDERS, SHOWDISH, SHOWMEAL,
+// SETGENERICDISCOUNTFACTOR, SETSPECIALDISCONTFACTOR, SETPROFITPOLICY, SETDELIVERYPOLICY,
+// CHANGEADDRESS, CHANGEPHONENUMBER, CONSENTNOTIFICATIONS, SHOWTOTALPROFIT, SHOWRESTAURANTTOP,
+// DISPLAYFIDELITYCARD, ASSOCIATECARD, SHOWCOURIERDELIVERIES, SHOWPOPULARRESTAURANTS,
+// HELP, SHOWRESTAURANTS, SHOWCUSTOMERS, SHOWMONEYSPENT, SHOWMENUITEMS
+//
+
+// Manager logs in
+login aymaneadib adib1234
+help
+logout
+
+// Register users
+register Restaurant
+BurgersAndFries bnf secret 100.5 100.5
+register Restaurant
+TacoTown tacotown taco123 50.0 50.0
+register Customer
+Alice Cooper acooper pass123 alice@domain.com 120.0 120.0
+register Customer
+Bob Marley bmarley oneLove bob@domain.com 121.0 121.0
+register Courier
+Courier One c1 pw 123.0 123.0
+register Courier
+Courier Two c2 pw 124.0 124.0
+register Courier
+Courier Three c3 pw 125.0 125.0
+
+// Login TacoTown and create food items
+login tacotown taco123
+createDish mainDish beefTaco 9.0 true true
+createDish dessert chocoChurros 4.0 false true
+createDish starter nachos 5.0 true true
+createMeal fullmeal MealTaco beefTaco nachos chocoChurros
+setSpecialOffer MealTaco
+setPrice beefTaco 12.0
+setGenericDiscountFactor -0.1          // Invalid discount factor
+setGenericDiscountFactor 0.05
+removeDish nonExistentDish             // Try removing a dish that doesn't exist
+removeFromSpecialOffer NotInOffer      // Try removing a meal not in special offer
+showMenuItems
+logout
+
+// Login as Alice and make an order
+login acooper pass123
+associateCard lottery
+displayFidelityCard
+createOrder TacoTown
+addItem2Order dish beefTaco
+addItem2Order meal MealTaco
+endOrder
+showOrders
+logout
+
+// Login couriers but none accept
+login c1 pw
+onduty
+rejectOrder
+logout
+
+login c2 pw
+onduty
+rejectOrder
+logout
+
+login c3 pw
+onduty
+rejectOrder
+logout
+
+// Try customer again – another order
+login bmarley oneLove
+createOrder TacoTown
+addItem2Order dish beefTaco
+endOrder
+logout
+
+// Try to accept when off-duty
+login c1 pw
+acceptOrder
+onduty
+acceptOrder
+offduty
+acceptOrder    // Try to accept after going off-duty
+logout
+
+// Log in BurgersAndFries and create invalid meal
+login bnf secret
+createDish mainDish doubleCheese 10.0 true true
+createMeal halfmeal BrokenMeal doubleCheese NonExistingDish // Meal with invalid dish
+createMeal fullmeal DoubleDouble doubleCheese doubleCheese doubleCheese
+createMeal halfmeal OKMeal doubleCheese doubleCheese
+setspecialoffer OKMeal
+showMenuItems
+logout
+
+// Customer tries to order deleted dish
+login acooper pass123
+createOrder BurgersAndFries
+addItem2Order dish doubleCheese
+endOrder
+logout
+
+// Remove dish after ordering
+login bnf secret
+removeDish doubleCheese
+logout
+
+// Customer tries ordering again (dish now removed)
+login acooper pass123
+createOrder BurgersAndFries
+addItem2Order dish doubleCheese    // Should fail: dish was removed
+endOrder
+logout
+
+// Test misconfigured discount policy
+login aymaneadib adib1234
+setProfitPolicy -10                 // Invalid policy
+setProfitPolicy 0.3
+setDeliveryPolicy overload          // Invalid format (should be object or string)
+setDeliveryPolicy loadbalancer
+showRestaurantTop
+showTotalProfit
+showCourierDeliveries
+logout
+
+// Test customer info updates
+login bmarley oneLove
+changeAddress 200.0 200.0
+changePhoneNumber abc123           // Invalid phone number
+changePhoneNumber 987654321
+consentNotifications maybe         // Invalid input
+consentNotifications yes
+logout
+
+// Add new courier and go on duty
+register Courier
+Courier Late cl pw 127.0 127.0
+login cl pw
+onduty
+acceptOrder                         // Should be assigned oldest waiting order
+logout
+
+// Show orders again
+login tacotown taco123
+showOrders
+logout
+
+// Show customer views
+login acooper pass123
+showMoneySpent
+showPopularRestaurants
+logout
+
+// End
+exit
