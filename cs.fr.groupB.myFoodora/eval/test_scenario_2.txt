@@ -81,15 +81,15 @@ logout
 
 // All couriers log in and refuse the order (should result in abandonment)
 login c1 pw
-refuseOrder
+refuseOrder 1
 logout
 
 login c2 pw
-refuseOrder
+refuseOrder 1
 logout
 
 login c3 pw
-refuseOrder
+refuseOrder 1
 logout
 
 // Another customer orders from same restaurant
@@ -102,13 +102,13 @@ logout
 // Test courier accepting without being ONDUTY
 login c1 pw
 // Should not be allowed (was OFFDUTY)
-acceptOrder
+acceptOrder 2
 onduty
 // Accept next order now that courier is ONDUTY before order creation
-acceptOrder
+acceptOrder 2
 offduty
 // Try to accept again after going OFFDUTY
-acceptOrder
+acceptOrder 2
 logout
 
 // Login BurgersAndFries and create a meal with invalid and valid composition
@@ -171,7 +171,7 @@ register Courier
 Courier Late cl pw 127.0 127.0
 login cl pw
 onduty
-acceptOrder
+acceptOrder 3
 logout
 
 // Restaurant checks orders
