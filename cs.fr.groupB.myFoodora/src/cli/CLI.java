@@ -1286,6 +1286,11 @@ public class CLI {
     }
     
     public static void resolvePendingOrders(String... args) {
+    	if (args.length != 2) {
+    		print("Usage: ACCEPTORDER - Accepts order and the refuses the others.");
+    		print("Usage: REFUSEORDER - Refuses chosen order.");
+    	}
+    	
     	switch (args[0].toUpperCase()) {
     		
     	case "REFUSEORDER":
@@ -1311,6 +1316,15 @@ public class CLI {
     			print("Error: You must use a number as the ID of the Order.");
     		}
     		break;
+    		
+    	case "LOGOUT":
+    		logout();
+    		break;
+    		
+    	default:
+    		print("Usage: ACCEPTORDER - Accepts order and the refuses the others.");
+    		print("Usage: REFUSEORDER - Refuses chosen order.");
+    		
     	}
     	
     	if (CLI.pendingOrder != null) {
