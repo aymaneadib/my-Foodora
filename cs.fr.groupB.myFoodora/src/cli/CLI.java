@@ -1262,7 +1262,6 @@ public class CLI {
             print("We will find a courier for you order.");
             customer.getCurrentOrder().setCurrentStatus("COMPLETED AND WAITING FOR ACCEPTANCE OF A COURIER");
             CLI.pendingOrder = customer.getCurrentOrder();
-            print(CLI.pendingOrder.toString());
         } catch (Exception e) {
             print("Failed to end order: " + e.getMessage());
         }
