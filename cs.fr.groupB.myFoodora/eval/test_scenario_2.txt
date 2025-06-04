@@ -1,15 +1,14 @@
-// Test scenario nº3 – Edge Case & Robustness Testing
+// Test scenario nº2
 //
 // Author: Aymane Adib
 //
-// Tested Commands :
+// Tested Commands:
 // LOGIN, LOGOUT, REGISTER, HELP, EXIT, CREATEDISH, CREATEMEAL, SHOWCUSTOMERS, SETSPECIALOFFER,
 // REMOVEFROMSPECIALOFFER, SHOWMENUITEMS, SETPRICE, REMOVEDISH, SHOWMONEYSPENT
 // CREATEORDER, ADDITEM2ORDER, ENDORDER, SHOWORDERS, SHOWDISH, SHOWMEAL, ASSOCIATECARD, DISPLAYFIDELITYCARD
-// ONDUTY, OFFDUTY, ACCEPTORDER, REJECTORDER, SHOWCOURIERDELIVERIES, SHOWPOPULARRESTAURANTS, SHOWRESTAURANTS, 
+// ONDUTY, OFFDUTY, ACCEPTORDER, refuseOrder, SHOWCOURIERDELIVERIES, SHOWPOPULARRESTAURANTS, SHOWRESTAURANTS,
 // SETGENERICDISCOUNTFACTOR, SETSPECIALDISCONTFACTOR, SETPROFITPOLICY, SETDELIVERYPOLICY
 // CHANGEADDRESS, CHANGEPHONENUMBER, CONSENTNOTIFICATIONS, SHOWTOTALPROFIT, SHOWRESTAURANTTOP
-
 
 // Login as system manager and check help
 login aymaneadib adib1234
@@ -36,6 +35,19 @@ Courier Two c2 pw +66666 124.0 124.0
 register Courier
 Courier Three c3 pw +77777 125.0 125.0
 
+// Couriers go ONDUTY before any orders are created (important for proper assignment)
+login c1 pw
+onduty
+logout
+
+login c2 pw
+onduty
+logout
+
+login c3 pw
+onduty
+logout
+
 // Login as TacoTown to create dishes and meals
 login tacotown taco123
 createDish mainDish beefTaco 9.0 true true
@@ -45,13 +57,13 @@ createMeal fullmeal MealTaco beefTaco nachos chocoChurros
 setSpecialOffer MealTaco
 setPrice beefTaco 12.0
 // Invalid negative discount factor
-setGenericDiscountFactor -0.1              
+setGenericDiscountFactor -0.1
 // Correct discount
-setGenericDiscountFactor 0.05              
+setGenericDiscountFactor 0.05
 // Removing dish that doesn’t exist
-removeDish nonExistentDish                 
+removeDish nonExistentDish
 // Removing meal not in special offer
-removeFromSpecialOffer NotInOffer          
+removeFromSpecialOffer NotInOffer
 showMenuItems
 logout
 
@@ -66,20 +78,17 @@ endOrder
 showOrders
 logout
 
-// All couriers log in but reject the order
+// All couriers log in and refuse the order (should result in abandonment)
 login c1 pw
-onduty
-rejectOrder
+refuseOrder
 logout
 
 login c2 pw
-onduty
-rejectOrder
+refuseOrder
 logout
 
 login c3 pw
-onduty
-rejectOrder
+refuseOrder
 logout
 
 // Another customer orders from same restaurant
@@ -89,26 +98,26 @@ addItem2Order dish beefTaco
 endOrder
 logout
 
-// Test courier accepting without being on duty
+// Test courier accepting without being ONDUTY
 login c1 pw
-// Should not be accepted (off-duty)
-acceptOrder                              
+// Should not be allowed (was OFFDUTY)
+acceptOrder
 onduty
-// Accept available order
-acceptOrder                              
+// Accept next order now that courier is ONDUTY before order creation
+acceptOrder
 offduty
-// Attempt accept after off-duty
-acceptOrder                              
+// Try to accept again after going OFFDUTY
+acceptOrder
 logout
 
-// Login BurgersAndFries and create an invalid meal
+// Login BurgersAndFries and create a meal with invalid and valid composition
 login bnf secret
 createDish mainDish doubleCheese 10.0 true true
 // Invalid meal composition
-createMeal halfmeal BrokenMeal doubleCheese NonExistingDish    
+createMeal halfmeal BrokenMeal doubleCheese NonExistingDish
 createMeal fullmeal DoubleDouble doubleCheese doubleCheese doubleCheese
 createMeal halfmeal OKMeal doubleCheese doubleCheese
-setspecialoffer OKMeal
+setSpecialOffer OKMeal
 showMenuItems
 logout
 
@@ -119,26 +128,26 @@ addItem2Order dish doubleCheese
 endOrder
 logout
 
-// Remove the dish from menu after customer ordered it
+// Remove the dish from menu after it has been ordered
 login bnf secret
 removeDish doubleCheese
 logout
 
-// Customer attempts to order again a removed dish
+// Customer attempts to order a removed dish
 login acooper pass123
 createOrder BurgersAndFries
 // Should fail
-addItem2Order dish doubleCheese         
+addItem2Order dish doubleCheese
 endOrder
 logout
 
-// Manager sets invalid profit & delivery policies
+// Manager sets invalid and valid profit/delivery policies
 login aymaneadib adib1234
-// Invalid profit value
-setProfitPolicy -10                     
+// Invalid profit
+setProfitPolicy -10
 setProfitPolicy 0.3
 // Invalid delivery policy name
-setDeliveryPolicy overload              
+setDeliveryPolicy overload
 setDeliveryPolicy loadbalancer
 showRestaurantTop
 showTotalProfit
@@ -149,20 +158,19 @@ logout
 login bmarley oneLove
 changeAddress 200.0 200.0
 // Invalid phone number
-changePhoneNumber abc123                
+changePhoneNumber abc123
 changePhoneNumber 987654321
-// Invalid input
-consentNotifications maybe              
+// Invalid consent input
+consentNotifications maybe
 consentNotifications yes
 logout
 
-// Register new courier to test assignment
+// Register new courier and put ONDUTY before checking order assignment
 register Courier
 Courier Late cl pw 127.0 127.0
 login cl pw
 onduty
-// Accepts next unassigned order
-acceptOrder                             
+acceptOrder
 logout
 
 // Restaurant checks orders
