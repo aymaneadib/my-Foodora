@@ -865,7 +865,7 @@ public class CLI {
                 double discountFactor = Double.parseDouble(args[0]);
                 restaurant.setGeneralDiscount(discountFactor);
                 print("Generic discount factor set to: " + discountFactor);
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 print("Error: Invalid discount factor. Please provide a valid number.");
             }
         } else {
@@ -892,8 +892,8 @@ public class CLI {
                 double discountFactor = Double.parseDouble(args[0]);
                 restaurant.setSpecialDiscount(discountFactor);
                 print("Special discount factor set to: " + discountFactor);
-            } catch (NumberFormatException e) {
-                print("Error: Invalid discount factor. Please provide a valid number.");
+            } catch (Exception e) {
+                print("Error: Invalid discount factor."+e.getMessage());
             }
         } else {
             print("Usage: setSpecialDiscountFactor <discountFactor>");
