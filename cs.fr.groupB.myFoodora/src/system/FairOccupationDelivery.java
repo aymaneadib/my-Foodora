@@ -28,23 +28,17 @@ public class FairOccupationDelivery implements DeliveryStrategy {
      * @return the selected Courier with the least deliveries who is on duty, or null if none available
      */
     @Override
-    public Courier selectCourier(Set<Courier> couriers, Restaurant restaurant, Customer customer) {
+    public ArrayList<Courier> selectCourier(Set<Courier> couriers, Restaurant restaurant, Customer customer) {
         // Creating a comparator and sorting couriers by number of deliveries
         CourierComparator comparator = new CourierComparator();
         ArrayList<Courier> arrayCouriers = new ArrayList<Courier>(couriers);
         Collections.sort(arrayCouriers, comparator);
-
-        // Selecting least occupied courier that is on duty
-        Courier selectedCourier = null;
-
-        for(Courier courier : arrayCouriers) {
-            if(courier.isOnDuty()) {
-                selectedCourier = courier;
-                break;
-            }
+        
+        for (Courier courier : arrayCouriers) {
+        	if (!courier.isOnDuty()) arrayCouriers.remove(courier);
         }
 
-        return selectedCourier;
+        return arrayCouriers;
     }
 
 }

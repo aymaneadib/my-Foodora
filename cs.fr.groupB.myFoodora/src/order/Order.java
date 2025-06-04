@@ -1,6 +1,7 @@
 package order;
 
 import food.*;
+import system.AvailableCourierNotFoundException;
 import user.*;
 
 import java.time.LocalDate;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  * 
  * @author Aymane Adib
  */
-public class Order {
+public class Order{
 
     private static int orderCounter = 0; // Counter for unique order IDs
 
@@ -26,8 +27,10 @@ public class Order {
     private ArrayList<Dish> dishes;
     private ArrayList<Meal> meals;
     private double price;
+    private String currentStatus;
+    private ArrayList<Courier> possibleCouriers;
 
-    /**
+	/**
      * Constructor for the Order class.
      *
      * @param customer   the customer who placed the order
@@ -46,6 +49,7 @@ public class Order {
         this.meals = new ArrayList<>();
         this.price = 0.0;
         this.id = ++orderCounter;
+        this.currentStatus = "WAINTING FOR COMPLETION";
     }
 
     /**
@@ -57,6 +61,61 @@ public class Order {
      */
     public Order(Customer customer, Restaurant restaurant, Courier courier) {
         this(customer, restaurant, courier, LocalTime.now(), LocalDate.now());
+    }
+    
+    /**
+     * Returns the list of possible couriers to deliver.
+     *
+     * @return the list of possible couriers
+     */
+    public ArrayList<Courier> getPossibleCouriers() {
+		return possibleCouriers;
+	}
+
+    /**
+     * Sets the list of possible couriers to deliver.
+     *
+     * @param the list of possible couriers
+     */
+	public void setPossibleCouriers(ArrayList<Courier> possibleCouriers) {
+		this.possibleCouriers = possibleCouriers;
+	}
+	
+	/**
+     * Removes a courier from the list of possible couriers.
+     *
+     * @param the courier to be removed
+     */
+	public void removeCourierFromPossibleCourier(Courier courier) {
+		this.possibleCouriers.remove(courier);
+	}
+	
+	/**
+     * Notifies the next courier of the list.
+     *
+     */
+	public void notifyNextCourier(){
+		if (this.possibleCouriers.size() != 0) {
+			this.possibleCouriers.get(0).addPendingOrder(this);
+		}
+	}
+    
+    /**
+     * Returns the current status of the order.
+     *
+     * @return the status of the order
+     */
+    public String getCurrentStatus() {
+    	return this.currentStatus;
+    }
+    
+    /**
+     * Sets the current status of the order.
+     *
+     * @param the status of the order
+     */
+    public void setCurrentStatus(String status) {
+    	this.currentStatus = status;
     }
 
         /**
@@ -272,7 +331,7 @@ public class Order {
      */
     @Override
     public String toString() {
-        return "Order nº "+ id + " from " + restaurant.getName() + " to " + customer.getName();
+        return "Order ID "+ id + " from " + restaurant.getName() + " to " + customer.getName();
     }
 
 }

@@ -1,5 +1,7 @@
 package system;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Set;
 
 import user.Courier;
@@ -26,22 +28,35 @@ public class FastestDelivery implements DeliveryStrategy {
      *         or null if no courier is on duty
      */
     @Override
-    public Courier selectCourier(Set<Courier> couriers, Restaurant restaurant, Customer customer) {
-        Courier fastestCourier = null;
-        double minDistance = Double.POSITIVE_INFINITY;
+    public ArrayList<Courier> selectCourier(Set<Courier> couriers, Restaurant restaurant, Customer customer) {
+    	ArrayList<Double> couriersDistances = new ArrayList<Double>();
+    	ArrayList<Courier> orderedCouriers = new ArrayList<Courier>();
+    	ArrayList<Courier> listOfCouriers = new ArrayList<>(couriers);
 
-        // Find courier with minimum total distance who is on duty
+        // Calculate distances
         for (Courier courier : couriers) {
-            if (courier.isOnDuty()) {
-                double totalDistance = restaurant.getLocation().distanceTo(courier.getPosition())
-                                     + restaurant.getLocation().distanceTo(customer.getAdress());
-                if (totalDistance < minDistance) {
-                    fastestCourier = courier;
-                    minDistance = totalDistance;
-                }
-            }
+            double totalDistance = restaurant.getLocation().distanceTo(courier.getPosition())
+                                 + restaurant.getLocation().distanceTo(customer.getAdress());
+            couriersDistances.add(totalDistance);
+        }
+        
+        // Creating a list of indexes
+        ArrayList<Integer> indices = new ArrayList<>();
+        for (int i = 0; i < listOfCouriers.size(); i++) {
+            indices.add(i);
+        }
+        
+        // Sorting indexes by distances
+        indices.sort(Comparator.comparingDouble(index -> couriersDistances.get(index)));
+        for (int sortedIndex : indices) {
+            orderedCouriers.add(listOfCouriers.get(sortedIndex));
+        }
+        
+        // Excluding not onDuty Courier
+        for (Courier courier : orderedCouriers) {
+        	if (!courier.isOnDuty()) orderedCouriers.remove(courier);
         }
 
-        return fastestCourier;
+        return orderedCouriers;
     }
 }

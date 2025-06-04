@@ -1,5 +1,6 @@
 package system;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import user.Courier;
@@ -23,6 +24,6 @@ public interface DeliveryStrategy {
      * @param customer the customer who will receive the order
      * @return the selected Courier for the delivery
      */
-    public Courier selectCourier(Set<Courier> couriers, Restaurant restaurant, Customer customer);
+    public ArrayList<Courier> selectCourier(Set<Courier> couriers, Restaurant restaurant, Customer customer);
     
 }

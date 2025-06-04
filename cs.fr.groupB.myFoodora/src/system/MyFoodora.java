@@ -478,16 +478,16 @@ public class MyFoodora {
      * @return the selected courier
      * @throws AvailableCourierNotFoundException if no courier is available
      */
-    public Courier selectCourier(Restaurant restaurantToPickDeliver, Customer customerToDeliver) throws AvailableCourierNotFoundException{
+    public ArrayList<Courier> selectCourier(Restaurant restaurantToPickDeliver, Customer customerToDeliver) throws AvailableCourierNotFoundException{
     	// Selecting courier based on current policy
-    	Courier selectedCourier = this.deliveryStrategy.selectCourier(this.couriers, restaurantToPickDeliver, customerToDeliver);
+    	ArrayList<Courier> selectedCouriers = this.deliveryStrategy.selectCourier(this.couriers, restaurantToPickDeliver, customerToDeliver);
     	
     	// If there's no available couriers, throws an error
-    	if (selectedCourier == null) {
+    	if (selectedCouriers == null) {
     		throw new AvailableCourierNotFoundException("Available courier not found.");
     	}
     	
-    	return selectedCourier;
+    	return selectedCouriers;
     }
     
     /**
@@ -587,29 +587,31 @@ public class MyFoodora {
     		// If the currentUser and restaurant are active and there's at least one dish or meal
     		if (((Customer) this.currentUser).isActive() && !(dishes.isEmpty() && meals.isEmpty()) && restaurant.isActive()) {
     			
-    			// Choosing a courier
-    			Courier courier = this.selectCourier(restaurant, customer);
+				// Creating a new Order
+    			Order newOrder = new Order(customer, restaurant, null);
     			
-    			if (courier != null) {
-    				// Creating a new Order
-        			Order newOrder = new Order(customer, restaurant, courier);
-        			
-        			// Adding meals and dishes
-        			for (Dish dish : dishes) {
-        				newOrder.addDish(dish);
-        			}
-        			for (Meal meal : meals) {
-        				newOrder.addMeal(meal);
-        			}
-        			
-        			// Getting and setting the final price based on fidelity card
-        			double newPrice = ((Customer) this.currentUser).getFidelityCard().getFinalPrice(newOrder);
-        			newOrder.setPrice(newPrice);
-        			
-        			// Adding order to history
-        			this.orderHistory.add(newOrder);
-                    return newOrder;
+    			// Adding meals and dishes
+    			for (Dish dish : dishes) {
+    				newOrder.addDish(dish);
     			}
+    			for (Meal meal : meals) {
+    				newOrder.addMeal(meal);
+    			}
+    			
+    			// Choosing the possible couriers
+    			ArrayList<Courier> possibleCouriers = this.selectCourier(restaurant, customer);
+    			newOrder.setPossibleCouriers(possibleCouriers);
+    			
+    			// Notifies first courier
+    			newOrder.notifyNextCourier();
+    			
+    			// Getting and setting the final price based on fidelity card
+    			double newPrice = ((Customer) this.currentUser).getFidelityCard().getFinalPrice(newOrder);
+    			newOrder.setPrice(newPrice);
+    			
+    			// Adding order to history
+    			this.orderHistory.add(newOrder);
+                return newOrder;
     		}
     	}
         return null; // If the current user is not a customer or the order cannot be processed

@@ -29,6 +29,8 @@ public class CLI {
 
     private static MyFoodora system;
     private static boolean registering = false;
+    private static boolean resolvingPendingOrders = false;
+    private static Order pendingOrder = null;
     private static String userTypeRegistering;
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -140,7 +142,8 @@ public class CLI {
         			user = (Courier) userFactory.createUser("courier", lines.get(i+1).split("=")[1], lines.get(i+2).split("=")[1],
         					lines.get(i+3).split("=")[1], lines.get(i+4).split("=")[1], lines.get(i+5).split("=")[1],
         					lines.get(i+6).split("=")[1], lines.get(i+7).split("=")[1]);
-					i += 7;
+        			((Courier) user).setOnDuty(Boolean.parseBoolean(lines.get(i+8).split("=")[1]));
+					i += 8;
         			break;
         			
         		case "RESTAURANT":
@@ -198,6 +201,12 @@ public class CLI {
     	if (CLI.registering) {
     		String[] args = input.split("\\s+");
         	completeRegistration(args);
+        	return;
+        }
+    	
+    	if (CLI.resolvingPendingOrders) {
+    		String[] args = input.split("\\s+");
+        	resolvePendingOrders(args);
         	return;
         }
     	
@@ -260,6 +269,9 @@ public class CLI {
             case "ADDITEM2ORDER":
                 addItem2Order(args);
                 break;
+            case "DISPLAYCURRENTORDER":
+            	displayCurrentOrder();
+            	break;
             case "ENDORDER":
                 endOrder(args);
                 break;
@@ -375,7 +387,9 @@ public class CLI {
     public static void printCourierHelp(){
         System.out.println("Courier Commands Available :");
         System.out.println("    - ONDUTY - Mark yourself as on duty to accept orders.");
-        System.out.println("    - OFFDUTY - Mark yourself as off duty to stop accepting new orders.");    
+        System.out.println("    - OFFDUTY - Mark yourself as off duty to stop accepting new orders.");
+        System.out.println("    - ACCEPTORDER - Accepts order and the refuses the others.");
+        System.out.println("    - REFUSEORDER - Refuses chosen order.");
     }
 
     /**
@@ -542,6 +556,10 @@ public class CLI {
     						((Customer) system.getCurrentUser()).clearNotifications();
     					}
     				}
+    				
+    				if (system.getCurrentUser() instanceof Courier) {
+    					showPendingOrdersToResolve();
+    				}
     			// Print error message's if doesn't succeed
     			} catch (UserNotFoundException e) {
     				print("Error: " + e.getMessage());
@@ -663,6 +681,10 @@ public class CLI {
      * @param args the arguments for adding a dish, such as dish name, price, and description
      */
     public static void createDish(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Restaurant to add a dish to a menu.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Restaurant.class) {
             print("You must be logged in as a Restaurant to add a dish to a menu.");
             return;
@@ -724,6 +746,10 @@ public class CLI {
      * @param args the arguments for creating a meal, such as meal name and description
      */
     public static void createMeal(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Restaurant to create a meal.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Restaurant.class) {
             print("You must be logged in as a Restaurant to create a meal.");
             return;
@@ -796,6 +822,10 @@ public class CLI {
      * @param args the arguments for removing a meal, such as meal name
      */
     public static void removeMeal(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Restaurant to remove a meal from a menu.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Restaurant.class) {
             print("You must be logged in as a Restaurant to remove a meal from a menu.");
             return;
@@ -821,6 +851,10 @@ public class CLI {
      * @param args
      */
     public static void setGenericDiscountFactor(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Restaurant to set the generic discount factor.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Restaurant.class) {
             print("You must be logged in as a Restaurant to set the generic discount factor.");
             return;
@@ -844,6 +878,10 @@ public class CLI {
      * @param args
      */
     public static void setSpecialDiscountFactor(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Restaurant to set the special discount factor.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Restaurant.class) {
             print("You must be logged in as a Restaurant to set the special discount factor.");
             return;
@@ -868,6 +906,10 @@ public class CLI {
      * @param args the arguments for removing a dish, such as dish name
      */
     public static void removeDish(String... args){
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Restaurant to remove a dish from a menu.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Restaurant.class) {
             print("You must be logged in as a Restaurant to remove a dish from a menu.");
             return;
@@ -894,6 +936,10 @@ public class CLI {
      * @param args the arguments for showing a meal, such as meal ID
      */
     public static void showMeal(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Restaurant to show a meal.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Restaurant.class) {
             print("You must be logged in as a Restaurant to show a meal.");
             return;
@@ -919,6 +965,10 @@ public class CLI {
      * @param args the arguments for showing a dish, such as dish ID
      */
     public static void showDish(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Restaurant to show a dish.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Restaurant.class) {
             print("You must be logged in as a Restaurant to show a dish.");
             return;
@@ -944,6 +994,10 @@ public class CLI {
      * @param args the arguments for setting a special offer, such as meal ID and offer details
      */
     public static void setSpecialOffer(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Restaurant to set a special offer.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Restaurant.class) {
             print("You must be logged in as a Restaurant to set a special offer.");
             return;
@@ -968,6 +1022,10 @@ public class CLI {
      * @param args the arguments for removing from special offer, such as meal ID or dish ID
      */
     public static void removeFromSpecialOffer(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Restaurant to remove from special offer.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Restaurant.class) {
             print("You must be logged in as a Restaurant to remove from special offer.");
             return;
@@ -992,6 +1050,10 @@ public class CLI {
      * @param args the arguments for creating an order, such as customer ID and meal ID
      */
     public static void createOrder(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Customer to create an order.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Customer.class) {
             print("You must be logged in as a Customer to create an order.");
             return;
@@ -1000,6 +1062,11 @@ public class CLI {
             print("You already have an active order. Please complete it before creating a new one.");
             return;
         }
+        if (CLI.pendingOrder != null) {
+        	print("There is alreay one order in course in the system that must be accept/refused by a Courier.");
+        	return;
+        }
+        
         if (args.length == 1){
             String restaurantName = args[0];
 
@@ -1022,6 +1089,10 @@ public class CLI {
     }
 
     public static void setPrice(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Restaurant to set the price of a dish.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Restaurant.class) {
             print("You must be logged in as a Restaurant to set the price of a dish.");
             return;
@@ -1056,10 +1127,15 @@ public class CLI {
      * @param args the arguments for adding an item to an order, such as order ID and item ID
      */
     public static void addItem2Order(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Customer to add an item to yout order.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Customer.class) {
             print("You must be logged in as a Customer to add an item to yout order.");
             return;
         }
+        
         if (args.length == 2) {
             String itemType = args[0];
             String itemName = args[1];
@@ -1069,6 +1145,11 @@ public class CLI {
             if (currentOrder == null){
                 print("You do not have an active order. Please create an order first.");
                 return;
+            }
+            
+            if (customer.getCurrentOrder().getCurrentStatus().equals("COMPLETED AND WAITING FOR ACCEPTANCE OF A COURIER")) {
+            	print("You order is already completed, the system is searching for a courier.");
+            	return;
             }
 
             Restaurant restaurant = currentOrder.getRestaurant();
@@ -1101,6 +1182,56 @@ public class CLI {
             print("Usage: addItem2Order <itemType> <itemName>");
         }
     }
+    
+    /**
+     * See the items added into the current order.
+     *
+     */
+    public static void displayCurrentOrder() {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Customer to see the current order.");
+    		return;
+    	}
+        if (system.getCurrentUser().getClass() != Customer.class) {
+            print("You must be logged in as a Customer to see the current order.");
+            return;
+        }
+
+        Customer customer = (Customer) system.getCurrentUser();
+        Order currentOrder = customer.getCurrentOrder();
+        if (currentOrder == null){
+            print("You do not have an active order. Please create an order first.");
+            return;
+        }
+
+        // Printing dishes
+        boolean emptyDishesCurrentOrder = true;
+        print("---------- Dishes in your order ----------");
+        for (Dish dish : currentOrder.getDishes()) {
+        	print(dish.toString());
+        	emptyDishesCurrentOrder = false;
+        }
+        if (emptyDishesCurrentOrder) {
+        	print("No dishes found in your order.");
+        }
+        
+        // Printing meals
+        boolean emptyMealsCurrentOrder = true;
+        print("---------- Meals in your order -----------");
+        
+        for (Meal meal : currentOrder.getMeals()) {
+        	print(meal.toString());
+        	emptyMealsCurrentOrder = false;
+        }
+        if (emptyMealsCurrentOrder) {
+        	print("No meals found in your order.");
+        }
+        
+        // Printing order status
+        print("------------------------------------------");
+        
+        print("Order status: " + currentOrder.getCurrentStatus());
+    }
 
     /**
      * Ends the current order, finalizing it and processing it.
@@ -1108,6 +1239,10 @@ public class CLI {
      * @param args the arguments for ending an order, such as order ID
      */
     public static void endOrder(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Customer to end an order.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Customer.class) {
             print("You must be logged in as a Customer to end an order.");
             return;
@@ -1124,11 +1259,69 @@ public class CLI {
         try {
             system.makeOrder(customer, restaurant, dishes, meals);
             print("Order ended successfully. Order ID: " + order.getId());
-            customer.setCurrentOrder(null); // Clear the current order after ending it
+            print("We will find a courier for you order.");
+            customer.getCurrentOrder().setCurrentStatus("COMPLETED AND WAITING FOR ACCEPTANCE OF A COURIER");
+            CLI.pendingOrder = customer.getCurrentOrder();
+            print(CLI.pendingOrder.toString());
         } catch (Exception e) {
             print("Failed to end order: " + e.getMessage());
         }
 
+    }
+    
+    /**
+     * Displays all the list of orders to accept/refuse
+     *
+     */
+    private static void showPendingOrdersToResolve() {
+    	if (((Courier) system.getCurrentUser()).getPendingOrders().size() > 0) {
+    		CLI.resolvingPendingOrders = true;
+    		print("-------- You must accept or refuse the following orders --------");
+    		for (Order order : ((Courier) system.getCurrentUser()).getPendingOrders()) {
+    			print(order.toString());
+    		}
+    	} else {
+    		CLI.resolvingPendingOrders = false;
+    	}
+    }
+    
+    public static void resolvePendingOrders(String... args) {
+    	switch (args[0].toUpperCase()) {
+    		
+    	case "REFUSEORDER":
+    		try {
+    			boolean orderFound = ((Courier) system.getCurrentUser()).refuseOrder(Integer.parseInt(args[1]));
+    			if (orderFound) {
+    				print("Order ID " + args[1] + " refused.");
+    			}
+    		} catch(NumberFormatException e) {
+    			print("Error: You must use a number as the ID of the Order.");
+    		}
+    		break;
+    		
+    	case "ACCEPTORDER":
+    		try {
+    			boolean orderFound = ((Courier) system.getCurrentUser()).acceptOrder(Integer.parseInt(args[1]));
+    			if (orderFound) {
+    				print("Order ID " + args[1] + " accepted.");
+    				CLI.pendingOrder.getCustomer().setCurrentOrder(null);
+    				CLI.pendingOrder = null;
+    			}
+    		} catch(NumberFormatException e) {
+    			print("Error: You must use a number as the ID of the Order.");
+    		}
+    		break;
+    	}
+    	
+    	if (CLI.pendingOrder != null) {
+    		if (CLI.pendingOrder.getPossibleCouriers() == null) {
+    			CLI.pendingOrder.getCustomer().setCurrentOrder(null);
+    			CLI.pendingOrder.setCurrentStatus("INCOMPLETE, NO COURIER FOUND");
+    			CLI.pendingOrder = null;
+    		}
+    	}
+    	
+    	showPendingOrdersToResolve();
     }
 
     /**
@@ -1137,6 +1330,10 @@ public class CLI {
      * @param args the arguments for displaying the fidelity card, if any
      */
     public static void displayFidelityCard() {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Customer to display your fidelity card.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Customer.class) {
             print("You must be logged in as a Customer to display your fidelity card.");
             return;
@@ -1150,6 +1347,10 @@ public class CLI {
      * Displays a list of available restaurants.
      */
     public static void showRestaurants(){
+    	if (system.getCurrentUser() == null) {
+    		print("Your user account does not permit you to show restaurants.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Customer.class && system.getCurrentUser().getClass() != Manager.class) {
             print("Your user account does not permit you to show restaurants.");
             return;
@@ -1168,6 +1369,10 @@ public class CLI {
     }
 
     public static void showOrders(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("Your must be logged in as an customer to see your orders.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Customer.class) {
             print("Your user account does not permit you to show orders.");
             return;
@@ -1209,6 +1414,10 @@ public class CLI {
      * Displays a list of popular restaurants based on customer ratings or order frequency.
      */
     public static void showPopularRestaurants() {
+    	if (system.getCurrentUser() == null) {
+    		print("Your user account does not permit you to show popular restaurants: you are not logged in.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Customer.class && system.getCurrentUser().getClass() != Manager.class) {
             print("Your user account does not permit you to show popular restaurants.");
             return;
@@ -1238,6 +1447,10 @@ public class CLI {
      * @param args the arguments for showing money spent, such as restaurant name
      */
     public static void showMoneySpent(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("Your user account does not permit you to show money spent: you are not logged in.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Customer.class) {
             print("Your user account does not permit you to show money spent.");
             return;
@@ -1276,6 +1489,10 @@ public class CLI {
      * @param args the arguments for going on duty, such as courier ID
      */
     public static void onDuty() {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Courier to go on duty.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Courier.class) {
             print("You must be logged in as a Courier to go on duty.");
             return;
@@ -1300,6 +1517,10 @@ public class CLI {
      * @param args the arguments for going off duty, such as courier ID
      */
     public static void offDuty(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Courier to go off duty.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Courier.class) {
             print("You must be logged in as a Courier to go off duty.");
             return;
@@ -1324,6 +1545,10 @@ public class CLI {
      * @param args the arguments for changing the address, such as new coordinates
      */
     public static void changeAddress(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Customer to change your address.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Customer.class) {
             print("You must be logged in as a Customer to change your address.");
             return;
@@ -1350,6 +1575,10 @@ public class CLI {
      * @param args the arguments for changing the phone number, such as new phone number
      */
     public static void changePhoneNumber(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Customer to change your phone number.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Customer.class) {
             print("You must be logged in as a Customer to change your phone number.");
             return;
@@ -1375,6 +1604,10 @@ public class CLI {
      * @param args the arguments for setting consent, such as "yes" or "no"
      */
     public static void consentNotifications(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("You must be logged in as a Customer to set consent for notifications.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Customer.class) {
             print("You must be logged in as a Customer to set consent for notifications.");
             return;
@@ -1403,6 +1636,10 @@ public class CLI {
      * @param args the arguments for finding a deliverer, such as order ID or delivery location
      */
     public static void setDeliveryPolicy(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("Your user account does not permit you to set a delivery policy: you are not logged in.");
+    		return;
+    	}
     	if (system.getCurrentUser().getClass() != Customer.class && system.getCurrentUser().getClass() != Manager.class) {
             print("Your user account does not permit you to set a delivery policy.");
             return;
@@ -1432,6 +1669,10 @@ public class CLI {
      * @param args the arguments for setting the profit policy, such as policy details
      */
     public static void setProfitPolicy(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("Your user account does not permit you to set a profit policy: you are not logged in.");
+    		return;
+    	}
     	if (system.getCurrentUser().getClass() != Customer.class && system.getCurrentUser().getClass() != Manager.class) {
             print("Your user account does not permit you to set a profit policy.");
             return;
@@ -1478,6 +1719,10 @@ public class CLI {
      * @param args the arguments for associating a card, such as card number and user ID
      */
     public static void associateCard(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("Your user account does not permit you to associate a fidelity card: you are not logged in.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Customer.class && system.getCurrentUser().getClass() != Manager.class) {
             print("Your user account does not permit you to associate a fidelity card.");
             return;
@@ -1520,6 +1765,10 @@ public class CLI {
      * Displays the the list of couriers sorted in decreasing order w.r.t. the number of completed deliveries.
      */
     public static void showCourierDeliveries() {
+    	if (system.getCurrentUser() == null) {
+    		print("Your user account does not allow you to see the top couriers: you are not logged in.");
+    		return;
+    	}
     	if (system.getCurrentUser().getClass() != Manager.class) {
             print("Your user account does not allow you to see the top couriers.");
             return;
@@ -1539,6 +1788,10 @@ public class CLI {
      * Displays the top restaurants based on their performance.
      */
     public static void showRestaurantTop() {
+    	if (system.getCurrentUser() == null) {
+    		print("Your user account does not allow you to see the top restaurants: you are not logged in.");
+    		return;
+    	}
     	if (system.getCurrentUser().getClass() != Manager.class) {
             print("Your user account does not allow you to see the top restaurants.");
             return;
@@ -1558,6 +1811,10 @@ public class CLI {
      * Displays the list of customers registered in the system.
      */
     public static void showCustomers() {
+    	if (system.getCurrentUser() == null) {
+    		print("Your user account does not allow you to see the list of customers: you are not logged in.");
+    		return;
+    	}
     	if (system.getCurrentUser().getClass() != Manager.class) {
             print("Your user account does not allow you to see the list of customers.");
             return;
@@ -1579,6 +1836,10 @@ public class CLI {
      * @param args the arguments for showing a menu item, such as item ID or name
      */
     public static void showMenuItems(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("Your user account does not permit you to show a menu item: you are not logged in.");
+    		return;
+    	}
         if (system.getCurrentUser().getClass() != Manager.class && system.getCurrentUser().getClass() != Restaurant.class && system.getCurrentUser().getClass() != Customer.class) {
             print("Your user account does not permit you to show a menu item.");
             return;
@@ -1606,6 +1867,10 @@ public class CLI {
      * @param args the arguments for showing total profit, such as date range or filters
      */
     public static void showTotalProfit(String... args) {
+    	if (system.getCurrentUser() == null) {
+    		print("Your user account does not allow you to see the list of customers: you are not logged in.");
+    		return;
+    	}
     	if (system.getCurrentUser().getClass() != Manager.class) {
             print("Your user account does not allow you to see the list of customers.");
             return;

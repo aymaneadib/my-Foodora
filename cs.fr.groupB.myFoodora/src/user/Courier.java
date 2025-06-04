@@ -1,5 +1,10 @@
 package user;
 
+import java.util.ArrayList;
+
+import order.Order;
+import system.AvailableCourierNotFoundException;
+
 /**
  * Class representing a Courier in the system.
  * A Courier is a type of user who can deliver orders.
@@ -14,8 +19,10 @@ public class Courier extends Person{
     private String phoneNumber; // The phone number of the courier
     private int deliveryCounter; // The number of deliveries made by the courier
     private boolean onDuty; // Indicates if the courier is currently on duty
+    private ArrayList<Order> pendingOrders;
+	private Order currentDeliveringOrder;
 
-    /**
+	/**
      * Constructor for Courier.
      * Initializes the courier with the provided details.  
      * @param name name of the courier,
@@ -36,8 +43,10 @@ public class Courier extends Person{
         this.deliveryCounter = 0;
         this.onDuty = false;
         phonesUsed.add(phoneNumber);
+        this.pendingOrders = new ArrayList<Order>();
+        this.currentDeliveringOrder = null;
     }
-
+    
     /**
      * Returns the current position of the courier.     
      * @return the location of the courier.
@@ -120,5 +129,103 @@ public class Courier extends Person{
      */
     public void incrementDeliveryCount() {
         this.deliveryCounter++;
+    }
+    
+    /**
+     * Adds an order to the pending orders.
+     */
+    public void addPendingOrder(Order order) {
+    	this.pendingOrders.add(order);
+    }
+    
+    /**
+     * Gets the pending Orders.
+     */
+    public ArrayList<Order> getPendingOrders() {
+		return this.pendingOrders;
+	}
+    
+    /**
+     * Accepts the order of id orderID
+     * @param the orderID
+     * @return true if the Order was indeed accepted
+     */
+    public boolean acceptOrder(int orderID) {
+    	// Accepts the chosen Order
+    	Order foundOrder = null;
+    	for (Order order : pendingOrders) {
+    		if (order.getId() == orderID) {
+    			foundOrder = order;
+    			break;
+    		}
+    	}
+    	
+    	if (foundOrder != null) {
+    		// Accepts order
+    		this.currentDeliveringOrder = foundOrder;
+    		
+    		// Sets this courier to the order
+    		foundOrder.setCourier(this);
+    		
+    		// Clear the list of possible couriers of the order
+    		foundOrder.setPossibleCouriers(null);
+    		
+    		// Changing order status
+    		foundOrder.setCurrentStatus("ACCEPTED AND DELIVERING");
+    		
+    		// Removes this order of pending order
+    		this.pendingOrders.remove(foundOrder);
+    		
+    		// This courier is not on duty anymore
+    		this.setOnDuty(false);
+        	
+        	// Refuses all other orders
+        	for (Order order : pendingOrders) {
+        		refuseOrder(order);
+        	}
+        	
+        	return true;
+    	}
+    	
+    	return false;
+    }
+    
+    /**
+     * Refuses a order.
+     * @param the order to be refused
+     */
+    public void refuseOrder(Order order) {
+    	// Removing this courier of possibleCouriers of the order and notifies next
+    	order.removeCourierFromPossibleCourier(this);
+    	order.notifyNextCourier();
+    	// Removing this order of pending orders
+    	this.pendingOrders.remove(order);
+    }
+    
+    /**
+     * Refuses the order of id orderID
+     * @param the orderID
+     * @return return true if the order was indeed accepted
+     */
+    public boolean refuseOrder(int orderID) {
+    	Order foundOrder = null;
+    	for (Order order : pendingOrders) {
+    		if (order.getId() == orderID) {
+    			foundOrder = order;
+    			break;
+    		}
+    	}
+    	
+    	if (foundOrder != null) {
+    		// Removing this courier of possibleCouriers of the order and notifies next
+        	foundOrder.removeCourierFromPossibleCourier(this);
+        	foundOrder.notifyNextCourier();
+        	// Removing this order of pending orders
+    		this.pendingOrders.remove(foundOrder);
+    		
+    		return true;
+    	}
+    	
+    	return false;
     }
 }

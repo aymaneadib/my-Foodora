@@ -1,0 +1,75 @@
+// Test scenario nº2
+//
+// @author Aymane Adib
+//
+// Tested Commands :
+// LOGIN
+// LOGOUT
+
+// Creating SushiPlace and adding some dishes
+register Restaurant
+SushiPlace sushiplace password 152.4 47.2
+login sushiplace password
+help
+createDish mainDish makisurimi 8 false true
+createDish mainDish makiradish 7.5 true true
+createDish mainDish sushiavocat 8.5 TRUE FALSE
+createDish mainDish makisurimi 8 false false
+createDish starter miso 3 true true
+createDish dessert boulecoco 5 true true
+showDish makisurimi
+showDish boulecoco
+showDish miso
+createMeal fullmeal FM1 makisurimi miso boulecoco
+createMeal halfmeal HF1 sushiavocat bouleococo
+createMeal halfmeal HF2 makisurimi miso
+showMeal FM1
+showMeal HF2
+showMeal UnexistantMeal
+setSpecialOffer FM1
+showMenuItems
+setGenericDiscountFactor 0.055
+setPrice makiradish 99.99
+showMenuItems
+removeDish makiradish
+removeFromSpecialOffer FM1
+logout
+
+// Login with a customer to create an order in SushiPlace
+login nikolatesla nikolatesla1234
+displayCurrentOrder
+showRestaurants
+showMenuItems SushiPlace
+createOrder SushiPlace
+displayCurrentOrder
+addItem2Order dish sushiavocat
+addItem2Order meal FM1
+displayCurrentOrder
+endOrder
+addItem2Order meal FM1
+logout
+
+// Another user logs in and sees that is impossible to create a new order
+// because the current order must be accepted/refused
+login alanturing alanturing1234
+createOrder SushiPlace
+logout
+
+// Login with courier that DO NOT needs to accept/refuse the previous order
+login isaacnewton isaacnewton1234
+logout
+
+// Login with courier that needs to accept/refuse the previous order
+login adalovelace adalovelace1234
+refuseOrder 2
+logout
+
+// Next courier now is responsible for accept/refuse the previous order
+login isaacnewton isaacnewton1234
+acceptOrder 100
+refuseOrder 2
+logout
+
+login nikolatesla nikolatesla1234
+createOrder SushiPlace
+logout
