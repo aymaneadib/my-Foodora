@@ -24,17 +24,17 @@ TacoTown tacotown taco123 50.0 50.0
 
 // Register two customers
 register Customer
-Alice Cooper acooper pass123 alice@domain.com 120.0 120.0
+Alice Cooper acooper pass123 +1234 alice@domain.com 120.0 120.0
 register Customer
-Bob Marley bmarley oneLove bob@domain.com 121.0 121.0
+Bob Marley bmarley oneLove +128834 bob@domain.com 121.0 121.0
 
 // Register three couriers
 register Courier
-Courier One c1 pw 123.0 123.0
+Courier One c1 pw +555 123.0 123.0
 register Courier
-Courier Two c2 pw 124.0 124.0
+Courier Two c2 pw +66666 124.0 124.0
 register Courier
-Courier Three c3 pw 125.0 125.0
+Courier Three c3 pw +77777 125.0 125.0
 
 // Login as TacoTown to create dishes and meals
 login tacotown taco123
@@ -44,10 +44,14 @@ createDish starter nachos 5.0 true true
 createMeal fullmeal MealTaco beefTaco nachos chocoChurros
 setSpecialOffer MealTaco
 setPrice beefTaco 12.0
-setGenericDiscountFactor -0.1              // Invalid negative discount factor
-setGenericDiscountFactor 0.05              // Correct discount
-removeDish nonExistentDish                 // Removing dish that doesn’t exist
-removeFromSpecialOffer NotInOffer          // Removing meal not in special offer
+// Invalid negative discount factor
+setGenericDiscountFactor -0.1              
+// Correct discount
+setGenericDiscountFactor 0.05              
+// Removing dish that doesn’t exist
+removeDish nonExistentDish                 
+// Removing meal not in special offer
+removeFromSpecialOffer NotInOffer          
 showMenuItems
 logout
 
@@ -87,17 +91,21 @@ logout
 
 // Test courier accepting without being on duty
 login c1 pw
-acceptOrder                              // Should not be accepted (off-duty)
+// Should not be accepted (off-duty)
+acceptOrder                              
 onduty
-acceptOrder                              // Accept available order
+// Accept available order
+acceptOrder                              
 offduty
-acceptOrder                              // Attempt accept after off-duty
+// Attempt accept after off-duty
+acceptOrder                              
 logout
 
 // Login BurgersAndFries and create an invalid meal
 login bnf secret
 createDish mainDish doubleCheese 10.0 true true
-createMeal halfmeal BrokenMeal doubleCheese NonExistingDish    // Invalid meal composition
+// Invalid meal composition
+createMeal halfmeal BrokenMeal doubleCheese NonExistingDish    
 createMeal fullmeal DoubleDouble doubleCheese doubleCheese doubleCheese
 createMeal halfmeal OKMeal doubleCheese doubleCheese
 setspecialoffer OKMeal
@@ -119,15 +127,18 @@ logout
 // Customer attempts to order again a removed dish
 login acooper pass123
 createOrder BurgersAndFries
-addItem2Order dish doubleCheese         // Should fail
+// Should fail
+addItem2Order dish doubleCheese         
 endOrder
 logout
 
 // Manager sets invalid profit & delivery policies
 login aymaneadib adib1234
-setProfitPolicy -10                     // Invalid profit value
+// Invalid profit value
+setProfitPolicy -10                     
 setProfitPolicy 0.3
-setDeliveryPolicy overload              // Invalid delivery policy name
+// Invalid delivery policy name
+setDeliveryPolicy overload              
 setDeliveryPolicy loadbalancer
 showRestaurantTop
 showTotalProfit
@@ -137,9 +148,11 @@ logout
 // Update customer info with invalid inputs
 login bmarley oneLove
 changeAddress 200.0 200.0
-changePhoneNumber abc123                // Invalid phone number
+// Invalid phone number
+changePhoneNumber abc123                
 changePhoneNumber 987654321
-consentNotifications maybe              // Invalid input
+// Invalid input
+consentNotifications maybe              
 consentNotifications yes
 logout
 
@@ -148,7 +161,8 @@ register Courier
 Courier Late cl pw 127.0 127.0
 login cl pw
 onduty
-acceptOrder                             // Accepts next unassigned order
+// Accepts next unassigned order
+acceptOrder                             
 logout
 
 // Restaurant checks orders

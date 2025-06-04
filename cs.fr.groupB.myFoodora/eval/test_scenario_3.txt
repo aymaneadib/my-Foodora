@@ -144,8 +144,7 @@ logout
 register Courier
 Courier Late cl pw 127.0 127.0
 login cl pw
-onduty
-acceptOrder                         // Should be assigned oldest waiting order
+onduty                      // Should be assigned oldest waiting order
 logout
 
 // Show orders again
