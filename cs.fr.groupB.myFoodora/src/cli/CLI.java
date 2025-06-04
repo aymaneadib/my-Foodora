@@ -1142,6 +1142,7 @@ public class CLI {
 
             Customer customer = (Customer) system.getCurrentUser();
             Order currentOrder = customer.getCurrentOrder();
+            
             if (currentOrder == null){
                 print("You do not have an active order. Please create an order first.");
                 return;
@@ -1262,8 +1263,7 @@ public class CLI {
             print("We will find a courier for you order.");
             customer.getCurrentOrder().setCurrentStatus("COMPLETED AND WAITING FOR ACCEPTANCE OF A COURIER");
             CLI.pendingOrder = customer.getCurrentOrder();
-            print(CLI.pendingOrder.toString());
-        } catch (Exception e) {
+        } catch (AvailableCourierNotFoundException e) {
             print("Failed to end order: " + e.getMessage());
         }
 

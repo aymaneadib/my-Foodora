@@ -74,6 +74,7 @@ displayFidelityCard
 createOrder TacoTown
 addItem2Order dish beefTaco
 addItem2Order meal MealTaco
+displayCurrentOrder
 endOrder
 showOrders
 logout

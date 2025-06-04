@@ -34,8 +34,8 @@ public class FairOccupationDelivery implements DeliveryStrategy {
         ArrayList<Courier> arrayCouriers = new ArrayList<Courier>(couriers);
         Collections.sort(arrayCouriers, comparator);
         
-        for (Courier courier : arrayCouriers) {
-        	if (!courier.isOnDuty()) arrayCouriers.remove(courier);
+        for (int i = 0; i < arrayCouriers.size(); i++) {
+        	if (!arrayCouriers.get(i).isOnDuty()) arrayCouriers.remove(arrayCouriers.get(i));
         }
 
         return arrayCouriers;
