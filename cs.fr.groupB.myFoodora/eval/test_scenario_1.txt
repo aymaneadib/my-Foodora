@@ -16,25 +16,39 @@
 // SHOWRESTAURANTTOP
 // SHOWCUSTOMERS
 
+// Initializing the system with 3 restaurants, 4 customers, 5 couriers and 1 standard manager
 SETUP a 2 3
 SETUP 5 -8 5
 SETUP 3 4 5
 logout
+
+// Login with admin Manager. Showing all users created
+// admin user is the standard manager created with SETUP
 login incorrectUser password
 login admin incorrectPassword
-// admin user is one of the standard users created with SETUP
 login admin admin
 SHOWCUSTOMERS
 SHOWRESTAURANTTOP
 SHOWCOURIERDELIVERIES
 logout
+
+// Showing menu items of a restaurant
 login restaurantUsername1 restaurantUsername1
 SHOWMENUITEMS
 logout
+
+// Showing menu items of another restaurant
+login restaurantUsername2 restaurantUsername2
+SHOWMENUITEMS
+logout
+
+// Registering a new customer
 REGISTER CUSTOMER
 Alisson Bonatto alissonbonatto bonatto1234 +3312456789 alisson@email.com 12.5 -7
 login alissonbonatto bonatto1234
 logout
+
+// Error cases for registering a new customer
 REGISTER CUSTOMER
 NewUserName NewUserSurname alissonbonatto password +phoneNumber newUser@email.com 0 0
 REGISTER CUSTOMER
