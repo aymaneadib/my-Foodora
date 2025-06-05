@@ -87,7 +87,7 @@ public class CLI {
     public static void initialization(){
     	UserFactory userFactory = new UserFactory();
     	// Reading initialization file
-    	String path = "./eval/my_foodora.ini";
+    	String path = "./cs.fr.groupB.myFoodora/eval/my_foodora.ini";
     	FileReader file = null;
     	BufferedReader reader = null;
     	ArrayList<String> lines = new ArrayList<String>();
@@ -1274,6 +1274,9 @@ public class CLI {
      *
      */
     private static void showPendingOrdersToResolve() {
+        if (system.getCurrentUser() == null) {
+            return;
+        }
     	if (((Courier) system.getCurrentUser()).getPendingOrders().size() > 0) {
     		CLI.resolvingPendingOrders = true;
     		print("-------- You must accept or refuse the following orders --------");
@@ -1290,6 +1293,10 @@ public class CLI {
     		print("Usage: ACCEPTORDER - Accepts order and the refuses the others.");
     		print("Usage: REFUSEORDER - Refuses chosen order.");
     	}
+
+        if (system.getCurrentUser() == null) {;
+            return;
+        }
     	
     	switch (args[0].toUpperCase()) {
     		
