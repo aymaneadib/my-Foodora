@@ -16,7 +16,15 @@
 // SHOWRESTAURANTTOP
 // SHOWCUSTOMERS
 
-// Initializing the system with 3 restaurants, 4 customers, 5 couriers and 1 standard manager
+// Showing users initialized with the system through the my_foodora.ini
+// (if you change the Manager of next command in the file, the next commands will not run)
+login alissonbonatto bonatto1234
+SHOWCUSTOMERS
+SHOWRESTAURANTTOP
+SHOWCOURIERDELIVERIES
+logout
+
+// Reinitializing the system with 3 restaurants, 4 customers, 5 couriers and 1 standard manager
 SETUP a 2 3
 SETUP 5 -8 5
 SETUP 3 4 5
@@ -44,14 +52,14 @@ logout
 
 // Registering a new customer
 REGISTER CUSTOMER
-Alisson Bonatto alissonbonatto bonatto1234 +3312456789 alisson@email.com 12.5 -7
-login alissonbonatto bonatto1234
+Carl Sagan carlsagan sagan1234 +3312456789 sagan@email.com 12.5 -7
+login carlsagan sagan1234
 logout
 
 // Error cases for registering a new customer
 REGISTER CUSTOMER
-NewUserName NewUserSurname alissonbonatto password +phoneNumber newUser@email.com 0 0
+NewUserName NewUserSurname carlsagan password +phoneNumber newUser@email.com 0 0
 REGISTER CUSTOMER
-NewUserName NewUserSurname newUsername password +phoneNumber alisson@email.com 0 0
+NewUserName NewUserSurname newUsername password +phoneNumber sagan@email.com 0 0
 REGISTER CUSTOMER
 NewUserName NewUserSurname newUsername password +3312456789 newUser@email.com 0 0
