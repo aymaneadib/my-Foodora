@@ -87,7 +87,7 @@ public class CLI {
     public static void initialization(){
     	UserFactory userFactory = new UserFactory();
     	// Reading initialization file
-    	String path = "./cs.fr.groupB.myFoodora/eval/my_foodora.ini";
+    	String path = "./eval/my_foodora.ini";
     	FileReader file = null;
     	BufferedReader reader = null;
     	ArrayList<String> lines = new ArrayList<String>();
