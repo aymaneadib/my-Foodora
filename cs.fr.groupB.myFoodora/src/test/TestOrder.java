@@ -79,7 +79,7 @@ public class TestOrder {
 	@Test
 	public void testToString() {
 		Order order = new Order(customerLucas, restaurant1, courier1);
-		Assert.assertTrue(order.toString().equals("Order nº "+ order.getId() + " from " + restaurant1.getName() + " to " + customerLucas.getName()));
+		Assert.assertTrue(order.toString().equals("Order ID "+ order.getId() + " from " + restaurant1.getName() + " to " + customerLucas.getName()));
 	}
 	
 	@Test

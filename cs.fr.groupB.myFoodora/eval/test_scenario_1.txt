@@ -23,6 +23,8 @@ SHOWCUSTOMERS
 SHOWRESTAURANTTOP
 SHOWCOURIERDELIVERIES
 logout
+login aymaneadib adib1234
+logout
 
 // Reinitializing the system with 3 restaurants, 4 customers, 5 couriers and 1 standard manager
 SETUP a 2 3

@@ -1079,6 +1079,7 @@ public class CLI {
             try {
                 Order order = system.createOrder(restaurant, customer);
                 print("Order created successfully with ID: " + order.getId());
+                
             } catch (Exception e) {
                 print("Failed to create order: " + e.getMessage());
             }
@@ -1258,7 +1259,7 @@ public class CLI {
         HashSet<Dish> dishes = new HashSet<>(order.getDishes()); // Assuming getDishes() returns an ArrayList<Dish>
         HashSet<Meal> meals = new HashSet<>(order.getMeals()); // Assuming Order has a method getMeals() that returns a HashSet<Meal>
         try {
-            system.makeOrder(customer, restaurant, dishes, meals);
+        	system.makeOrder(order, dishes, meals);
             print("Order ended successfully. Order ID: " + order.getId());
             print("We will find a courier for you order.");
             customer.getCurrentOrder().setCurrentStatus("COMPLETED AND WAITING FOR ACCEPTANCE OF A COURIER");
@@ -1274,15 +1275,18 @@ public class CLI {
      *
      */
     private static void showPendingOrdersToResolve() {
-    	if (((Courier) system.getCurrentUser()).getPendingOrders().size() > 0) {
-    		CLI.resolvingPendingOrders = true;
-    		print("-------- You must accept or refuse the following orders --------");
-    		for (Order order : ((Courier) system.getCurrentUser()).getPendingOrders()) {
-    			print(order.toString());
-    		}
-    	} else {
-    		CLI.resolvingPendingOrders = false;
+    	if (system.getCurrentUser() != null) {
+    		if (((Courier) system.getCurrentUser()).getPendingOrders().size() > 0) {
+        		CLI.resolvingPendingOrders = true;
+        		print("-------- You must accept or refuse the following orders --------");
+        		for (Order order : ((Courier) system.getCurrentUser()).getPendingOrders()) {
+        			print(order.toString());
+        		}
+        	} else {
+        		CLI.resolvingPendingOrders = false;
+        	}
     	}
+    	
     }
     
     public static void resolvePendingOrders(String... args) {
@@ -1328,7 +1332,7 @@ public class CLI {
     	}
     	
     	if (CLI.pendingOrder != null) {
-    		if (CLI.pendingOrder.getPossibleCouriers() == null) {
+    		if (CLI.pendingOrder.getPossibleCouriers().size() == 0) {
     			CLI.pendingOrder.getCustomer().setCurrentOrder(null);
     			CLI.pendingOrder.setCurrentStatus("INCOMPLETE, NO COURIER FOUND");
     			CLI.pendingOrder = null;
@@ -1378,7 +1382,7 @@ public class CLI {
 
         print("Available Restaurants:");
         for (Restaurant restaurant : restaurants) {
-            System.out.println("    - " + restaurant.getName());
+            print("    - " + restaurant.getName());
         }
     }
 
@@ -1410,13 +1414,13 @@ public class CLI {
             print("Your Past Orders at "+ restaurantName +" :");
             for (Order order : orders) {
                 if (order.getRestaurant().equals(restaurant)) {
-                    System.out.println( "    - " + order.toString());
+                    print( "    - " + order.toString());
                 }
             }
         } else if (args.length == 0) {
             print("Your Past Orders:");
             for (Order order : orders) {
-                System.out.println("    - Order ID: " + order.getId() + ", Restaurant: " + order.getRestaurant().getName());
+                print("    - Order ID: " + order.getId() + ", Restaurant: " + order.getRestaurant().getName());
             }
         } else {
             print("Usage: showOrders [<restaurantName>]");
@@ -1451,7 +1455,7 @@ public class CLI {
 
         print("Popular Restaurants:");
         for (Restaurant restaurant : popularRestaurants) {
-            System.out.println("    - " + restaurant.getName());
+            print("    - " + restaurant.getName());
         }
     }
 
@@ -1791,7 +1795,7 @@ public class CLI {
     	ArrayList<Courier> couriers = ((Manager) system.getCurrentUser()).sortCouriers(system);
     	if (couriers.size() > 0) {
     		for(Courier courier : couriers) {
-        		System.out.println(courier);
+        		print(courier.toString());
         	}
     	} else {
     		print("Error: no courier found.");
@@ -1814,7 +1818,7 @@ public class CLI {
     	ArrayList<Restaurant> restaurants = ((Manager) system.getCurrentUser()).sortRestaurants(system);
     	if (restaurants.size() > 0) {
     		for(Restaurant restaurant : restaurants) {
-        		System.out.println(restaurant.getName() + " with " + restaurant.getOrderCounter() + " orders.");
+        		print(restaurant.getName() + " with " + restaurant.getOrderCounter() + " orders.");
         	}
     	} else {
     		print("Error: no restaurant found.");
@@ -1837,7 +1841,7 @@ public class CLI {
     	Set<Customer> customers = system.getCustomers();
     	if (customers.size() > 0) {
     		for(Customer customer : customers) {
-        		System.out.println(customer);
+        		print(customer.toString());
         	}
     	} else {
     		print("Error: no restaurant found.");
@@ -1861,7 +1865,7 @@ public class CLI {
 
         if (args.length == 0 && system.getCurrentUser().getClass() == Restaurant.class ) {
             Restaurant restaurant = (Restaurant) system.getCurrentUser();
-            System.out.println(restaurant.getMenu().toString());
+            print(restaurant.getMenu().toString());
         } else if (args.length == 1) {
             String restaurantName = args[0];
             Restaurant restaurant = system.getRestaurantByName(restaurantName);
@@ -1869,7 +1873,7 @@ public class CLI {
                 print("Restaurant not found: " + restaurantName);
                 return;
             }
-            System.out.println(restaurant.getMenu().toString());
+            print(restaurant.getMenu().toString());
         } else {
             print("Usage: showMenuItem <restaurantName>");
         }
@@ -1946,7 +1950,7 @@ public class CLI {
 			}
 		}
     	
-    	// Executing comands
+    	// Executing commands
     	System.out.println("EXECUTING TEST FILE " + args[0] + " ...");
     	for (String command : commands) {
     		// If it's a comment or a empty line, goes to the next line

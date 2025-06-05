@@ -290,7 +290,7 @@ public class Menu {
 	
 	@Override
 	public String toString() {
-		String returnString = "";
+		String returnString = "\n";
 		
 		returnString += "------------ STARTERS -----------\n";
 		for (Starter dish : this.starters) {

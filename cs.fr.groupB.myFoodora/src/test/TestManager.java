@@ -47,8 +47,8 @@ public class TestManager {
 	@BeforeClass
 	static public void initializeTests() throws BadUserCreationException {
 		manager1 = new Manager("Alisson", "Bonatto", "alissonbonatto", "1234");
-		customerLucas = new Customer("CustomerName", "CustomerSurname", "c_username", "1234", "+33245878", "user@email.com", new Location(0, 0), true);
-		customerTheo = new Customer("CustomerName", "CustomerSurname", "c_username2", "abcd", "+33285", "user2@email.com", new Location(1, 0), true);
+		customerLucas = new Customer("CustomerNameLucas", "CustomerSurname", "c_username", "1234", "+33245878", "user@email.com", new Location(0, 0), true);
+		customerTheo = new Customer("CustomerNameTheo", "CustomerSurname", "c_username2", "abcd", "+33285", "user2@email.com", new Location(1, 0), true);
 		courier1 = new Courier("CourierName", "CourierSurname", "courir_username", "1234", "+77", new Location(5, 9));
 		courier1.setOnDuty(true);
 		courier2 = new Courier("Maria", "G.", "mariag", "1234", "776045879", new Location(5, 9));
@@ -182,6 +182,7 @@ public class TestManager {
 	@Test
 	public void getTotalIncomeAndProfit() throws AvailableCourierNotFoundException, BadMealFormulaException,
 			UnrecognizedDishException, UserNotFoundException, IncorrectCredentialsException {
+		system.setOrderHistory(new HashSet<Order>());
 		// Adding dishes and meals to restaurant1 menu
 		MainDish dish1 = new MainDish("Dish1", 100, true, false);
 		Dessert dish2 = new Dessert("Dish2", 200, false, false);
@@ -197,11 +198,13 @@ public class TestManager {
 		
 		// customerLucas makes an order at restaurant1
 		system.login("c_username", "1234");
-		system.makeOrder(customerLucas, restaurant1, dishes, meals);
+		Order order1 = system.createOrder(restaurant1, customerLucas);
+		order1 = system.makeOrder(order1, dishes, meals);
 		
 		// customerTheo makes an order at restaurant1
 		system.login("c_username2", "abcd");
-		system.makeOrder(customerTheo, restaurant1, new HashSet<Dish>(), meals);
+		Order order2 = system.createOrder(restaurant1, customerTheo);
+		order2 = system.makeOrder(order2, new HashSet<Dish>(), meals);
 		
 		// Comparing expected total income and profit with the return of the system
 		// considering a error of 1% (due to imprecision in calculations)

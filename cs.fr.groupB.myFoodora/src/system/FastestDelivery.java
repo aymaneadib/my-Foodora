@@ -53,8 +53,10 @@ public class FastestDelivery implements DeliveryStrategy {
         }
         
         // Excluding not onDuty Courier
-        for (Courier courier : orderedCouriers) {
-        	if (!courier.isOnDuty()) orderedCouriers.remove(courier);
+        for (int i = orderedCouriers.size() - 1; i >= 0; i--) {
+            if (!orderedCouriers.get(i).isOnDuty()) {
+            	orderedCouriers.remove(i);
+            }
         }
 
         return orderedCouriers;

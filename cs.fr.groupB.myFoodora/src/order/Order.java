@@ -50,6 +50,7 @@ public class Order{
         this.price = 0.0;
         this.id = ++orderCounter;
         this.currentStatus = "WAINTING FOR COMPLETION";
+        this.possibleCouriers = new ArrayList<Courier>();
     }
 
     /**

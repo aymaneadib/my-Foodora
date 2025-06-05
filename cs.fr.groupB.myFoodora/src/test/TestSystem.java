@@ -212,20 +212,20 @@ public class TestSystem {
         Assert.assertNotNull("Half Meal should not be null", halfMeal);
     }
 
-    /*
+    
     @Test
     public void testSelectCourier() throws AvailableCourierNotFoundException {
         // Test if a courier can be selected for an order
         system.setDeliveryStrategy(new FastestDelivery());
-        Courier selectedCourier = system.selectCourier((Restaurant) restaurant1,(Customer) customer1);
-        Assert.assertNotNull("Selected courier should not be null", selectedCourier);
-        Assert.assertEquals(courier1, selectedCourier);
-        selectedCourier = system.selectCourier((Restaurant) restaurant2,(Customer) customer2);
-        Assert.assertNotNull("Selected courier should not be null", selectedCourier);
-        Assert.assertEquals(courier1, selectedCourier);
+        ArrayList<Courier> selectedCouriers = system.selectCourier((Restaurant) restaurant1,(Customer) customer1);
+        Assert.assertNotNull("Selected courier should not be null", selectedCouriers);
+        Assert.assertEquals(courier1, selectedCouriers.get(0));
+        selectedCouriers = system.selectCourier((Restaurant) restaurant2,(Customer) customer2);
+        Assert.assertNotNull("Selected courier should not be null", selectedCouriers);
+        Assert.assertEquals(courier1, selectedCouriers.get(0));
         system.setDeliveryStrategy(new FairOccupationDelivery());
     }
-    */
+
 
     @Test
     public void testMakeOrder() throws UserNotFoundException, IncorrectCredentialsException, AvailableCourierNotFoundException, BadNumberOfArgumentsException, BadDishTypeCreationException, BadArgumentTypeException, UnrecognizedDishException, BadMealFormulaException, BadMealTypeCreationException {
@@ -238,7 +238,8 @@ public class TestSystem {
         halfMeal_set.add(halfMeal);
         system.login("cust_smith", "password123");
         ((Courier) courier1).setOnDuty(true); // Set courier1 back on duty
-        system.makeOrder((Customer) customer1,(Restaurant) restaurant1, halfMeal_dishes, halfMeal_set);
+        Order order = system.createOrder((Restaurant) restaurant1, (Customer) customer1);
+        order = system.makeOrder(order, halfMeal_dishes, halfMeal_set);
         Assert.assertFalse("Order history should not be empty after making an order", system.getOrderHistory().isEmpty());
         system.logout();
     }
@@ -250,7 +251,8 @@ public class TestSystem {
         system.login("cust_smith", "password123");
         HashSet<Dish> emptyDishes = new HashSet<Dish>();
         HashSet<Meal> emptyMeals = new HashSet<Meal>();
-        Order order = system.makeOrder((Customer) customer1,(Restaurant) restaurant1, emptyDishes, emptyMeals);
+        Order order = system.createOrder((Restaurant) restaurant1, (Customer) customer1);
+        order = system.makeOrder(order, emptyDishes, emptyMeals);
         Assert.assertNull("Order should be null when no dishes are provided", order);
         system.logout();
     }
@@ -265,24 +267,23 @@ public class TestSystem {
         Meal halfMeal = system.createMeal("halfMeal", "Special 1", halfMeal_dishes);
         HashSet<Meal> halfMeal_set = new HashSet<Meal>();
         halfMeal_set.add(halfMeal);
-        Order order = system.makeOrder((Customer) customer1,(Restaurant) restaurant1, halfMeal_dishes, halfMeal_set);
+        Order order = system.createOrder((Restaurant) restaurant1, (Customer) customer1);
         Assert.assertNull(order);
     }
 
-    /*
+    
     @Test(expected = AvailableCourierNotFoundException.class)
     public void testSelectCourierWithNoAvailableCouriers() throws AvailableCourierNotFoundException {
         // Test if selecting a courier when none are available throws an exception
         ((Courier) courier1).setOnDuty(false); // Set courier1 off duty
-        ((Courier) courier1).setOnDuty(false); // Set courier1 off duty
         ((Courier) courier2).setOnDuty(false); // Set courier2 off duty
         ((Courier) courier3).setOnDuty(false); // Set courier3 off duty
-        Courier courier = system.selectCourier((Restaurant) restaurant1, (Customer) customer1);
+        ArrayList<Courier> couriers = system.selectCourier((Restaurant) restaurant1, (Customer) customer1);
         ((Courier) courier1).setOnDuty(true); // Set courier1 back on duty
         ((Courier) courier2).setOnDuty(true); // Set courier2 back on duty
         ((Courier) courier3).setOnDuty(true); // Set courier3 back on duty
     }
-    */
+    
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception {

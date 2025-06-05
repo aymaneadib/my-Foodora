@@ -168,7 +168,7 @@ public class Courier extends Person{
     		foundOrder.setCourier(this);
     		
     		// Clear the list of possible couriers of the order
-    		foundOrder.setPossibleCouriers(null);
+    		foundOrder.setPossibleCouriers(new ArrayList<Courier>());
     		
     		// Changing order status
     		foundOrder.setCurrentStatus("ACCEPTED AND DELIVERING");
