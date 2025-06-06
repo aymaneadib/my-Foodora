@@ -49,7 +49,7 @@ public class MyFoodora {
     	this.couriers = new HashSet<Courier>();
     	this.userMap = new HashMap<String, User>();
     	this.orderHistory = new HashSet<Order>();
-    	this.profitData = new ProfitData(0, 0, 0);
+    	this.profitData = new ProfitData(0.1, 0.05, 10);
     	this.deliveryStrategy = new FairOccupationDelivery();
     	this.profitStrategy = new TargetProfitDeliveryCostOriented();
     	this.dishFactory = new DishFactory();
@@ -614,6 +614,7 @@ public class MyFoodora {
         			
         			// Adding order to history
         			this.orderHistory.add(newOrder);
+                    
                     return newOrder;
         		}
     		}

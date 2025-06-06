@@ -184,6 +184,9 @@ public class Courier extends Person{
         		refuseOrder(order);
         	}
         	
+        	// Increments number of delivery orders
+        	this.incrementDeliveryCount();
+        	
         	return true;
     	}
     	

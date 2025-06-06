@@ -83,6 +83,58 @@ public class TestOrder {
 	}
 	
 	@Test
+	public void testAddAndRemoveDish() throws BadOrderHandlingException {
+		Order order = new Order(customerLucas, restaurant1, courier1);
+		MainDish dish1 = new MainDish("Dish1", 100, true, false);
+		
+		order.addDish(dish1);
+		Assert.assertTrue(order.getDishes().contains(dish1));
+		
+		order.removeDish(dish1);
+		Assert.assertTrue(!order.getDishes().contains(dish1));
+	}
+	
+	@Test(expected = BadOrderHandlingException.class)
+	public void testRemoveNotExistingDish() throws BadOrderHandlingException {
+		Order order = new Order(customerLucas, restaurant1, courier1);
+		MainDish dish1 = new MainDish("Dish1", 100, true, false);
+		
+		order.removeDish(dish1);
+		Assert.assertTrue(!order.getDishes().contains(dish1));
+	}
+	
+	@Test
+	public void testAddAndRemoveMeal() throws BadMealFormulaException, UnrecognizedDishException, BadOrderHandlingException {
+		Order order = new Order(customerLucas, restaurant1, courier1);
+		MainDish dish1 = new MainDish("Dish1", 100, true, false);
+		Dessert dish2 = new Dessert("Dish2", 200, false, false);
+		HashSet<Dish> dishes = new HashSet<Dish>();
+		dishes.add(dish1);
+		dishes.add(dish2);
+		HalfMeal halfMeal = new HalfMeal("HalfMeal1", dishes);
+		
+		order.addMeal(halfMeal);
+		Assert.assertTrue(order.getMeals().contains(halfMeal));
+		
+		order.removeMeal(halfMeal);
+		Assert.assertTrue(!order.getMeals().contains(halfMeal));
+	}
+	
+	@Test(expected = BadOrderHandlingException.class)
+	public void testRemoveNotExistingMeal() throws UnrecognizedDishException, BadMealFormulaException, BadOrderHandlingException {
+		Order order = new Order(customerLucas, restaurant1, courier1);
+		MainDish dish1 = new MainDish("Dish1", 100, true, false);
+		Dessert dish2 = new Dessert("Dish2", 200, false, false);
+		HashSet<Dish> dishes = new HashSet<Dish>();
+		dishes.add(dish1);
+		dishes.add(dish2);
+		HalfMeal halfMeal = new HalfMeal("HalfMeal1", dishes);
+		
+		order.removeMeal(halfMeal);
+		Assert.assertTrue(!order.getMeals().contains(halfMeal));
+	}
+	
+	@Test
 	public void testPriceComputation() throws BadMealFormulaException, UnrecognizedDishException, BadOrderHandlingException {
 		// Adding dishes and meals to restaurant1 menu
 		MainDish dish1 = new MainDish("Dish1", 100, true, false);
