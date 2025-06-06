@@ -1349,7 +1349,6 @@ public class CLI {
     /**
      * Displays the fidelity card information for the current customer.
      *
-     * @param args the arguments for displaying the fidelity card, if any
      */
     public static void displayFidelityCard() {
     	if (system.getCurrentUser() == null) {
@@ -1508,7 +1507,6 @@ public class CLI {
     /**
      * Marks the courier as on duty, allowing them to accept orders.
      *
-     * @param args the arguments for going on duty, such as courier ID
      */
     public static void onDuty() {
     	if (system.getCurrentUser() == null) {

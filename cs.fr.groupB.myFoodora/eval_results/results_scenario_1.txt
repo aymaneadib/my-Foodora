@@ -1,0 +1,194 @@
+> runTest ./eval/test_scenario_1.txt
+EXECUTING TEST FILE ./eval/test_scenario_1.txt ...
+
+> login alissonbonatto bonatto1234
+(alissonbonatto) User alissonbonatto logged in.
+
+> SHOWCUSTOMERS
+(alissonbonatto) Nikola Tesla <nikolatesla@email.com> ( nikolatesla - Customer )
+(alissonbonatto) Alan Turing <alanturing@email.com> ( alanturing - Customer )
+
+> SHOWRESTAURANTTOP
+(alissonbonatto) ChezJacques with 0 orders.
+(alissonbonatto) PetitParis with 0 orders.
+
+> SHOWCOURIERDELIVERIES
+(alissonbonatto) Ada Lovelace ( adalovelace - Courrier with 0 deliveries )
+(alissonbonatto) Isaac Newton ( isaacnewton - Courrier with 0 deliveries )
+
+> logout
+(alissonbonatto) User alissonbonatto logged out.
+
+> login aymaneadib adib1234
+(aymaneadib) User aymaneadib logged in.
+
+> logout
+(aymaneadib) User aymaneadib logged out.
+
+> SETUP a 2 3
+Error: invalid number type.
+Usage: SETUP <restaurantQuantity> <customerQuantity> <courierQuantity> - Generates random users based on quantity arguments.
+
+> SETUP 5 -8 5
+Error: Select quantities between 1 and 100.
+
+> SETUP 3 4 5
+Created 3 restaurants, 4 customers and 5 couriers.
+
+> logout
+There's no user logged into the system.
+
+> login incorrectUser password
+Error: User incorrectUser not found.
+
+> login admin incorrectPassword
+Error: Username and password do not match.
+
+> login admin admin
+(admin) User admin logged in.
+
+> SHOWCUSTOMERS
+(admin) customerName3 customerSurname3 <customerUsername3@email.com> ( customerUsername3 - Customer )
+(admin) customerName1 customerSurname1 <customerUsername1@email.com> ( customerUsername1 - Customer )
+(admin) customerName0 customerSurname0 <customerUsername0@email.com> ( customerUsername0 - Customer )
+(admin) customerName2 customerSurname2 <customerUsername2@email.com> ( customerUsername2 - Customer )
+
+> SHOWRESTAURANTTOP
+(admin) restaurantName2 with 0 orders.
+(admin) restaurantName1 with 0 orders.
+(admin) restaurantName0 with 0 orders.
+
+> SHOWCOURIERDELIVERIES
+(admin) courierName2 courierSurname2 ( courierUsername2 - Courrier with 0 deliveries )
+(admin) courierName0 courierSurname0 ( courierUsername0 - Courrier with 0 deliveries )
+(admin) courierName1 courierSurname1 ( courierUsername1 - Courrier with 0 deliveries )
+(admin) courierName3 courierSurname3 ( courierUsername3 - Courrier with 0 deliveries )
+(admin) courierName4 courierSurname4 ( courierUsername4 - Courrier with 0 deliveries )
+
+> logout
+(admin) User admin logged out.
+
+> login restaurantUsername1 restaurantUsername1
+(restaurantUsername1) User restaurantUsername1 logged in.
+
+> SHOWMENUITEMS
+(restaurantUsername1) 
+------------ STARTERS -----------
+Starter dishName18restaurantName1 - 207.12€
+Starter dishName19restaurantName1 - 18.16€
+Starter dishName17restaurantName1 - 107.92€
+Starter dishName2restaurantName1 - 233.58€
+Starter standardSTARTER - 215.59€
+Starter dishName23restaurantName1 - 11.69€
+Starter dishName22restaurantName1 - 273.86€
+---------- MAIN DISHES ----------
+Main Dish dishName13restaurantName1 - 16.91€
+Main Dish standardMAINDISH - 168.12€
+Main Dish dishName5restaurantName1 - 188.95€
+Main Dish dishName14restaurantName1 - 134.95€
+Main Dish dishName16restaurantName1 - 82.10€
+Main Dish dishName15restaurantName1 - 108.88€
+Main Dish dishName7restaurantName1 - 223.22€
+Main Dish dishName0restaurantName1 - 17.35€
+Main Dish dishName21restaurantName1 - 281.93€
+------------ DESSERTS -----------
+Dessert dishName12restaurantName1 - 47.16€
+Dessert dishName4restaurantName1 - 62.38€
+Dessert dishName6restaurantName1 - 83.87€
+Dessert dishName11restaurantName1 - 35.76€
+Dessert dishName9restaurantName1 - 281.34€
+Dessert dishName8restaurantName1 - 129.55€
+Dessert standardDESSERT - 225.71€
+Dessert dishName10restaurantName1 - 104.87€
+Dessert dishName3restaurantName1 - 177.60€
+Dessert dishName24restaurantName1 - 267.33€
+Dessert dishName1restaurantName1 - 90.78€
+Dessert dishName20restaurantName1 - 121.78€
+-------------- MEALS ------------
+Half Meal meal2restaurantName1 - 270.44€ - Composed of: dishName24restaurantName1, dishName0restaurantName1.
+Half Meal meal1restaurantName1 - 176.97€ - Composed of: standardMAINDISH, dishName19restaurantName1.
+Full Meal meal3restaurantName1 - 686.65€ - Composed of: standardDESSERT, dishName7restaurantName1, dishName22restaurantName1.
+Half Meal meal4restaurantName1 - 237.97€ - Composed of: dishName13restaurantName1, dishName2restaurantName1.
+Half Meal meal0restaurantName1 - 284.39€ - Composed of: dishName18restaurantName1, dishName15restaurantName1.
+
+
+> logout
+(restaurantUsername1) User restaurantUsername1 logged out.
+
+> login restaurantUsername2 restaurantUsername2
+(restaurantUsername2) User restaurantUsername2 logged in.
+
+> SHOWMENUITEMS
+(restaurantUsername2) 
+------------ STARTERS -----------
+Starter dishName18restaurantName2 - 128.72€
+Starter dishName6restaurantName2 - 26.25€
+Starter dishName11restaurantName2 - 24.23€
+Starter dishName12restaurantName2 - 102.96€
+Starter dishName9restaurantName2 - 270.94€
+Starter standardSTARTER - 201.25€
+Starter dishName1restaurantName2 - 38.51€
+Starter dishName0restaurantName2 - 34.21€
+---------- MAIN DISHES ----------
+Main Dish dishName13restaurantName2 - 167.39€
+Main Dish dishName5restaurantName2 - 49.51€
+Main Dish standardMAINDISH - 207.85€
+Main Dish dishName4restaurantName2 - 219.95€
+Main Dish dishName15restaurantName2 - 272.41€
+Main Dish dishName8restaurantName2 - 177.28€
+Main Dish dishName2restaurantName2 - 11.14€
+Main Dish dishName16restaurantName2 - 146.87€
+------------ DESSERTS -----------
+Dessert dishName19restaurantName2 - 46.65€
+Dessert dishName17restaurantName2 - 240.54€
+Dessert dishName7restaurantName2 - 223.49€
+Dessert dishName14restaurantName2 - 49.34€
+Dessert dishName10restaurantName2 - 15.78€
+Dessert standardDESSERT - 297.53€
+Dessert dishName3restaurantName2 - 81.99€
+-------------- MEALS ------------
+Full Meal meal2restaurantName2 - 344.12€ - Composed of: dishName12restaurantName2, dishName8restaurantName2, dishName3restaurantName2.
+Half Meal meal1restaurantName2 - 246.31€ - Composed of: dishName8restaurantName2, dishName3restaurantName2.
+Half Meal meal3restaurantName2 - 223.94€ - Composed of: dishName4restaurantName2, dishName10restaurantName2.
+Full Meal meal0restaurantName2 - 179.21€ - Composed of: dishName5restaurantName2, dishName19restaurantName2, dishName12restaurantName2.
+
+
+> logout
+(restaurantUsername2) User restaurantUsername2 logged out.
+
+> REGISTER CUSTOMER
+Enter the Customer information.
+Usage: <name> <surname> <username> <password> <phoneNumber> <email> <addresX> <addresY> <consentNotifications yes/no>
+
+> Carl Sagan carlsagan sagan1234 +3312456789 sagan@email.com 12.5 -7
+User carlsagan registered successfully!
+To use the new user, you need to login.
+
+> login carlsagan sagan1234
+(carlsagan) User carlsagan logged in.
+
+> logout
+(carlsagan) User carlsagan logged out.
+
+> REGISTER CUSTOMER
+Enter the Customer information.
+Usage: <name> <surname> <username> <password> <phoneNumber> <email> <addresX> <addresY> <consentNotifications yes/no>
+
+> NewUserName NewUserSurname carlsagan password +phoneNumber newUser@email.com 0 0
+Error: Username already used: carlsagan
+
+> REGISTER CUSTOMER
+Enter the Customer information.
+Usage: <name> <surname> <username> <password> <phoneNumber> <email> <addresX> <addresY> <consentNotifications yes/no>
+
+> NewUserName NewUserSurname newUsername password +phoneNumber sagan@email.com 0 0
+Error: Email already used by another account: sagan@email.com
+
+> REGISTER CUSTOMER
+Enter the Customer information.
+Usage: <name> <surname> <username> <password> <phoneNumber> <email> <addresX> <addresY> <consentNotifications yes/no>
+
+> NewUserName NewUserSurname newUsername password +3312456789 newUser@email.com 0 0
+Error: Phone number already used by another account: +3312456789
+
+END OF EXECUTION OF ./eval/test_scenario_1.txt TEST FILE.

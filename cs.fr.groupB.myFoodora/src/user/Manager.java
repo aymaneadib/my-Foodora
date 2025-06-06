@@ -251,7 +251,6 @@ public class Manager extends Person {
     /**
      * Gets the profit data for the system based on the last month's orders and target profit.
      *
-     * @param system        the MyFoodora system
      * @param profitData    the current profit data
      * @param lastMonthOrders the set of orders from the last month
      * @param targetProfit  the target profit to be achieved
@@ -262,9 +261,8 @@ public class Manager extends Person {
     }
 
     /**
-     * Adds an operation to the list of available operations for the manager.
+     * Personalizes to string method
      *
-     * @param operation the operation to be added
      */
     @Override
     public String toString() {

@@ -147,7 +147,7 @@ public class Courier extends Person{
     
     /**
      * Accepts the order of id orderID
-     * @param the orderID
+     * @param orderID the order id
      * @return true if the Order was indeed accepted
      */
     public boolean acceptOrder(int orderID) {
@@ -186,6 +186,7 @@ public class Courier extends Person{
         	
         	// Increments number of delivery orders
         	this.incrementDeliveryCount();
+        	foundOrder.getRestaurant().incrementOrderCounter();
         	
         	return true;
     	}
@@ -195,7 +196,7 @@ public class Courier extends Person{
     
     /**
      * Refuses a order.
-     * @param the order to be refused
+     * @param order the order to be refused
      */
     public void refuseOrder(Order order) {
     	// Removing this courier of possibleCouriers of the order and notifies next
@@ -207,8 +208,8 @@ public class Courier extends Person{
     
     /**
      * Refuses the order of id orderID
-     * @param the orderID
-     * @return return true if the order was indeed accepted
+     * @param orderID the order ID
+     * @return true if the order was indeed accepted
      */
     public boolean refuseOrder(int orderID) {
     	Order foundOrder = null;

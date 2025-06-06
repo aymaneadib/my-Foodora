@@ -20,10 +20,9 @@ public class Location {
     }
 
     /**
-     * Constructor for Location with specified coordinates.
-     *
-     * @param x the x-coordinate of the location
-     * @param y the y-coordinate of the location
+     * Returns x coordinate
+     * 
+     * @return x the x coordinate
      */
     public double getX() {
         return x;
@@ -32,7 +31,7 @@ public class Location {
     /**
      * Returns the y-coordinate of the location.
      *
-     * @return the y-coordinate of the location
+     * @return y the y-coordinate of the location
      */
     public double getY() {
         return y;
@@ -63,7 +62,8 @@ public class Location {
      * @return the distance to the other location
      */
     public double distanceTo(Location other) {
-        return Math.sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
+    	double distance = Math.sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
+        return distance;
     }
     
     /**

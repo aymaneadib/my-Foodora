@@ -20,8 +20,6 @@ public class HalfMeal extends Meal{
 	 * 
 	 * @param name the name of the meal
 	 * @param dishes the dishes included in the meal
-	 * @param isVegetarian true if the dish is vegetarian, false otherwise
-	 * @param isGlutenFree true if the dish is gluten-free, false otherwise
 	 * @throws BadMealFormulaException if the combination of dishes is invalid
 	 * @throws UnrecognizedDishException if a dish type is unrecognized
 	 */
@@ -35,8 +33,6 @@ public class HalfMeal extends Meal{
 	 * 
 	 * @param name the name of the meal
 	 * @param dishes the set of dishes included in the meal
-	 * @param isVegetarian true if the dish is vegetarian, false otherwise
-	 * @param isGlutenFree true if the dish is gluten-free, false otherwise
 	 * @param pricingStrategy the pricing strategy to apply to the meal
 	 * @throws BadMealFormulaException if the combination of dishes is invalid
 	 * @throws UnrecognizedDishException if a dish type is unrecognized

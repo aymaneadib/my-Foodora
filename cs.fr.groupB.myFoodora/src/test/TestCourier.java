@@ -1,12 +1,26 @@
 package test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import food.BadMealFormulaException;
+import food.Dessert;
+import food.Dish;
+import food.HalfMeal;
+import food.MainDish;
+import food.Meal;
+import food.UnrecognizedDishException;
+import order.Order;
 import user.BadUserCreationException;
 import user.Courier;
+import user.Customer;
 import user.Location;
+import user.Restaurant;
 import user.UserFactory;
 
 /**
@@ -20,7 +34,7 @@ public class TestCourier {
 
 	@BeforeClass
 	public static void initializeTests() throws BadUserCreationException{
-		courier1 = new Courier("Bernard", "Petit", "bernardpetit2025", "1234", "+testcourierphone", new Location(5, 9));
+		courier1 = new Courier("Bernard", "Petit", "bernardpetit2025", "1234", "+testcourierphone", new Location(5, 9));	
 	}
 	
 	@Test

@@ -17,8 +17,6 @@ public class FullMeal extends Meal{
 	 * 
 	 * @param name the name of the meal
 	 * @param dishes the dishes composing the meal; must contain exactly one Starter, one MainDish, and one Dessert
-	 * @param isGlutenFree true if the meal is gluten free, false otherwise
-	 * @param isVegetarian true if the meal is vegetarian, false otherwise
 	 * @throws UnrecognizedDishException if any dish in the set is not recognized as Starter, MainDish or Dessert
 	 * @throws BadMealFormulaException if the combination of dishes does not follow the full meal formula
 	 */
@@ -38,8 +36,6 @@ public class FullMeal extends Meal{
 	 * 
 	 * @param name the name of the meal
 	 * @param dishes the dishes composing the meal; must contain exactly one Starter, one MainDish, and one Dessert
-	 * @param isGlutenFree true if the meal is gluten free, false otherwise
-	 * @param isVegetarian true if the meal is vegetarian, false otherwise
 	 * @param pricingStrategy the pricing strategy applied to this meal
 	 * @throws UnrecognizedDishException if any dish in the set is not recognized as Starter, MainDish or Dessert
 	 * @throws BadMealFormulaException if the combination of dishes does not follow the full meal formula

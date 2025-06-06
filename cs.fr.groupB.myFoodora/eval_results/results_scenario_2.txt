@@ -1,0 +1,478 @@
+> runtest ./eval/test_scenario_2.txt
+EXECUTING TEST FILE ./eval/test_scenario_2.txt ...
+
+> login aymaneadib adib1234
+(aymaneadib) User aymaneadib logged in.
+
+> help
+----------------------------------------
+
+Generic Commands Available :
+    - HELP - Show this help message
+    - RUNTEST <testScenarioFile> - execute the list of CLUI commands contained in the testScenario file passed as argument.
+    - LOGIN <username> <password> - Log in with the specified username and password.
+    - REGISTER <userType> - Register a new user account. User types can be: CUSTOMER, RESTAURANT, COURIER.
+    - LOGOUT - Log out of the current session.
+    - EXIT - Exit myFoodora... 
+
+----------------------------------------
+
+Manager Commands Available :
+    - SHOWMENUITEMS <restaurantName> - Show details of a specific restaurant's menu.
+    - ASSOCIATECARD <cardNumber> <customerUsername> - Associate a fidelity card with a customer account.
+    - REGISTER <userType> - Register a new user account. User types can be: MANAGER, CUSTOMER, RESTAURANT, COURIER.
+    - SHOWCOURIERDELIVERIES - Display the list of couriers sorted in decreasing order w.r.t. the number of completed deliveries.
+    - SHOWRESTAURANTTOP - Display list of restaurants sorted in decreasing order w.r.t. the number of delivered orders.
+    - SHOWCUSTOMERS - Display the list of customers.
+    - SHOWTOTALPROFIT <startDate YYYY-MM-DD> <endDate YYYY-MM-DD> - Show the total profit of the system. Time interval is optional.
+    - SETDELIVERPOLICY <delPolicy> - set the delivery policy of the system : FairOccupationDelivery, FastestDelivery.
+    - SETPROFITPOLICY <profitPolicy> - set the profit policy of the system : DeliveryCostOriented, MarkupPercentageOriented, ServiceFeeOriented.
+
+> logout
+(aymaneadib) User aymaneadib logged out.
+
+> register Restaurant
+Enter the Restaurant information.
+Usage: <name> <username> <password> <addresX> <addresY>
+
+> BurgersAndFries bnf secret 100.5 100.5
+User bnf registered successfully!
+To use the new user, you need to login.
+
+> register Restaurant
+Enter the Restaurant information.
+Usage: <name> <username> <password> <addresX> <addresY>
+
+> TacoTown tacotown taco123 50.0 50.0
+User tacotown registered successfully!
+To use the new user, you need to login.
+
+> register Customer
+Enter the Customer information.
+Usage: <name> <surname> <username> <password> <phoneNumber> <email> <addresX> <addresY> <consentNotifications yes/no>
+
+> Alice Cooper acooper pass123 +1234 alice@domain.com 120.0 120.0
+User acooper registered successfully!
+To use the new user, you need to login.
+
+> register Customer
+Enter the Customer information.
+Usage: <name> <surname> <username> <password> <phoneNumber> <email> <addresX> <addresY> <consentNotifications yes/no>
+
+> Bob Marley bmarley oneLove +128834 bob@domain.com 121.0 121.0
+User bmarley registered successfully!
+To use the new user, you need to login.
+
+> register Courier
+Enter the Courier information.
+Usage: <name> <surname> <username> <password> <phoneNumber> <addresX> <addresY>
+
+> Courier One c1 pw +555 123.0 123.0
+User c1 registered successfully!
+To use the new user, you need to login.
+
+> register Courier
+Enter the Courier information.
+Usage: <name> <surname> <username> <password> <phoneNumber> <addresX> <addresY>
+
+> Courier Two c2 pw +66666 124.0 124.0
+User c2 registered successfully!
+To use the new user, you need to login.
+
+> register Courier
+Enter the Courier information.
+Usage: <name> <surname> <username> <password> <phoneNumber> <addresX> <addresY>
+
+> Courier Three c3 pw +77777 125.0 125.0
+User c3 registered successfully!
+To use the new user, you need to login.
+
+> login c1 pw
+(c1) User c1 logged in.
+
+> onduty
+(c1) You are now on duty. You can accept new orders.
+
+> logout
+(c1) User c1 logged out.
+
+> login c2 pw
+(c2) User c2 logged in.
+
+> onduty
+(c2) You are now on duty. You can accept new orders.
+
+> logout
+(c2) User c2 logged out.
+
+> login c3 pw
+(c3) User c3 logged in.
+
+> onduty
+(c3) You are now on duty. You can accept new orders.
+
+> logout
+(c3) User c3 logged out.
+
+> login tacotown taco123
+(tacotown) User tacotown logged in.
+
+> createDish mainDish beefTaco 9.0 true true
+(tacotown) Dish added successfully to the Menu
+
+> createDish dessert chocoChurros 4.0 false true
+(tacotown) Dish added successfully to the Menu
+
+> createDish starter nachos 5.0 true true
+(tacotown) Dish added successfully to the Menu
+
+> createMeal fullmeal MealTaco beefTaco nachos chocoChurros
+(tacotown) Full meal created successfully.
+
+> setSpecialOffer MealTaco
+(tacotown) Special offer set for meal: MealTaco
+
+> setPrice beefTaco 12.0
+(tacotown) Price updated successfully for dish: beefTaco
+
+> setGenericDiscountFactor -0.1
+(tacotown) Error: Invalid discount factor. Please provide a valid number.
+
+> setGenericDiscountFactor 0.05
+(tacotown) Generic discount factor set to: 0.05
+
+> removeDish nonExistentDish
+(tacotown) Dish not found in your menu.
+
+> removeFromSpecialOffer NotInOffer
+(tacotown) Meal not found in your menu.
+
+> showMenuItems
+(tacotown) 
+------------ STARTERS -----------
+Starter nachos - 5.00€
+---------- MAIN DISHES ----------
+Main Dish beefTaco - 12.00€
+------------ DESSERTS -----------
+Dessert chocoChurros - 4.00€
+-------------- MEALS ------------
+Full Meal MealTaco - 18.90€ - Composed of: chocoChurros, nachos, beefTaco.
+
+
+> logout
+(tacotown) User tacotown logged out.
+
+> login acooper pass123
+(acooper) User acooper logged in.
+
+> associateCard lottery
+(acooper) Fidelity card associated successfully with your account.
+
+> displayFidelityCard
+(acooper) Fidelity Card Details: LotteryCard
+
+> createOrder TacoTown
+(acooper) Order created successfully with ID: 1
+
+> addItem2Order dish beefTaco
+(acooper) Item added to order successfully.
+
+> addItem2Order meal MealTaco
+(acooper) Item added to order successfully.
+
+> displayCurrentOrder
+(acooper) ---------- Dishes in your order ----------
+(acooper) Main Dish beefTaco - 12.00€
+(acooper) ---------- Meals in your order -----------
+(acooper) Full Meal MealTaco - 18.90€ - Composed of: chocoChurros, nachos, beefTaco.
+(acooper) ------------------------------------------
+(acooper) Order status: WAINTING FOR COMPLETION
+
+> endOrder
+(acooper) Order ended successfully. Order ID: 1
+(acooper) We will find a courier for you order.
+
+> showOrders
+(acooper) Your Past Orders:
+(acooper)     - Order ID: 1, Restaurant: TacoTown
+
+> logout
+(acooper) User acooper logged out.
+
+> login adalovelace adalovelace1234
+(adalovelace) User adalovelace logged in.
+(adalovelace) -------- You must accept or refuse the following orders --------
+(adalovelace) Order ID 1 from TacoTown to Alice
+
+> refuseOrder 1
+(adalovelace) Order ID 1 refused.
+
+> logout
+(adalovelace) User adalovelace logged out.
+
+> login c1 pw
+(c1) User c1 logged in.
+(c1) -------- You must accept or refuse the following orders --------
+(c1) Order ID 1 from TacoTown to Alice
+
+> refuseOrder 1
+(c1) Order ID 1 refused.
+
+> logout
+(c1) User c1 logged out.
+
+> login isaacnewton isaacnewton1234 
+(isaacnewton) User isaacnewton logged in.
+(isaacnewton) -------- You must accept or refuse the following orders --------
+(isaacnewton) Order ID 1 from TacoTown to Alice
+
+> refuseOrder 1
+(isaacnewton) Order ID 1 refused.
+
+> logout
+(isaacnewton) User isaacnewton logged out.
+
+> login c3 pw
+(c3) User c3 logged in.
+(c3) -------- You must accept or refuse the following orders --------
+(c3) Order ID 1 from TacoTown to Alice
+
+> refuseOrder 1
+(c3) Order ID 1 refused.
+
+> logout
+(c3) User c3 logged out.
+
+> login c2 pw
+(c2) User c2 logged in.
+(c2) -------- You must accept or refuse the following orders --------
+(c2) Order ID 1 from TacoTown to Alice
+
+> refuseOrder 1
+(c2) Order ID 1 refused.
+
+> logout
+(c2) User c2 logged out.
+
+> login bmarley oneLove
+(bmarley) User bmarley logged in.
+
+> createOrder TacoTown
+(bmarley) Order created successfully with ID: 2
+
+> addItem2Order dish beefTaco
+(bmarley) Item added to order successfully.
+
+> endOrder
+(bmarley) Order ended successfully. Order ID: 2
+(bmarley) We will find a courier for you order.
+
+> logout
+(bmarley) User bmarley logged out.
+
+> login adalovelace adalovelace1234
+(adalovelace) User adalovelace logged in.
+(adalovelace) -------- You must accept or refuse the following orders --------
+(adalovelace) Order ID 2 from TacoTown to Bob
+
+> acceptOrder 2
+(adalovelace) Order ID 2 accepted.
+
+> logout
+(adalovelace) User adalovelace logged out.
+
+> login bnf secret
+(bnf) User bnf logged in.
+
+> createDish mainDish doubleCheese 10.0 true true
+(bnf) Dish added successfully to the Menu
+
+> createDish dessert glace 5.0 false true
+(bnf) Dish added successfully to the Menu
+
+> createMeal halfmeal BrokenMeal doubleCheese NonExistingDish
+(bnf) One or more dishes not found in the menu.
+
+> createMeal fullmeal DoubleDouble doubleCheese doubleCheese doubleCheese
+(bnf) Failed to create full meal: duplicate element: Main Dish doubleCheese - 10.00€
+
+> createMeal halfmeal OKMeal doubleCheese glace
+(bnf) Half meal created successfully.
+
+> setSpecialOffer OKMeal
+(bnf) Special offer set for meal: OKMeal
+
+> showMenuItems
+(bnf) 
+------------ STARTERS -----------
+---------- MAIN DISHES ----------
+Main Dish doubleCheese - 10.00€
+------------ DESSERTS -----------
+Dessert glace - 5.00€
+-------------- MEALS ------------
+Half Meal OKMeal - 13.50€ - Composed of: glace, doubleCheese.
+
+
+> logout
+(bnf) User bnf logged out.
+
+> login acooper pass123
+(acooper) User acooper logged in.
+
+> createOrder BurgersAndFries
+(acooper) Order created successfully with ID: 3
+
+> addItem2Order dish doubleCheese
+(acooper) Item added to order successfully.
+
+> endOrder
+(acooper) Order ended successfully. Order ID: 3
+(acooper) We will find a courier for you order.
+
+> showOrders
+(acooper) Your Past Orders:
+(acooper)     - Order ID: 1, Restaurant: TacoTown
+(acooper)     - Order ID: 3, Restaurant: BurgersAndFries
+
+> logout
+(acooper) User acooper logged out.
+
+> login c1 pw
+(c1) User c1 logged in.
+(c1) -------- You must accept or refuse the following orders --------
+(c1) Order ID 3 from BurgersAndFries to Alice
+
+> acceptOrder 3
+(c1) Order ID 3 accepted.
+
+> logout
+(c1) User c1 logged out.
+
+> login bnf secret
+(bnf) User bnf logged in.
+
+> removeDish doubleCheese
+(bnf) Dish removed successfully from your menu.
+
+> logout
+(bnf) User bnf logged out.
+
+> login acooper pass123
+(acooper) User acooper logged in.
+
+> createOrder BurgersAndFries
+(acooper) Order created successfully with ID: 4
+
+> addItem2Order dish doubleCheese
+(acooper) Dish not found: doubleCheese
+
+> endOrder
+(acooper) Order ended successfully. Order ID: 4
+(acooper) We will find a courier for you order.
+
+> logout
+(acooper) User acooper logged out.
+
+> login aymaneadib adib1234
+(aymaneadib) User aymaneadib logged in.
+
+> setProfitPolicy -10
+(aymaneadib) Error: Unrecognized profit policy.
+
+> setProfitPolicy DeliveryCostOriented
+(aymaneadib) Profit policy DeliveryCostOriented setted.
+
+> setDeliveryPolicy overload
+(aymaneadib) Error: Unrecognized delivery policy.
+
+> setDeliveryPolicy FastestDelivery
+(aymaneadib) Delivery policy FastestDelivery setted.
+
+> showRestaurantTop
+(aymaneadib) TacoTown with 1 orders.
+(aymaneadib) BurgersAndFries with 1 orders.
+(aymaneadib) ChezJacques with 0 orders.
+(aymaneadib) PetitParis with 0 orders.
+
+> showTotalProfit
+(aymaneadib) Total profit: -19.27 euros.
+
+> showCourierDeliveries
+(aymaneadib) Ada Lovelace ( adalovelace - Courrier with 1 deliveries )
+(aymaneadib) Courier One ( c1 - Courrier with 1 deliveries )
+(aymaneadib) Isaac Newton ( isaacnewton - Courrier with 0 deliveries )
+(aymaneadib) Courier Three ( c3 - Courrier with 0 deliveries )
+(aymaneadib) Courier Two ( c2 - Courrier with 0 deliveries )
+
+> logout
+(aymaneadib) User aymaneadib logged out.
+
+> login bmarley oneLove
+(bmarley) User bmarley logged in.
+
+> changeAddress 200.0 200.0
+(bmarley) Address changed successfully to: (200.0, 200.0)
+
+> changePhoneNumber abc123
+(bmarley) Phone number changed successfully to: abc123
+
+> changePhoneNumber 987654321
+(bmarley) Phone number changed successfully to: 987654321
+
+> consentNotifications maybe
+(bmarley) Invalid argument. Use 'yes' or 'no'.
+
+> consentNotifications yes
+(bmarley) Consent for notifications set to yes.
+
+> logout
+(bmarley) User bmarley logged out.
+
+> register Courier
+Enter the Courier information.
+Usage: <name> <surname> <username> <password> <phoneNumber> <addresX> <addresY>
+
+> Courier Late cl pw +1254785 127.0 127.0
+User cl registered successfully!
+To use the new user, you need to login.
+
+> login cl pw
+(cl) User cl logged in.
+
+> onduty
+(cl) You are now on duty. You can accept new orders.
+
+> acceptOrder 4
+Unknown command: ACCEPTORDER
+Type HELP for available commands
+
+> logout
+(cl) User cl logged out.
+
+> login tacotown taco123
+(tacotown) User tacotown logged in.
+
+> showOrders
+(tacotown) Your user account does not permit you to show orders.
+
+> logout
+(tacotown) User tacotown logged out.
+
+> login acooper pass123
+(acooper) User acooper logged in.
+
+> showMoneySpent
+(acooper) Total money spent: 81.80000000000001€
+
+> showPopularRestaurants
+(acooper) Popular Restaurants:
+(acooper)     - TacoTown
+(acooper)     - BurgersAndFries
+(acooper)     - ChezJacques
+
+> logout
+(acooper) User acooper logged out.
+
+> exit
+
+END OF EXECUTION OF ./eval/test_scenario_2.txt TEST FILE.

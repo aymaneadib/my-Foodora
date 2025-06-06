@@ -16,7 +16,7 @@ public class MealFactory {
 	 * @param mealType the type of meal to create ("FULLMEAL", "HALFMEAL")
 	 * @param args variable arguments expected:
 	 *             - args[0]: String name of the meal
-	 *             - args[1]: Set<Dish> dishes included in the meal
+	 *             - args[1]: Set&lt;Dish&gt; dishes included in the meal
 	 *             - args[2] (optional): PricingMealStrategy custom pricing strategy
 	 * @return a Meal instance matching the specified type and parameters
 	 * @throws BadMealTypeCreationException if the mealType is unrecognized

@@ -127,7 +127,7 @@ public class Customer extends Person implements notification.Observer {
     /**
      * Notifies the customer about the new meal of the week.
      * 
-     * @param meal the meal to observe
+     * @param mealOfTheWeek the meal to observe
      */
     @Override
     public void update(Meal mealOfTheWeek) {

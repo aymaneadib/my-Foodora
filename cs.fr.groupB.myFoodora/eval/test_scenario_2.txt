@@ -80,19 +80,19 @@ showOrders
 logout
 
 // All couriers log in and refuse the order (should result in abandonment)
-login c1 pw
-refuseOrder 1
-logout
-
-login c3 pw
-refuseOrder 1
-logout
-
 login adalovelace adalovelace1234
 refuseOrder 1
 logout
 
+login c1 pw
+refuseOrder 1
+logout
+
 login isaacnewton isaacnewton1234 
+refuseOrder 1
+logout
+
+login c3 pw
 refuseOrder 1
 logout
 
@@ -108,7 +108,7 @@ endOrder
 logout
 
 // Accepting order
-login c1 pw
+login adalovelace adalovelace1234
 acceptOrder 2
 logout
 
@@ -133,7 +133,7 @@ showOrders
 logout
 
 // Accepting order
-login c3 pw
+login c1 pw
 acceptOrder 3
 logout
 

@@ -76,7 +76,7 @@ public class Order{
     /**
      * Sets the list of possible couriers to deliver.
      *
-     * @param the list of possible couriers
+     * @param possibleCouriers the list of possible couriers
      */
 	public void setPossibleCouriers(ArrayList<Courier> possibleCouriers) {
 		this.possibleCouriers = possibleCouriers;
@@ -85,7 +85,7 @@ public class Order{
 	/**
      * Removes a courier from the list of possible couriers.
      *
-     * @param the courier to be removed
+     * @param courier the courier to be removed
      */
 	public void removeCourierFromPossibleCourier(Courier courier) {
 		this.possibleCouriers.remove(courier);
@@ -113,7 +113,7 @@ public class Order{
     /**
      * Sets the current status of the order.
      *
-     * @param the status of the order
+     * @param status the status of the order
      */
     public void setCurrentStatus(String status) {
     	this.currentStatus = status;
@@ -319,7 +319,7 @@ public class Order{
     /**
      * Sets the price of the order.
      *
-     * @param the price of the order
+     * @param price the price of the order
      */
     public void setPrice(double price) {
     	this.price = price;

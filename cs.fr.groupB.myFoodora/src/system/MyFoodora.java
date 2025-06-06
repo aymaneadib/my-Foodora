@@ -225,7 +225,7 @@ public class MyFoodora {
     /**
      * Sets history of all completed orders.
      * 
-     * @param a set of orders
+     * @param orders a set of orders
      */
     public void setOrderHistory(HashSet<Order> orders) {
     	this.orderHistory = orders;
@@ -454,8 +454,6 @@ public class MyFoodora {
      * @param mealType the type of meal
      * @param name name of the meal
      * @param dishes set of dishes
-     * @param isGlutenFree gluten-free flag
-     * @param isVegetarian vegetarian flag
      * @param pricingStrategy pricing strategy to apply
      * @return the created Meal
      * @throws UnrecognizedDishException if dish is unrecognized
@@ -581,8 +579,6 @@ public class MyFoodora {
      * A courier is automatically assigned based on the current delivery strategy.
      * The order is only processed if the current user is an active customer and there is at least one dish or meal.
      *
-     * @param customer the customer placing the order
-     * @param restaurant the restaurant fulfilling the order
      * @param dishes the set of individual dishes included in the order
      * @param meals the set of meals included in the order
      * @throws AvailableCourierNotFoundException if no available courier can be assigned to the order
